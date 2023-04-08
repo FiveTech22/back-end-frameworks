@@ -32,3 +32,5 @@ A arquitetura MVVM é composta por três camadas: a camada do modelo, a camada d
 Já a arquitetura MVC é composta pelas camadas do modelo, da visão e do controlador. A camada do modelo representa os dados e a lógica de negócios da aplicação. A camada da visão é responsável pela interface do usuário e pela apresentação dos dados. A camada do controlador atua como um intermediário entre a camada da visão e a camada do modelo, respondendo às ações do usuário na visão e atualizando o modelo de acordo.
 
 ### Diagrama UML: 📊
+
+![UML](https://github.com/FiveTech22/back-end-frameworks/blob/main/UML.png)
