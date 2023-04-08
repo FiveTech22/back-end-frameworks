@@ -51,3 +51,26 @@ Já a arquitetura MVC é composta pelas camadas do modelo, da visão e do contro
 
 
 ### Definição das Funcionalidades ✏️
+
+#### Tela de Login:
+
+Campo de E-mail ou Usuário: oferecer um campo onde o usuário pode inserir seu endereço de e-mail para fazer login.
+
+Campo de Senha: permitir que o usuário insira sua senha para acessar a conta.
+
+Botão de Entrar: permitir que o usuário envie suas informações de login para acessar a conta.
+
+Recuperação de Senha: incluir um botão (“recuperar senha”) para que o usuário seja direcionado para a tela de recuperação de senha, caso a tenha esquecido. Se for o caso de esquecimento da senha, será enviado um código para o e-mail inserido e a partir daí permitir que o usuário crie uma nova senha segura e confirmá-la para concluir a recuperação de senha.
+
+Criar Conta: O botão (“Criar uma conta”) serve para que novos usuários possam criar uma conta no aplicativo.
+
+#### Tela de Inicial:
+
+
+Visão geral: Exibe o saldo total da conta, assim também o total geral do mês de receitas e despesas criadas. Como também os registros criados nas categorias de despesas e receitas. 
+
+Perfil do usuário: Permitir que o usuário visualize e edite suas informações pessoais, como nome e e-mail. Permitir que o usuário altere sua senha para aumentar a segurança da conta. Permitir que o usuário encerre sua conta no aplicativo, se desejar.
+
+Menu: oferecer um menu de navegação para que o usuário possa acessar as diferentes seções do aplicativo como a parte do perfil do usuário, atalho para voltar a tela inicial, atalhos de planejamento dos objetos, receitas e despesas, como também atalhos para visualizar informações sobre o aplicativo e termos de uso.
+
+
