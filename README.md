@@ -73,4 +73,23 @@ Perfil do usuário: Permitir que o usuário visualize e edite suas informações
 
 Menu: oferecer um menu de navegação para que o usuário possa acessar as diferentes seções do aplicativo como a parte do perfil do usuário, atalho para voltar a tela inicial, atalhos de planejamento dos objetos, receitas e despesas, como também atalhos para visualizar informações sobre o aplicativo e termos de uso.
 
+####  Tela de Objetivo: 
 
+
+Criação objetivo: o usuário pode criar objetivos financeiros, como por exemplo, juntar dinheiro para comprar um carro, fazer uma viagem ou pagar uma dívida. É possível definir o nome, valor do objetivo, valor já poupado e o prazo para alcançá-lo.
+
+Descrição do objetivo: Mostra o ícone e o nome do objetivo criado, como também o quanto tem poupado e o valor do objetivo para ser alcançado podendo fazer ajustes em seu planejamento financeiro conforme necessário ou exclui-lo.
+
+####  Tela de Receitas: 
+
+
+Cadastro de receitas: o usuário pode cadastrar o valor da sua receita, a descrição e a data de recebimento. E também permite categorizar as receitas por tipo, o que ajuda a ter uma visão geral do fluxo de dinheiro.
+
+Categorias: O usuário pode visualizar suas receitas criadas por categoria, podendo editar e excluir.
+
+
+####  Tela de Despesas: 
+
+Cadastro de despesas: o usuário pode cadastrar o valor da sua despesa, a descrição e a data da despesa gastas. E também permite categorizar as despesas por tipo, o que ajuda a ter uma visão geral do fluxo de dinheiro.
+
+Categorias: O usuário pode visualizar suas despesas criadas por categoria, podendo editar e excluir.
