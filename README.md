@@ -39,17 +39,6 @@ Já a arquitetura MVC é composta pelas camadas do modelo, da visão e do contro
 ### Protótipos da aplicação 📱
 
 
-![telas de login](https://github.com/FiveTech22/back-end-frameworks/blob/main/tela%20de%20login.jpeg)
-
-![Telas iniciais](https://github.com/FiveTech22/back-end-frameworks/blob/main/telas%20iniciais.jpeg)
-
-![Telas de Objetivos + Exemplos](https://github.com/FiveTech22/back-end-frameworks/blob/main/Telas%20de%20Objetivos%20%2B%20Exemplos.png)
-
-![Telas de Receitas + Exemplos](https://github.com/FiveTech22/back-end-frameworks/blob/main/Telas%20de%20Receitas%20%2B%20Exemplos.png)
-
-![Telas de Despesas + Exemplos](https://github.com/FiveTech22/back-end-frameworks/blob/main/Telas%20de%20Despesas%20%2B%20Exemplos.png)
-
-
 ### Definição das Funcionalidades ✏️
 
 #### Tela de Login:
