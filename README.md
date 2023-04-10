@@ -102,10 +102,19 @@ Nesta tela, o usuário poderá visualizar um botão com três traços um abaixo 
 
 #### 1.1 Tela de objetivo / Exemplo - Tela de Objetivo
  ![1.1 Tela de  objetivo ](https://github.com/FiveTech22/back-end-frameworks/blob/main/1.1%20Tela%20do%20Objetivo.jpg)  ![Exemplo - Tela de Objetivo](https://github.com/FiveTech22/back-end-frameworks/blob/main/1.2%20Exemplo%20-%20tela%20de%20Objetivo.jpg)
+ 
+#### 1.1 Tela de objetivo:
+Nesta tela, o usuário pode clicar no botão "+" que o direciona para a (tela de criação do objetivo). Assim que o usuário criar seu objetivo, poderá visualizá-lo, podendo também editá-lo clicando no ícone de lápis que ficará ao lado da descrição do objetivo, indo então para (Tela editar objetivo). O usuário também poderá clicar no ícone de lixeira que ficará acima do valor do objetivo para excluí-lo da tela. Ao clicar na seta na parte superior esquerda, o usuário irá voltar para (tela de menu).
 
 #### 1.2 Tela de criação de objetivo /  1.3 Tela de edição de objetivo
 
 ![1.2 Tela de criação de objetivo](https://github.com/FiveTech22/back-end-frameworks/blob/main/1.3%20Tela%20da%20Cria%C3%A7%C3%A3o%20do%20Objetivo.jpg) ![1.3 Tela de edição de objetivo](https://github.com/FiveTech22/back-end-frameworks/blob/main/1.4%20Exemplo%20-%20Tela%20da%20edi%C3%A7%C3%A3o%20do%20Objetivo.jpg)
+
+#### 1.2 Tela de criação de objetivo:
+Nesta tela, o usuário pode definir uma meta que deseja alcançar. Ele pode inserir o nome do objetivo, o valor a ser alcançado, o valor já poupado e, se desejar, uma data para alcançá-lo. Além disso, ele pode escolher um ícone para representar o objetivo. Ao clicar no botão "Criar", o usuário será direcionado para a (tela do objetivo), se desejar cancelar a criação do objetivo, ele pode clicar no "X" na parte superior esquerda da tela, o que o levará de volta à (tela do objetivo) 
+
+#### 1.3 Tela de edição de objetivo:
+ Nesta tela, o usuário poderá editar o que foi criado na (tela de criação de objetivo) , alterando o nome do objetivo, o valor do objetivo, o valor já poupado, assim como a data desejada para alcançá-lo, além dos ícones. Depois de alterado, o usuário poderá clicar no botão "salvar" na parte inferior da tela para salvar suas alterações. No entanto, se desejar cancelar a edição, poderá apertar o botão no formato de um "x" no canto superior esquerdo da tela para cancelar as alterações.
 
 ### Telas de receita: 
 
