@@ -239,3 +239,5 @@ Categorias: O usuário pode visualizar suas receitas criadas por categoria, pode
 Cadastro de despesas: o usuário pode cadastrar o valor da sua despesa, a descrição e a data da despesa gastas. E também permite categorizar as despesas por tipo, o que ajuda a ter uma visão geral do fluxo de dinheiro.
 
 Categorias: O usuário pode visualizar suas despesas criadas por categoria, podendo editar e excluir.
+
+#### Contrato com  o JSON
