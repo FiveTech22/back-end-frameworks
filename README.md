@@ -120,10 +120,15 @@ Nesta tela, o usuário poderá editar o que foi criado na (tela de receita), alt
 
 ### Telas de despesas: 
 
-
 #### 1.1 Tela de despesas / 1.2 Tela Editar Despesas
 
 ![1.1 Tela de despesas](https://github.com/FiveTech22/back-end-frameworks/blob/main/1.1%20Tela%20Despesa.jpg) ![1.2 Tela Editar Despesas](https://github.com/FiveTech22/back-end-frameworks/blob/main/1.2%20Tela%20%20Editar%20Despesa.jpg)
+#### 1.1 Tela de despesas:
+ Nesta tela, o usuário poderá inserir o valor da despesa, a descrição do que é essa despesa, a data em que a despesa foi feita e, por fim, as categorias que serão separadas em cinco ícones: alimentação, casa, saúde, educação e outros. Com essa funcionalidade, o usuário poderá saber onde suas despesas estão sendo gastas. Ao clicar no botão "criar", a despesa criada aparecerá na  (tela inicial)  na categoria de despesas. Ao clicar no botão em forma de  "X" na parte superior esquerda da tela, o usuário fechará a criação da despesa e voltará para a (tela inicial).
+
+#### 1.2 Tela Editar Despesas:
+Nesta tela, o usuário poderá editar o que foi criado na (Tela Despesa), alterando o valor da despesa, bem como a descrição, data e categoria da despesa. Depois de alterado, o usuário poderá clicar no botão "Salvar" na parte inferior da tela para salvar suas modificações. Caso queira cancelar a alteração, poderá clicar no botão em formato de "x" no canto superior esquerdo da tela, assim, a alteração será cancelada.
+
 
 ### Definição das Funcionalidades ✏️
 
