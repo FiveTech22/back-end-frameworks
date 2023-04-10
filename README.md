@@ -43,22 +43,60 @@ Já a arquitetura MVC é composta pelas camadas do modelo, da visão e do contro
 
 ![1.1 tela de abertura](https://github.com/FiveTech22/back-end-frameworks/blob/main/1.1%20Tela%20de%20Abertura.jpg) ![1.2 tela de criar conta](https://github.com/FiveTech22/back-end-frameworks/blob/main/1.2%20tela%20criar%20conta.jpg)
 
+#### 1.1 Tela de abertura: 
+Ao entrar no aplicativo, o usuário poderá criar uma conta ou fazer login por meio do botão "Criar conta", que o direciona para a tela de criação de conta . Da mesma forma, se clicar no botão "Fazer login", será direcionado para a tela de login.
+
+
+#### 1.2 Tela de criação de conta:
+  Caso o usuário clique no botão "Criar conta" presente na (tela de abertura), será direcionado para esta tela, na qual deverá informar seu nome, e-mail e senha. Se algum dos campos estiver em branco, aparecerá a mensagem "Preencha o campo". Se o usuário tentar prosseguir sem preencher todos os campos, não conseguirá criar uma conta. Se o usuário já tiver uma conta, poderá clicar no botão "Já tenho uma conta" e será direcionado para a (tela de login). Para voltar à (tela de abertura), basta clicar na seta localizada na parte superior esquerda.
+
+
 #### 1.3 tela de login / 1.4 tela de recuperação de senha
 ![1.3 tela de login](https://github.com/FiveTech22/back-end-frameworks/blob/main/1.3%20tela%20de%20login.jpg) ![1.4 tela de recuperação de senha](https://github.com/FiveTech22/back-end-frameworks/blob/main/1.4%20tela%20recupera%C3%A7%C3%A3o%20de%20senha.jpg) 
 
+#### 1.3 Tela de login: 
+ Nesta tela, o usuário deve informar o e-mail e a senha que foi criada na (tela de criação de conta). Se o usuário digitar um e-mail diferente do que foi registrado, aparecerá a mensagem "E-mail incorreto". Da mesma forma, se digitar uma senha diferente, aparecerá a mensagem "Senha incorreta". Caso o usuário tenha esquecido a senha, poderá clicar no botão "Recuperar senha" e será direcionado para a (tela de recuperação de senha). Se quiser criar uma nova conta, poderá voltar para a (tela de criação de conta) clicando no botão "Criar conta". Se o usuário preencher o e-mail e a senha correta, poderá clicar no botão "Entrar", o que o carregará à (tela inicial). Para voltar à (tela de abertura), basta clicar na seta localizada na parte superior esquerda.
+
+#### 1.4 Tela de recuperação de senha: 
+ Ao entrar nesta tela, o usuário deverá informar o e-mail cadastrado no aplicativo. Em seguida, ao clicar no botão "Enviar", será direcionado para a (tela código de recuperação) para recuperação de senha. Se o usuário digitar um e-mail diferente do que foi registrado, aparecerá a mensagem "E-mail incorreto". Caso o usuário queira desistir de recuperar a senha, poderá clicar no botão "Criar uma conta" para ser direcionado à (tela de criação de conta) ou no botão "Login" para voltar à (tela de login). 
+
+
 #### 1.5 tela código de recuperação / 1.6 tela nova senha
 ![1.5 tela de código de recuperação](https://github.com/FiveTech22/back-end-frameworks/blob/main/1.5%20Tela%20codigo%20de%20recupera%C3%A7%C3%A3o.jpg) ![1.6 tela nova senha](https://github.com/FiveTech22/back-end-frameworks/blob/main/1.6%20Tela%20nova%20senha.jpg)
+
+#### 1.5 Tela de código de recuperação: 
+ Nesta tela, aparecerá uma mensagem informando que um e-mail foi enviado ao usuário. Ele deve digitar os quatro números do código que foram enviados por e-mail, colocando-os nos quadrados que estão na tela. Se o usuário digitar algum número incorreto, aparecerá a mensagem "Código incorreto". Ele só poderá aceitar ao colocar o código correto. Ao clicar no botão "confirmar", o usuário será direcionado para a (tela de nova senha). Se o usuário clicar no botão "enviar e-mail novamente" antes do tempo determinado, aparecerá a mensagem "Aguarde até que o tempo termine". Ao clicar na seta na parte superior esquerda, ele voltará para a (tela de recuperação de senha).
+ 
+ #### 1.6 Tela de nova senha: 
+ Nesta tela, o usuário deve digitar uma nova senha e repeti-la novamente. Ao clicar no botão "Confirmar", ele será direcionado para a (tela de login). Ao clicar na seta na parte superior esquerda, ele voltará para a (tela de código de recuperação).
+
 
 ### Telas Iniciais
 
 #### 1.1 Tela Inicial / Exemplo - tela inicial
 ![tela inicial](https://github.com/FiveTech22/back-end-frameworks/blob/main/tela%20Inicial.jpg) ![Exemplo - tela inicial](https://github.com/FiveTech22/back-end-frameworks/blob/main/Exemplo%20-Tela%20Inicial.jpg)
 
+#### 1.1 Tela inicial:
+Nesta tela, o usuário poderá visualizar um botão com três traços um abaixo do outro, como no exemplo ao lado “ ≡ “, que representará a (tela do menu). Ao clicar, será direcionado para a mesma. Assim como o mês que terá duas setas, uma para a esquerda “←” e a outra para a direita “→”, com o intuito de, quando o usuário clicar na seta esquerda, voltar para o mês anterior e, quando clicar na seta direita, ir para o mês seguinte. Também haverá a possibilidade de visualizar o saldo da conta, o total das receitas e despesas e suas categorias. A parte de categoria de receitas e despesas só terá funcionalidade após adicionar as respectivas receitas e despesas. Se o usuário não criar as categorias, elas ficarão vazias com a mensagem: “Nenhum registro encontrado”. Após adicionadas, aparecerão o ícone, o nome e o valor descrito na (tela de receita) ou (tela de despesa). Ao clicar no ícone da categoria, será direcionado para a respectiva categoria. O usuário não poderá editar o saldo de sua conta, pois ele será atualizado automaticamente ao adicionar receitas e despesas. Ao clicar no nome “receitas”, será direcionado para a (tela de receita), assim como ao clicar no nome “despesa”, será direcionado para a (tela de despesas).
+
 #### 1.2 Tela de menu / 1.3 Tela do usuário
 ![Tela de menu](https://github.com/FiveTech22/back-end-frameworks/blob/main/tela%20de%20menu.jpg) ![tela do usuário](https://github.com/FiveTech22/back-end-frameworks/blob/main/tela%20do%20usuario.jpg)
 
+####  1.2 Tela de menu: 
+  Nesta tela, ao clicar no ícone do perfil redondo na parte superior da tela, o usuário será direcionado para a tela do usuário. Ao clicar em 'Início', será direcionado para a (tela inicial). Da mesma forma, ao clicar em 'Objetivos', será direcionado para a (tela de objetivos), em 'Receitas' para a (tela de receitas), em 'Despesas' para a (tela de despesas), em 'Sobre Nós' para a (tela Sobre Nós) e em 'Termos de Uso' para a (tela de termos de uso).
+
+### 1.3 Tela do usuário: 
+ Nesta tela, o usuário poderá visualizar seu nome e e-mail cadastrados na (tela de criar conta), e também poderá editá-los. Além disso, poderá clicar no botão 'Sair' para ser direcionado à (tela de abertura). Nesta tela, o usuário poderá alterar sua senha, digitando sua senha atual, a nova senha e confirmando-a. Ao clicar no botão 'Alterar Senha', se a senha atual estiver incorreta, será exibida uma mensagem de erro: 'Senha incorreta'. Caso contrário, uma mensagem de sucesso será exibida: 'Senha alterada com sucesso'. Para voltar à (tela de menu), basta clicar na seta na parte superior esquerda da tela.
+
 #### 1.4 Tela sobre nós / 1.5 Tela de termo de uso
 ![Tela sobre nós](https://github.com/FiveTech22/back-end-frameworks/blob/main/Tela%20Sobre%20N%C3%B3s.jpg) ![tela de termo de uso](https://github.com/FiveTech22/back-end-frameworks/blob/main/Tela%20Termos%20de%20Uso.jpg)
+
+### 1.4 Tela 'Sobre Nós': 
+ Nesta tela, apresentaremos um pouco sobre o propósito de nosso aplicativo. Para retornar à (tela de menu), basta clicar na seta localizada na parte superior esquerda.
+
+#### 1.5 Tela de Termo de Uso:
+  Nesta tela, apresentaremos o termo de uso do nosso aplicativo. Para retornar à (tela de menu), basta clicar na seta localizada na parte superior esquerda.
+
 
 ### Definição das Funcionalidades ✏️
 
