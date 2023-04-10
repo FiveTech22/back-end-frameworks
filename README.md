@@ -245,6 +245,7 @@ Categorias: O usuário pode visualizar suas despesas criadas por categoria, pode
 Delete/User: 
 Esse endpoint é responsável por deletar um usuário na aplicação.
 Receberá como paramêtro Id do tipo long para idntificar o usuário que será removido.
+
 Resposta: COD 200.
 
 
@@ -253,6 +254,7 @@ Resposta: COD 404.
 Login/User:
 Esse endpoint é responsável por fazer o login do usuário na aplicação.
 Receberá como paramêtro E-mail e Senha.
+
 Resposta: COD 200.
 
 
