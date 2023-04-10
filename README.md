@@ -133,23 +133,30 @@ Nesta tela, o usuário poderá editar o que foi criado na (tela de receita), alt
 
 ![1.1 Tela de despesas](https://github.com/FiveTech22/back-end-frameworks/blob/main/1.1%20Tela%20Despesa.jpg) ![1.2 Tela Editar Despesas](https://github.com/FiveTech22/back-end-frameworks/blob/main/1.2%20Tela%20%20Editar%20Despesa.jpg)
 
-#### 1.1 Tela de despesas:
- Nesta tela, o usuário poderá inserir o valor da despesa, a descrição do que é essa despesa, a data em que a despesa foi feita e, por fim, as categorias que serão separadas em cinco ícones: alimentação, casa, saúde, educação e outros. Com essa funcionalidade, o usuário poderá saber onde suas despesas estão sendo gastas. Ao clicar no botão "criar", a despesa criada aparecerá na  (tela inicial)  na categoria de despesas. Ao clicar no botão em forma de  "X" na parte superior esquerda da tela, o usuário fechará a criação da despesa e voltará para a (tela inicial).
-
-
-#### 1.2 Tela Editar Despesas:
-Nesta tela, o usuário poderá editar o que foi criado na (Tela Despesa), alterando o valor da despesa, bem como a descrição, data e categoria da despesa. Depois de alterado, o usuário poderá clicar no botão "Salvar" na parte inferior da tela para salvar suas modificações. Caso queira cancelar a alteração, poderá clicar no botão em formato de "x" no canto superior esquerdo da tela, assim, a alteração será cancelada
-
-
 ### Telas de categorias de receitas
 
 #### 1.1 Exemplo - Tela Salário / 1.2 Exemplo - Tela Investimento: 
 
 ![1.1 Exemplo - Tela Salário](https://github.com/FiveTech22/back-end-frameworks/blob/main/1.1%20Exemplo%20-%20tela%20sal%C3%A1rio.jpg) ![1.2 Exemplo - Tela Investimento](https://github.com/FiveTech22/back-end-frameworks/blob/main/1.2%20Exemplo%20-%20tela%20Investimento.jpg)
 
+#### 1.1 Exemplo - Tela Salário:
+Assim que o usuário criar sua receita com o ícone salário, ele poderá visualizar as receitas criadas com o mesmo ícone, podendo ver a data do recebimento, a descrição e também podendo editar clicando no lápis ao lado do nome da descrição, indo para a (tela editar receita). Depois de editado, terá o botão "salvar" na parte inferior da tela, que, ao ser clicado, salvará automaticamente as informações editadas. O usuário também poderá clicar no ícone da lixeira que ficará acima do valor da receita e esta será excluída automaticamente da tela da categoria. Ao clicar na seta na parte superior esquerda, o usuário voltará para a (tela inicial).
+
+#### 1.2 Exemplo - Tela Investimento: 
+ Assim que o usuário criar sua receita com ícone de investimento, ele poderá visualizar seus investimentos criados com o mesmo ícone, podendo visualizar a data do recebimento, descrição e também podendo editar clicando no lápis que ficará ao lado do nome da descrição, indo então para a (tela editar receita). Depois de editado, terá o botão para 'salvar' na parte inferior da tela, que ao clicar, salvará automaticamente as informações editadas. E podendo clicar no ícone da lixeira que ficava acima do valor da receita que será excluído automaticamente da tela de sua categoria. Ao clicar na seta na parte superior esquerda, irá voltar para a (tela inicial)
+
+
+
 #### 1.3 Exemplo - Tela Serviço / 1.4 Exemplo - Tela outros 
 
 ![1.3 Exemplo - Tela Serviço](https://github.com/FiveTech22/back-end-frameworks/blob/main/1.3%20Exemplo%20-%20tela%20servi%C3%A7os.jpg) ![1.4 Exemplo - Tela outros](https://github.com/FiveTech22/back-end-frameworks/blob/main/1.4%20Exemplo%20-%20tela%20outros%201.jpg)
+
+#### 1.3 Exemplo - Tela Serviço: 
+ Assim que usuário criar sua receita  com ícone serviço ele poderá visualizar suas receitas criadas com o mesmo ícone, podendo visualizar a data do recebimento, descrição e também podendo editar,  clicando no lápis que ficará ao lado no nome da descrição, indo então para (tela editar receita), depois de editado terá o botão para “salvar” na parte inferior da tela, que ao clicar salvará automático as informações editadas. e podendo clicar no ícone da  lixeira que ficava acima do valor da receita que será excluído automaticamente da tela de sua categoria. Ao clicar na seta na parte superior esquerda irá voltar para (tela de inicial ).
+
+
+#### 1.4 Exemplo - Tela outros: 
+ Assim que usuário criar sua receita com ícone outros ele poderá visualizar suas receitas criadas com o mesmo ícone, podendo visualizar a data do recebimento, descrição e também podendo editar  clicando no lápis que ficará ao lado no nome da descrição, indo então para (tela editar receita), depois de editado terá o botão para “salvar” na parte inferior da tela, que ao clicar salvará automático as informações editadas. e podendo clicar no ícone da  lixeira que ficava acima do valor da receita que será excluído automaticamente da tela de sua categoria. Ao clicar na seta na parte superior esquerda irá voltar para (tela de inicial ).
 
 ### Telas de categorias de despesas 
 
@@ -157,13 +164,31 @@ Nesta tela, o usuário poderá editar o que foi criado na (Tela Despesa), altera
 
 ![Exemplo - Tela Alimentação](https://github.com/FiveTech22/back-end-frameworks/blob/main/1.1%20Exemplo%20-%20tela%20Alimenta%C3%A7%C3%A3o.jpg) ![Exemplo - Tela Casa](https://github.com/FiveTech22/back-end-frameworks/blob/main/1.2%20Exemplo%20-%20tela%20casa.jpg)
 
+#### 1.1 Exemplo - Tela Alimentação:
+ Assim que o usuário criar sua despesa com o ícone Alimentação, poderá visualizar suas despesas criadas com o mesmo ícone, podendo ver a data do gasto, descrição e também poderá editá-las clicando no ícone de lápis que ficará ao lado do nome da descrição, indo então para a tela de editar despesa. Depois de editada, haverá o botão "Salvar" na parte inferior da tela, que ao ser clicado salvará automaticamente as informações editadas. Além disso, poderá clicar no ícone da lixeira que fica acima do valor da despesa para excluí-la automaticamente da tela de sua categoria. Ao clicar na seta na parte superior esquerda, irá voltar para a (tela inicial).
+
+#### 1.2 Exemplo - Tela Casa: 
+ Assim que usuário criar sua despesa com ícone Casa ele poderá visualizar suas despesas criadas com o mesmo ícone, podendo visualizar a data do gasto, descrição e também podendo editar  clicando no lápis que ficará ao lado no nome da descrição, indo então para (tela de editar despesa), depois de editado terá o botão para “salvar” na parte inferior da tela, que ao clicar salvará automático as informações editadas. e podendo clicar no ícone da  lixeira que ficava acima do valor da despesa que será excluído automaticamente da tela de sua categoria. Ao clicar na seta na parte superior esquerda irá voltar para (tela de inicial ).
+
 #### 1.3 Exemplo - Tela Saúde 1.4 Exemplo - Tela Educação
 
 ![1.3 Exemplo - Tela Saúde](https://github.com/FiveTech22/back-end-frameworks/blob/main/1.3%20Exemplo%20-%20tela%20sa%C3%BAde.jpg) ![1.4 Exemplo - Tela Educação](https://github.com/FiveTech22/back-end-frameworks/blob/main/1.4%20Exemplo%20-%20tela%20educa%C3%A7%C3%A3o.jpg)
 
+#### 1.3 Exemplo - Tela Saúde
+ Assim que usuário criar sua despesa com ícone saúde ele poderá visualizar suas despesas criadas com o mesmo ícone, podendo visualizar a data do gasto, descrição e também podendo editar  clicando no lápis que ficará ao lado no nome da descrição, indo então para (tela de editar despesa), depois de editado terá o botão para “salvar” na parte inferior da tela, que ao clicar salvará automático as informações editadas. e podendo clicar no ícone da  lixeira que ficava acima do valor da despesa que será excluído automaticamente da tela de sua categoria. Ao clicar na seta na parte superior esquerda irá voltar para (tela de inicial ).
+
+#### 1.4 Exemplo - Tela Educação: 
+ Assim que usuário criar sua despesa com ícone educação ele poderá visualizar suas despesas criadas com o mesmo ícone, podendo visualizar a data do gasto, descrição e também podendo editar  clicando no lápis que ficará ao lado no nome da descrição, indo então para (tela de editar despesa), depois de editado terá o botão para “salvar” na parte inferior da tela, que ao clicar salvará automático as informações editadas. e podendo clicar no ícone da  lixeira que ficava acima do valor da despesa que será excluído 
+
+
 #### 1.5 Exemplo - Tela Outros
 
 ![1.5 Exemplo - Tela Outros](https://github.com/FiveTech22/back-end-frameworks/blob/main/1.5%20Exemplo%20-%20tela%20outros.jpg)
+
+#### 1.5 Exemplo - Tela Outros: 
+ Assim que usuário criar sua despesa com ícone outros ele poderá visualizar suas despesas criadas com o mesmo ícone, podendo visualizar a data do gasto, descrição e também podendo editar  clicando no lápis que ficará ao lado no nome da descrição, indo então para (tela de editar despesa), depois de editado terá o botão para “salvar” na parte inferior da tela, que ao clicar salvará automático as informações editadas. e podendo clicar no ícone da  lixeira que ficava acima do valor da despesa que será excluído automaticamente da tela de sua categoria. Ao clicar na seta na parte superior esquerda irá voltar para (tela de inicial ).
+
+
 
 ### Definição das Funcionalidades ✏️
 
