@@ -112,6 +112,12 @@ Nesta tela, o usuário poderá visualizar um botão com três traços um abaixo 
 #### 1.1 Tela de receita / 1.2 Tela de edição de receita
 
 ![1.1 Tela de receita](https://github.com/FiveTech22/back-end-frameworks/blob/main/1.1%20tela%20receita.jpg) ![1.2 Tela de edição de receita](https://github.com/FiveTech22/back-end-frameworks/blob/main/1.2%20Tela%20editar%20receita.jpg)
+#### 1.1 Tela de receita: 
+ Nesta tela, o usuário poderá inserir o valor da receita, a descrição do que se trata essa receita, a data em que foi recebida e, por fim, selecionar uma das quatro categorias: salário, investimento, serviços ou outros. Essa funcionalidade permite ao usuário identificar em quais áreas as receitas estão dando mais retorno. Ao clicar no botão 'Criar', a receita criada irá aparecer na (tela inicial) na categoria de receitas. Já ao clicar no 'X', localizado na parte superior esquerda da tela, o usuário poderá fechar a tela de criação de receitas e voltar para a (tela inicial) .
+
+#### 1.2 Tela de edição de receita:
+Nesta tela, o usuário poderá editar o que foi criado na (tela de receita), alterando o valor da receita, bem como a descrição, data e categoria da receita. Depois de alterar, o usuário poderá clicar no botão "salvar" na parte inferior da tela para salvar suas modificações. Se desejar cancelar a alteração, basta clicar no botão em forma de "x" no canto superior esquerdo da tela para cancelar as alterações.
+
 
 ### Definição das Funcionalidades ✏️
 
