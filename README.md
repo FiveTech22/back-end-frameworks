@@ -85,13 +85,13 @@ Nesta tela, o usuário poderá visualizar um botão com três traços um abaixo 
 ####  1.2 Tela de menu: 
   Nesta tela, ao clicar no ícone do perfil redondo na parte superior da tela, o usuário será direcionado para a tela do usuário. Ao clicar em 'Início', será direcionado para a (tela inicial). Da mesma forma, ao clicar em 'Objetivos', será direcionado para a (tela de objetivos), em 'Receitas' para a (tela de receitas), em 'Despesas' para a (tela de despesas), em 'Sobre Nós' para a (tela Sobre Nós) e em 'Termos de Uso' para a (tela de termos de uso).
 
-### 1.3 Tela do usuário: 
+#### 1.3 Tela do usuário: 
  Nesta tela, o usuário poderá visualizar seu nome e e-mail cadastrados na (tela de criar conta), e também poderá editá-los. Além disso, poderá clicar no botão 'Sair' para ser direcionado à (tela de abertura). Nesta tela, o usuário poderá alterar sua senha, digitando sua senha atual, a nova senha e confirmando-a. Ao clicar no botão 'Alterar Senha', se a senha atual estiver incorreta, será exibida uma mensagem de erro: 'Senha incorreta'. Caso contrário, uma mensagem de sucesso será exibida: 'Senha alterada com sucesso'. Para voltar à (tela de menu), basta clicar na seta na parte superior esquerda da tela.
 
 #### 1.4 Tela sobre nós / 1.5 Tela de termo de uso
 ![Tela sobre nós](https://github.com/FiveTech22/back-end-frameworks/blob/main/Tela%20Sobre%20N%C3%B3s.jpg) ![tela de termo de uso](https://github.com/FiveTech22/back-end-frameworks/blob/main/Tela%20Termos%20de%20Uso.jpg)
 
-### 1.4 Tela 'Sobre Nós': 
+#### 1.4 Tela 'Sobre Nós': 
  Nesta tela, apresentaremos um pouco sobre o propósito de nosso aplicativo. Para retornar à (tela de menu), basta clicar na seta localizada na parte superior esquerda.
 
 #### 1.5 Tela de Termo de Uso:
@@ -102,17 +102,16 @@ Nesta tela, o usuário poderá visualizar um botão com três traços um abaixo 
 
 #### 1.1 Tela de objetivo / Exemplo - Tela de Objetivo
  ![1.1 Tela de  objetivo ](https://github.com/FiveTech22/back-end-frameworks/blob/main/1.1%20Tela%20do%20Objetivo.jpg)  ![Exemplo - Tela de Objetivo](https://github.com/FiveTech22/back-end-frameworks/blob/main/1.2%20Exemplo%20-%20tela%20de%20Objetivo.jpg)
- #### 1.1 Tela de objetivo:
-Nesta tela, o usuário pode clicar no botão "+" que o direciona para a (tela de criação do objetivo). Assim que o usuário criar seu objetivo, poderá visualizá-lo, podendo também editá-lo clicando no ícone de lápis que ficará ao lado da descrição do objetivo, indo então para (Tela editar objetivo). O usuário também poderá clicar no ícone de lixeira que ficará acima do valor do objetivo para excluí-lo da tela. Ao clicar na seta na parte superior esquerda, o usuário irá voltar para (tela de menu).
 
-#### 1.2 Tela de criação de objetivo /  #### 1.3 Tela de edição de objetivo
+#### 1.2 Tela de criação de objetivo /  1.3 Tela de edição de objetivo
 
 ![1.2 Tela de criação de objetivo](https://github.com/FiveTech22/back-end-frameworks/blob/main/1.3%20Tela%20da%20Cria%C3%A7%C3%A3o%20do%20Objetivo.jpg) ![1.3 Tela de edição de objetivo](https://github.com/FiveTech22/back-end-frameworks/blob/main/1.4%20Exemplo%20-%20Tela%20da%20edi%C3%A7%C3%A3o%20do%20Objetivo.jpg)
-#### 1.2 Tela de criação de objetivo:
-Nesta tela, o usuário pode definir uma meta que deseja alcançar. Ele pode inserir o nome do objetivo, o valor a ser alcançado, o valor já poupado e, se desejar, uma data 
-#### 1.3 Tela de edição de objetivo:
- Nesta tela, o usuário poderá editar o que foi criado na (tela de criação de objetivo) , alterando o nome do objetivo, o valor do objetivo, o valor já poupado, assim como a data desejada para alcançá-lo, além dos ícones. Depois de alterado, o usuário poderá clicar no botão "salvar" na parte inferior da tela para salvar suas alterações. No entanto, se desejar cancelar a edição, poderá apertar o botão no formato de um "x" no canto superior esquerdo da tela para cancelar as alterações.
 
+### Telas de receita: 
+
+#### 1.1 Tela de receita / 1.2 Tela de edição de receita
+
+![1.1 Tela de receita](https://github.com/FiveTech22/back-end-frameworks/blob/main/1.1%20tela%20receita.jpg) ![1.2 Tela de edição de receita](https://github.com/FiveTech22/back-end-frameworks/blob/main/1.2%20Tela%20editar%20receita.jpg)
 
 ### Definição das Funcionalidades ✏️
 
