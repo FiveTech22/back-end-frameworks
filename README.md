@@ -49,6 +49,16 @@ Já a arquitetura MVC é composta pelas camadas do modelo, da visão e do contro
 #### 1.5 tela código de recuperação / 1.6 tela nova senha
 ![1.5 tela de código de recuperação](https://github.com/FiveTech22/back-end-frameworks/blob/main/1.5%20Tela%20codigo%20de%20recupera%C3%A7%C3%A3o.jpg) ![1.6 tela nova senha](https://github.com/FiveTech22/back-end-frameworks/blob/main/1.6%20Tela%20nova%20senha.jpg)
 
+### Telas Iniciais
+
+#### 1.1 Tela Inicial / Exemplo - tela inicial
+![tela inicial](https://github.com/FiveTech22/back-end-frameworks/blob/main/tela%20Inicial.jpg) ![Exemplo - tela inicial](https://github.com/FiveTech22/back-end-frameworks/blob/main/Exemplo%20-Tela%20Inicial.jpg)
+
+#### 1.2 Tela de menu / 1.3 Tela do usuário
+![Tela de menu](https://github.com/FiveTech22/back-end-frameworks/blob/main/tela%20de%20menu.jpg) ![tela do usuário](https://github.com/FiveTech22/back-end-frameworks/blob/main/tela%20do%20usuario.jpg)
+
+#### 1.4 Tela sobre nós / 1.5 Tela de termo de uso
+![Tela sobre nós](https://github.com/FiveTech22/back-end-frameworks/blob/main/Tela%20Sobre%20N%C3%B3s.jpg) ![tela de termo de uso](https://github.com/FiveTech22/back-end-frameworks/blob/main/Tela%20Termos%20de%20Uso.jpg)
 
 ### Definição das Funcionalidades ✏️
 
