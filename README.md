@@ -118,7 +118,12 @@ Nesta tela, o usuário poderá visualizar um botão com três traços um abaixo 
 #### 1.2 Tela de edição de receita:
 Nesta tela, o usuário poderá editar o que foi criado na (tela de receita), alterando o valor da receita, bem como a descrição, data e categoria da receita. Depois de alterar, o usuário poderá clicar no botão "salvar" na parte inferior da tela para salvar suas modificações. Se desejar cancelar a alteração, basta clicar no botão em forma de "x" no canto superior esquerdo da tela para cancelar as alterações.
 
-! [1.1 Tela de despesas](https://github.com/FiveTech22/back-end-frameworks/blob/main/1.1%20Tela%20Despesa.jpg)
+### Telas de despesas: 
+
+
+#### 1.1 Tela de despesas / 1.2 Tela Editar Despesas
+
+![1.1 Tela de despesas](https://github.com/FiveTech22/back-end-frameworks/blob/main/1.1%20Tela%20Despesa.jpg) ![1.2 Tela Editar Despesas](https://github.com/FiveTech22/back-end-frameworks/blob/main/1.2%20Tela%20%20Editar%20Despesa.jpg)
 
 ### Definição das Funcionalidades ✏️
 
