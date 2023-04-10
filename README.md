@@ -129,10 +129,19 @@ Nesta tela, o usuário poderá editar o que foi criado na (tela de receita), alt
 #### 1.1 Exemplo - Tela Salário / 1.2 Exemplo - Tela Investimento: 
 
 ![1.1 Exemplo - Tela Salário](https://github.com/FiveTech22/back-end-frameworks/blob/main/1.1%20Exemplo%20-%20tela%20sal%C3%A1rio.jpg) ![1.2 Exemplo - Tela Investimento](https://github.com/FiveTech22/back-end-frameworks/blob/main/1.2%20Exemplo%20-%20tela%20Investimento.jpg)
+#### 1.1 Exemplo - Tela Salário:
+Assim que o usuário criar sua receita com o ícone salário, ele poderá visualizar as receitas criadas com o mesmo ícone, podendo ver a data do recebimento, a descrição e também podendo editar clicando no lápis ao lado do nome da descrição, indo para a (tela editar receita). Depois de editado, terá o botão "salvar" na parte inferior da tela, que, ao ser clicado, salvará automaticamente as informações editadas. O usuário também poderá clicar no ícone da lixeira que ficará acima do valor da receita e esta será excluída automaticamente da tela da categoria. Ao clicar na seta na parte superior esquerda, o usuário voltará para a (tela inicial).
+#### 1.2 Exemplo - Tela Investimento: 
+ Assim que o usuário criar sua receita com ícone de investimento, ele poderá visualizar seus investimentos criados com o mesmo ícone, podendo visualizar a data do recebimento, descrição e também podendo editar clicando no lápis que ficará ao lado do nome da descrição, indo então para a (tela editar receita). Depois de editado, terá o botão para 'salvar' na parte inferior da tela, que ao clicar, salvará automaticamente as informações editadas. E podendo clicar no ícone da lixeira que ficava acima do valor da receita que será excluído automaticamente da tela de sua categoria. Ao clicar na seta na parte superior esquerda, irá voltar para a (tela inicial)
+
 
 #### 1.3 Exemplo - Tela Serviço / 1.4 Exemplo - Tela outros 
 
 ![1.3 Exemplo - Tela Serviço](https://github.com/FiveTech22/back-end-frameworks/blob/main/1.3%20Exemplo%20-%20tela%20servi%C3%A7os.jpg) ![1.4 Exemplo - Tela outros](https://github.com/FiveTech22/back-end-frameworks/blob/main/1.4%20Exemplo%20-%20tela%20outros%201.jpg)
+#### 1.3 Exemplo - Tela Serviço: 
+ Assim que usuário criar sua receita com ícone serviço ele poderá visualizar suas receitas criadas com o mesmo ícone, podendo visualizar a data do recebimento, descrição e também podendo editar,  clicando no lápis que ficará ao lado no nome da descrição, indo então para (tela editar receita), depois de editado terá o botão para “salvar” na parte inferior da tela, que ao clicar salvará automático as informações editadas. e podendo clicar no ícone da  lixeira que ficava acima do valor da receita que será excluído automaticamente da tela de sua categoria. Ao clicar na seta na parte superior esquerda irá voltar para (tela de inicial ).
+#### 1.4 Exemplo - Tela outros: 
+ Assim que usuário criar sua receita com ícone outros ele poderá visualizar suas receitas criadas com o mesmo ícone, podendo visualizar a data do recebimento, descrição e também podendo editar  clicando no lápis que ficará ao lado no nome da descrição, indo então para (tela editar receita), depois de editado terá o botão para “salvar” na parte inferior da tela, que ao clicar salvará automático as informações editadas. e podendo clicar no ícone da  lixeira que ficava acima do valor da receita que será excluído automaticamente da tela de sua categoria. Ao clicar na seta na parte superior esquerda irá voltar para (tela de inicial ).
 
 
 
