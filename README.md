@@ -240,104 +240,103 @@ Cadastro de despesas: o usuário pode cadastrar o valor da sua despesa, a descri
 
 Categorias: O usuário pode visualizar suas despesas criadas por categoria, podendo editar e excluir.
 
-### Contrato com o JSON
+### Contrato com  o JSON
 
 Delete/User: Esse endpoint é responsável por deletar um usuário na aplicação. Receberá como paramêtro Id do tipo long para idntificar o usuário que será removido.
 
 Resposta: COD 200.
 
-    {
-      "Info": "Deletado com sucesso."
-    }
+{
+  "Info": "Deletado com sucesso."
+}
 
 Resposta: COD 404.
 
-    {
-      "Info": "Usuário não encontrado."
-    }
+{
+  "Info": "Usuário não encontrado."
+}
 
 Login/User: Esse endpoint é responsável por fazer o login do usuário na aplicação. Receberá como paramêtro E-mail e Senha.
 
 Resposta: COD 200.
 
-    {
-      "Id":1,
-      "name":"Amanda chaves",
-      "Email": "Amanda@Gmail.com",
-      "Password": "745614!",
-      "Salary": 879514
-    }
+{
+  "Id":1,
+  "name":"Amanda chaves",
+  "Email": "Amanda@Gmail.com",
+  "Password": "745614!",
+  "Salary": 879514
+}
 
 Resposta: COD 404.
- 
-    {
-      "info": "Usuário não encontrado"
-    }
+
+{
+  "info": "Usuário não encontrado"
+}
 
 Create/User: Esse endpoint é responsável por fazer o cadastro do usuário na aplicação. Receberá como paramêtro Nome, Id, Salário, E-mail, Senha.
 
 Resposta: COD 201.
 
-    {
-      "Id":1,
-      "name":"João Alves",
-      "Email": "Joao@Gmail.com",
-      "Password": "17894@",
-      "Salary": 147451
-    }
+{
+  "Id":1,
+  "name":"João Alves",
+  "Email": "Joao@Gmail.com",
+  "Password": "17894@",
+  "Salary": 147451
+}
 
 Resposta: COD 403.
 
-    {
-      "info": "Email já está em uso"
-    }
+{
+  "info": "Email já está em uso"
+}
 
 Resposta: COD 404.
 
-    {
-      "info": "Erro No Email ou Senha do Usuário."
-    }
+{
+  "info": "Erro No Email ou Senha do Usuário."
+}
 
 UPDATE/USER: Esse endpoint é responsável por fazer a atualização dos usuários na aplicação. Receberá como paramêtro Id.
 
 Resposta: COD 200.
 
-    {
-        "Info": "Atualização com sucesso."
-    }
+{
+    "Info": "Atualização com sucesso."
+}
 
 Resposta: COD 404.
 
-    {
-        "Info": "Usuário não encontrado."
-    }
-    
-Create/Category:
-Esse endpoint é responsável por criar uma categoria de despesas do usuário na aplicação. Receberá como paramêtro Id do usuário e da categoria.
+{
+    "Info": "Usuário não encontrado."
+}
+
+Create/Category: Esse endpoint é responsável por criar uma categoria de despesas do usuário na aplicação. Receberá como paramêtro Id do usuário e da categoria.
 
 Resposta: COD 201.
 
-   {
-        "Info": ""
-    }
-    
+{ "category_id": 12, "user_id": 4, "type_moviment": "despesas", "value": 200, "date": "2024-04-23T18:25:43.511Z" }
+
 Resposta: COD 404.
-   
-   {
-        "Info": "Usuário não encontrado."
-    }
-    
-Delete/Category:
-Esse endpoint é responsáel por deletar algo que está atrelado a um tipo de categoria. Receberá como paramêtro Id da categoria.
+
+{ "Informações": "Parâmetros passados errados." }
+
+Delete/Category: Esse endpoint é responsáel por deletar algo que está atrelado a um tipo de categoria. Receberá como paramêtro Id da categoria.
+
+Resposta: COD 200. { "Info": "Categoria deletada com sucesso." }
+
+Resposta: COD 404.
+
+{ "Info": "Categoria não encontrada." }
+
+Update/Category: Esse endpoint é responsáel por atualizar uma categoria. Receberá como paramêtro Id da categoria.
 
 Resposta: COD 200.
 
-Resposta: COD 404.
-
-Update/Category:
-Esse endpoint é responsáel por atualizar uma categoria. Receberá como paramêtro Id da categoria.
-
-Resposta: COD 200.
+{ "Info": "Atualizaçãoão realizada com sucesso." }
 
 Resposta: COD 404.
+
+{ "Info": "ERRO ao atualizar , por favor verifique os parâmetros." }
 
