@@ -33,12 +33,12 @@ Já a arquitetura MVC é composta pelas camadas do modelo, da visão e do contro
 
 ### Diagrama UML: 📊
 
-![UML](https://github.com/FiveTech22/back-end-frameworks/blob/main/UML.png)
+![UML](#diagrama-uml-📊)
 
 
 ### Protótipos da aplicação 📱
 
-#### Telas de Login:
+### Telas de Login:
 #### 1.1 tela de abertura / 1.2 tela de criar conta  
 
 ![1.1 tela de abertura](https://github.com/FiveTech22/back-end-frameworks/blob/main/1.1%20Tela%20de%20Abertura.jpg) ![1.2 tela de criar conta](https://github.com/FiveTech22/back-end-frameworks/blob/main/1.2%20tela%20criar%20conta.jpg)
@@ -318,7 +318,7 @@ Esse endpoint é responsável por criar uma categoria de despesas do usuário na
 Resposta: COD 201.
 
    {
-        "Info": "."
+        "Info": ""
     }
     
 Resposta: COD 404.
