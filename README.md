@@ -203,8 +203,12 @@ Assim que o usuário criar sua receita com o ícone da categoria salário, ele p
  Assim que usuário criar sua despesa com ícone outros ele poderá visualizar suas despesas criadas com o mesmo ícone, podendo visualizar a data do gasto, descrição e também podendo editar  clicando no lápis que ficará ao lado no nome da descrição, indo então para a parte de editar despesa, depois de editado terá o botão para “salvar” na parte inferior da tela, que ao clicar salvará automático as informações editadas. e podendo clicar no ícone da  lixeira que ficava acima do valor da despesa que será excluído automaticamente da tela de sua categoria. Ao clicar na seta na parte superior esquerda irá voltar para a parte de inicial.
 
 
+
 ### Contrato com  o JSON
 
+POST:
+
+api/user 
 
 Create/User: Esse endpoint é responsável por fazer o cadastro do usuário na aplicação. Receberá como paramêtro Id, Name, E-mail, Password, Salary.
 
@@ -220,6 +224,10 @@ Resposta: COD 404.
 
 ![carbon (2)](https://user-images.githubusercontent.com/110068589/232252926-7c9a0ad7-1a39-4ae7-8682-0c62068da722.png)
 
+DELETE: 
+
+api/user{Id}
+
 Delete/User: Esse endpoint é responsável por deletar um usuário na aplicação. Receberá como paramêtro Id do tipo long para idntificar o usuário que será removido.
 
 Resposta: COD 200.
@@ -229,6 +237,10 @@ Resposta: COD 200.
 Resposta: COD 404.
 
 ![carbon (1)](https://user-images.githubusercontent.com/110068589/232253035-7bc1bae2-83e5-4053-8615-f1ba88ecde56.png)
+
+GET:
+
+user/login 
 
 Login/User: Esse endpoint é responsável por fazer o login do usuário na aplicação. Receberá como paramêtro E-mail e Senha.
 
@@ -240,6 +252,10 @@ Resposta: COD 404.
 
 ![carbon (3)](https://user-images.githubusercontent.com/110068589/232253094-0668762f-37ad-42f5-baa6-10a181ef6bfc.png)
 
+PATCH:
+
+api/user{Id}
+
 UPDATE/USER: Esse endpoint é responsável por fazer a atualização dos usuários na aplicação. Receberá como paramêtro Id.
 
 Resposta: COD 200.
@@ -249,6 +265,10 @@ Resposta: COD 200.
 Resposta: COD 404.
 
 ![carbon (1)](https://user-images.githubusercontent.com/110068589/232253153-01984316-dff3-473a-a31b-d2649bfa596f.png)
+
+POST:
+
+api/category
 
 Create/Category: Esse endpoint é responsável por criar uma categoria de despesas do usuário na aplicação. Receberá como paramêtro Id do usuário e da categoria.
 
@@ -260,6 +280,10 @@ Resposta: COD 404.
 
 ![carbon](https://user-images.githubusercontent.com/110068589/232253235-b3f1a6b8-455e-486f-ab04-3cb4de88602e.png)
 
+PATCH:
+
+api/category{Id}
+
 Update/Category: Esse endpoint é responsáel por atualizar uma categoria. Receberá como paramêtro Id da categoria.
 
 Resposta: COD 200.
@@ -269,6 +293,10 @@ Resposta: COD 200.
 Resposta: COD 404.
 
 ![carbon](https://user-images.githubusercontent.com/110068589/232253296-3890d796-418d-4f98-96fa-28bba96c8d7c.png)
+
+DELETE:
+
+api/category{Id}
 
 Delete/Category: Esse endpoint é responsável por deletar algo que está atrelado a um tipo de categoria. Receberá como paramêtro Id da categoria.
 
@@ -280,6 +308,10 @@ Resposta: COD 404.
 
 ![carbon (2)](https://user-images.githubusercontent.com/110068589/232253316-c8ed5c34-a5d8-4ff7-9de6-10e7c87ce223.png)
 
+POST:
+
+api/objetive
+
 Create/Objetive: Esse endpoint é responsável por criar um objetivo. Receberá como parâmetro Id do usuário.
 
 Resposta: COD 201.
@@ -289,6 +321,10 @@ Resposta: COD 201.
 Resposta: COD 404.
 
 ![carbon](https://user-images.githubusercontent.com/110068589/232253603-9c66b6bf-6c11-4b61-9612-53bd134174e6.png)
+
+PATCH:
+
+api/objetive{id}
 
 Update/Objetive: Esse endpoint é responsável por atualizar um objetivo. Receberá como parâmetro Id do objetivo.
 
@@ -300,7 +336,11 @@ Resposta: COD 404.
 
 ![carbon (1)](https://user-images.githubusercontent.com/110068589/232253703-efb08956-c89a-4be1-b997-580f73cd0bcc.png)
 
-Delete/Objetive: Esse endpoint é responsável por deletar um objetivo. Receberá com parâmetro Id do usuário e Id do objeivo.
+DELETE:
+
+api/objetive{Id}
+
+Delete/Objetive: Esse endpoint é responsável por deletar um objetivo. Receberá com parâmetro Id do objeivo.
 
 Resposta: COD 200.
 
@@ -309,6 +349,5 @@ Resposta: COD 200.
 Resposta: COD 404.
 
 ![carbon (1)](https://user-images.githubusercontent.com/110068589/232253771-9bc9d30f-52d3-4fa3-81cb-8688048f156e.png)
-
 
 
