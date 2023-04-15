@@ -96,7 +96,7 @@ Nesta tela, o usuário pode clicar no botão "+" que o direciona para a (tela de
 
 #### 1.2 Tela de criação de objetivo /  1.3 Tela de edição de objetivo
 
-![1.2 Tela de criação de objetivo](https://github.com/FiveTech22/back-end-frameworks/blob/main/img/1.3%20Tela%20da%20Cria%C3%A7%C3%A3o%20do%20Objetivo.jpg) ![1.3 Tela de edição de objetivo](https://github.com/FiveTech22/back-end-frameworks/blob/main/img/1.4%20Exemplo%20-%20Tela%20da%20edi%C3%A7%C3%A3o%20do%20Objetivo.jpg)
+![1.2 Tela de criação de objetivo](https://github.com/FiveTech22/back-end-frameworks/blob/main/img/1.3%20Tela%20da%20Cria%C3%A7%C3%A3o%20do%20Objetivo.jpg) ![1.3 Tela de edição de objetivo](https://github.com/FiveTech22/back-end-frameworks/blob/main/img/Exemplo%20-%20Tela%20da%20edi%C3%A7%C3%A3o%20do%20Objetivo.jpg)
 
 #### 1.2 Tela de criação de objetivo:
 Nesta tela, o usuário pode definir uma meta que deseja alcançar. Ele pode inserir o nome do objetivo, o valor a ser alcançado, o valor já poupado e, se desejar, uma data para alcançá-lo. Além disso, ele pode escolher um ícone para representar o objetivo. Ao clicar no botão "Criar", o usuário será direcionado para a (tela do objetivo), se desejar cancelar a criação do objetivo, ele pode clicar no "X" na parte superior esquerda da tela, o que o levará de volta à (tela do objetivo) 
