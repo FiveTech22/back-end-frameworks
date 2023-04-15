@@ -224,76 +224,61 @@ Delete/User: Esse endpoint é responsável por deletar um usuário na aplicaçã
 
 Resposta: COD 200.
 
-{
-  "Info": "Deletado com sucesso."
-}
+![carbon](https://user-images.githubusercontent.com/110068589/232253031-2866ff49-a5f8-4e27-8809-2b9dae9c468e.png)
 
 Resposta: COD 404.
 
-{
-  "Info": "Usuário não encontrado."
-}
+![carbon (1)](https://user-images.githubusercontent.com/110068589/232253035-7bc1bae2-83e5-4053-8615-f1ba88ecde56.png)
 
 Login/User: Esse endpoint é responsável por fazer o login do usuário na aplicação. Receberá como paramêtro E-mail e Senha.
 
 Resposta: COD 200.
 
-{
-  "Id":1,
-  "name":"Amanda chaves",
-  "Email": "Amanda@Gmail.com",
-  "Password": "745614!",
-  "Salary": 879514
-}
+![carbon (2)](https://user-images.githubusercontent.com/110068589/232253067-7ace9173-b1de-46b9-a55b-6dda4f2da33a.png)
 
 Resposta: COD 404.
 
-{
-  "info": "Usuário não encontrado"
-}
+![carbon (3)](https://user-images.githubusercontent.com/110068589/232253094-0668762f-37ad-42f5-baa6-10a181ef6bfc.png)
 
 UPDATE/USER: Esse endpoint é responsável por fazer a atualização dos usuários na aplicação. Receberá como paramêtro Id.
 
 Resposta: COD 200.
 
-{
-    "Info": "Atualização com sucesso."
-}
+![carbon](https://user-images.githubusercontent.com/110068589/232253151-2e3f9a2a-27cf-4c01-a755-40a7421658f3.png)
 
 Resposta: COD 404.
 
-{
-    "Info": "Usuário não encontrado."
-}
+![carbon (1)](https://user-images.githubusercontent.com/110068589/232253153-01984316-dff3-473a-a31b-d2649bfa596f.png)
 
 Create/Category: Esse endpoint é responsável por criar uma categoria de despesas do usuário na aplicação. Receberá como paramêtro Id do usuário e da categoria.
 
 Resposta: COD 201.
 
-{ "category_id": 12, "user_id": 4, "type_moviment": "despesas", "value": 200, "date": "2024-04-23T18:25:43.511Z" }
+![carbon (2)](https://user-images.githubusercontent.com/110068589/232253196-e1db0498-c8dc-4f23-b682-befa6eab26f2.png)
 
 Resposta: COD 404.
 
-{ "Informações": "Parâmetros passados errados." }
+![carbon](https://user-images.githubusercontent.com/110068589/232253235-b3f1a6b8-455e-486f-ab04-3cb4de88602e.png)
 
 Update/Category: Esse endpoint é responsáel por atualizar uma categoria. Receberá como paramêtro Id da categoria.
+
 Resposta: COD 200.
 
-{ "Info": "Atualizaçãoão realizada com sucesso." }
+![carbon (1)](https://user-images.githubusercontent.com/110068589/232253255-8099ec84-50b7-4be8-8add-5dd13bf59cc5.png)
 
 Resposta: COD 404.
 
-{ "Info": "ERRO ao atualizar , por favor verifique os parâmetros." }
+![carbon](https://user-images.githubusercontent.com/110068589/232253296-3890d796-418d-4f98-96fa-28bba96c8d7c.png)
 
 Delete/Category: Esse endpoint é responsável por deletar algo que está atrelado a um tipo de categoria. Receberá como paramêtro Id da categoria.
 
 Resposta: COD 200. 
 
-{ "Info": "Categoria deletada com sucesso." }
+![carbon (1)](https://user-images.githubusercontent.com/110068589/232253301-186d46b0-5c37-4ced-b7d9-2c93f83610f0.png)
 
 Resposta: COD 404.
 
-{ "Info": "Categoria não encontrada." }
+![carbon (2)](https://user-images.githubusercontent.com/110068589/232253316-c8ed5c34-a5d8-4ff7-9de6-10e7c87ce223.png)
 
 Create/Objetive: Esse endpoint é responsável por criar um objetivo. Receberá como parâmetro Id do usuário.
 
