@@ -33,8 +33,7 @@ Já a arquitetura MVC é composta pelas camadas do modelo, da visão e do contro
 
 ### Diagrama UML: 📊
 
-![UML](https://github.com/FiveTech22/back-end-frameworks/blob/main/img/UML.png)
-
+![UML](https://user-images.githubusercontent.com/101484450/232238897-3bd997f2-d8de-4922-aafe-5cf4a718df17.png)
 
 ### Protótipos da aplicação 📱
 
@@ -42,7 +41,9 @@ Já a arquitetura MVC é composta pelas camadas do modelo, da visão e do contro
 
 #### 1.1 Abertura / 1.2 Criação de conta  
 
-![1.1 tela de abertura](https://github.com/FiveTech22/back-end-frameworks/blob/main/img/1.1%20Tela%20de%20Abertura.jpg) ![1.2 tela de criar conta](https://github.com/FiveTech22/back-end-frameworks/blob/main/img/1.2%20tela%20criar%20conta.jpg)
+![1 1 Tela de Abertura](https://user-images.githubusercontent.com/101484450/232239045-e0acd88d-1c87-46d7-8096-4b64952dbd8a.jpg)
+
+![1 2 tela criar conta](https://user-images.githubusercontent.com/101484450/232239059-ac698a8e-f062-4ad4-814b-a2af61f9af9c.jpg)
 
 #### 1.1 Abertura: 
 Ao entrar no aplicativo, é exibida  duas opções: "Criar uma conta" e "Fazer Login". O usuário escolhe uma das opções clicando em um dos botões. Quando o usuário clica no botão "Criar uma Conta". O aplicativo redireciona o usuário para a criação de sua conta. Assim como quando o usuário clica no botão " Fazer login". O aplicativo redireciona o usuário para fazer login. 
@@ -53,7 +54,7 @@ Ao entrar no aplicativo, é exibida  duas opções: "Criar uma conta" e "Fazer L
 
 
 #### 1.3 Login 
-![1.3 tela de login](https://github.com/FiveTech22/back-end-frameworks/blob/main/img/tela%20de%20login.jpg)
+![tela de login](https://user-images.githubusercontent.com/101484450/232239092-faf635df-82d2-485a-9436-68fd7c511113.jpg)
 
 #### 1.3 Login: 
  O usuário insere seu endereço de e-mail e senha. Se algum dos campos estiver em branco, aparecerá a mensagem "Preencha o campo". O aplicativo verifica se as informações de login são válidas e correspondem a uma conta existente. Se as informações de login estiverem corretas, o aplicativo redireciona o usuário para a parte Inicial do aplicativo. Se o usuário digitar um e-mail diferente do que foi registrado, aparecerá a mensagem "E-mail incorreto". Da mesma forma, se digitar uma senha diferente, aparecerá a mensagem "Senha incorreta". Se quiser criar uma nova conta, poderá voltar para a parte  criação de conta clicando no botão "Criar conta". Se o usuário preencher o e-mail e a senha correta, poderá clicar no botão "Entrar", o que levará para a parte inicial. Para voltar à parte de abertura, basta clicar na seta localizada na parte superior esquerda
@@ -62,7 +63,9 @@ Ao entrar no aplicativo, é exibida  duas opções: "Criar uma conta" e "Fazer L
 ### Página Inicial
 
 #### 1.1 Inicial / Exemplo
-![tela inicial](https://github.com/FiveTech22/back-end-frameworks/blob/main/img/tela%20Inicial.jpg) ![Exemplo - tela inicial](https://github.com/FiveTech22/back-end-frameworks/blob/main/img/Exemplo%20-Tela%20Inicial.jpg)
+![1 1 tela Inicial](https://user-images.githubusercontent.com/101484450/232239171-d0c72394-3eb7-4a18-b16a-7ad2396f0be8.jpg)
+
+![Exemplo -Tela Inicial](https://user-images.githubusercontent.com/101484450/232239183-eea6a71c-a560-4b0f-8570-7ca98df0cc56.jpg)
 
 #### 1.1 Inicial:
 Nesta parte inicial, o usuário poderá visualizar um botão com três traços um abaixo do outro, como no exemplo ao lado “ ≡ “, que representará a parte de menu. Ao clicar, será direcionado para a mesma. Assim como o mês que terá duas setas, uma para a esquerda “←” e a outra para a direita “→”, com o intuito de, quando o usuário clicar na seta esquerda, voltar para o mês anterior e, quando clicar na seta direita, ir para o mês seguinte. Também haverá a possibilidade de visualizar o saldo da conta, o total das receitas e despesas e suas categorias. A parte de categoria de receitas e despesas só terá funcionalidade após adicionar as respectivas receitas e despesas. Se o usuário não criar as categorias, elas ficarão vazias com a mensagem: “Nenhum registro encontrado”. Após adicionadas, aparecerão o ícone, o nome e o valor descrito na parte de receita ou parte de despesa. Ao clicar no ícone da categoria, será direcionado para a respectiva categoria. O usuário não poderá editar o saldo de sua conta, pois ele será atualizado automaticamente ao adicionar receitas e despesas. Ao clicar no nome “receitas”, será direcionado para a parte de receita, assim como ao clicar no nome “despesa”, será direcionado para parte de despesas.
