@@ -205,6 +205,21 @@ Assim que o usuário criar sua receita com o ícone da categoria salário, ele p
 
 ### Contrato com  o JSON
 
+
+Create/User: Esse endpoint é responsável por fazer o cadastro do usuário na aplicação. Receberá como paramêtro Id, Name, E-mail, Password, Salary.
+
+Resposta: COD 201.
+
+![carbon](https://user-images.githubusercontent.com/110068589/232252863-2b6b0193-1c60-4680-b1f4-29d6bec8fb64.png)
+
+Resposta: COD 403.
+
+![carbon (1)](https://user-images.githubusercontent.com/110068589/232252904-820b9a7b-1721-4f90-aa6f-c15be11d12e8.png)
+
+Resposta: COD 404.
+
+![carbon (2)](https://user-images.githubusercontent.com/110068589/232252926-7c9a0ad7-1a39-4ae7-8682-0c62068da722.png)
+
 Delete/User: Esse endpoint é responsável por deletar um usuário na aplicação. Receberá como paramêtro Id do tipo long para idntificar o usuário que será removido.
 
 Resposta: COD 200.
@@ -237,30 +252,6 @@ Resposta: COD 404.
   "info": "Usuário não encontrado"
 }
 
-Create/User: Esse endpoint é responsável por fazer o cadastro do usuário na aplicação. Receberá como paramêtro Nome, Id, Salário, E-mail, Senha.
-
-Resposta: COD 201.
-
-{
-  "Id":1,
-  "name":"João Alves",
-  "Email": "Joao@Gmail.com",
-  "Password": "17894@",
-  "Salary": 147451
-}
-
-Resposta: COD 403.
-
-{
-  "info": "Email já está em uso"
-}
-
-Resposta: COD 404.
-
-{
-  "info": "Erro No Email ou Senha do Usuário."
-}
-
 UPDATE/USER: Esse endpoint é responsável por fazer a atualização dos usuários na aplicação. Receberá como paramêtro Id.
 
 Resposta: COD 200.
@@ -285,16 +276,7 @@ Resposta: COD 404.
 
 { "Informações": "Parâmetros passados errados." }
 
-Delete/Category: Esse endpoint é responsáel por deletar algo que está atrelado a um tipo de categoria. Receberá como paramêtro Id da categoria.
-
-Resposta: COD 200. { "Info": "Categoria deletada com sucesso." }
-
-Resposta: COD 404.
-
-{ "Info": "Categoria não encontrada." }
-
 Update/Category: Esse endpoint é responsáel por atualizar uma categoria. Receberá como paramêtro Id da categoria.
-
 Resposta: COD 200.
 
 { "Info": "Atualizaçãoão realizada com sucesso." }
@@ -302,4 +284,33 @@ Resposta: COD 200.
 Resposta: COD 404.
 
 { "Info": "ERRO ao atualizar , por favor verifique os parâmetros." }
+
+Delete/Category: Esse endpoint é responsável por deletar algo que está atrelado a um tipo de categoria. Receberá como paramêtro Id da categoria.
+
+Resposta: COD 200. 
+
+{ "Info": "Categoria deletada com sucesso." }
+
+Resposta: COD 404.
+
+{ "Info": "Categoria não encontrada." }
+
+Create/Objetive: Esse endpoint é responsável por criar um objetivo. Receberá como parâmetro Id do usuário.
+
+Resposta: COD 201.
+
+Resposta: COD 404.
+
+Update/Objetive: Esse endpoint é responsável por atualizar um objetivo. Receberá como parâmetro Id do objetivo.
+
+Resposta: COD 200.
+
+Resposta: COD 404.
+
+Delete/Objetive: Esse endpoint é responsável por deletar um objetivo. Receberá com parâmetro Id do usuário e Id do objeivo.
+
+Resposta: COD 200.
+
+Resposta: COD 404.
+
 
