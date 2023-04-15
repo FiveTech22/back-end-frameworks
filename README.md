@@ -284,18 +284,31 @@ Create/Objetive: Esse endpoint é responsável por criar um objetivo. Receberá 
 
 Resposta: COD 201.
 
+![carbon](https://user-images.githubusercontent.com/110068589/232253542-470899fa-2236-4cb9-8d7a-e6c0d2ff9bdc.png)
+
 Resposta: COD 404.
+
+![carbon](https://user-images.githubusercontent.com/110068589/232253603-9c66b6bf-6c11-4b61-9612-53bd134174e6.png)
 
 Update/Objetive: Esse endpoint é responsável por atualizar um objetivo. Receberá como parâmetro Id do objetivo.
 
 Resposta: COD 200.
 
+![carbon](https://user-images.githubusercontent.com/110068589/232253667-0785c0e6-b113-4b78-b020-9785d82b5edf.png)
+
 Resposta: COD 404.
+
+![carbon (1)](https://user-images.githubusercontent.com/110068589/232253703-efb08956-c89a-4be1-b997-580f73cd0bcc.png)
 
 Delete/Objetive: Esse endpoint é responsável por deletar um objetivo. Receberá com parâmetro Id do usuário e Id do objeivo.
 
 Resposta: COD 200.
 
+![carbon](https://user-images.githubusercontent.com/110068589/232253728-430b49e7-4253-46d3-8fed-51c80699049f.png)
+
 Resposta: COD 404.
+
+![carbon (1)](https://user-images.githubusercontent.com/110068589/232253771-9bc9d30f-52d3-4fa3-81cb-8688048f156e.png)
+
 
 
