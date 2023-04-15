@@ -51,24 +51,12 @@ Ao entrar no aplicativo, o usuário poderá criar uma conta ou fazer login por m
   Caso o usuário clique no botão "Criar conta" presente na (tela de abertura), será direcionado para esta tela, na qual deverá informar seu nome, e-mail e senha. Se algum dos campos estiver em branco, aparecerá a mensagem "Preencha o campo". Se o usuário tentar prosseguir sem preencher todos os campos, não conseguirá criar uma conta. Se o usuário já tiver uma conta, poderá clicar no botão "Já tenho uma conta" e será direcionado para a (tela de login). Para voltar à (tela de abertura), basta clicar na seta localizada na parte superior esquerda.
 
 
-#### 1.3 tela de login / 1.4 tela de recuperação de senha
-![1.3 tela de login](https://github.com/FiveTech22/back-end-frameworks/blob/main/img/1.3%20tela%20de%20login.jpg) ![1.4 tela de recuperação de senha](https://github.com/FiveTech22/back-end-frameworks/blob/main/img/1.4%20tela%20recupera%C3%A7%C3%A3o%20de%20senha.jpg) 
+#### 1.3 tela de login 
+![1.3 tela de login](https://github.com/FiveTech22/back-end-frameworks/blob/main/img/tela%20de%20login.jpg)
 
 #### 1.3 Tela de login: 
  Nesta tela, o usuário deve informar o e-mail e a senha que foi criada na (tela de criação de conta). Se o usuário digitar um e-mail diferente do que foi registrado, aparecerá a mensagem "E-mail incorreto". Da mesma forma, se digitar uma senha diferente, aparecerá a mensagem "Senha incorreta". Caso o usuário tenha esquecido a senha, poderá clicar no botão "Recuperar senha" e será direcionado para a (tela de recuperação de senha). Se quiser criar uma nova conta, poderá voltar para a (tela de criação de conta) clicando no botão "Criar conta". Se o usuário preencher o e-mail e a senha correta, poderá clicar no botão "Entrar", o que o carregará à (tela inicial). Para voltar à (tela de abertura), basta clicar na seta localizada na parte superior esquerda.
 
-#### 1.4 Tela de recuperação de senha: 
- Ao entrar nesta tela, o usuário deverá informar o e-mail cadastrado no aplicativo. Em seguida, ao clicar no botão "Enviar", será direcionado para a (tela código de recuperação) para recuperação de senha. Se o usuário digitar um e-mail diferente do que foi registrado, aparecerá a mensagem "E-mail incorreto". Caso o usuário queira desistir de recuperar a senha, poderá clicar no botão "Criar uma conta" para ser direcionado à (tela de criação de conta) ou no botão "Login" para voltar à (tela de login). 
-
-
-#### 1.5 tela código de recuperação / 1.6 tela nova senha
-![1.5 tela de código de recuperação](https://github.com/FiveTech22/back-end-frameworks/blob/main/img/1.5%20Tela%20codigo%20de%20recupera%C3%A7%C3%A3o.jpg) ![1.6 tela nova senha](https://github.com/FiveTech22/back-end-frameworks/blob/main/img/1.6%20Tela%20nova%20senha.jpg)
-
-#### 1.5 Tela de código de recuperação: 
- Nesta tela, aparecerá uma mensagem informando que um e-mail foi enviado ao usuário. Ele deve digitar os quatro números do código que foram enviados por e-mail, colocando-os nos quadrados que estão na tela. Se o usuário digitar algum número incorreto, aparecerá a mensagem "Código incorreto". Ele só poderá aceitar ao colocar o código correto. Ao clicar no botão "confirmar", o usuário será direcionado para a (tela de nova senha). Se o usuário clicar no botão "enviar e-mail novamente" antes do tempo determinado, aparecerá a mensagem "Aguarde até que o tempo termine". Ao clicar na seta na parte superior esquerda, ele voltará para a (tela de recuperação de senha).
- 
- #### 1.6 Tela de nova senha: 
- Nesta tela, o usuário deve digitar uma nova senha e repeti-la novamente. Ao clicar no botão "Confirmar", ele será direcionado para a (tela de login). Ao clicar na seta na parte superior esquerda, ele voltará para a (tela de código de recuperação).
 
 
 ### Telas Iniciais
