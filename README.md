@@ -206,17 +206,21 @@ Assim que o usuário criar sua receita com o ícone da categoria salário, ele p
 
 ### Contrato com  o JSON
 
+
 __*POST:*__
 
 __api/User__ 
 
-Create/User: Esse endpoint é responsável por fazer o cadastro do usuário na aplicação. Receberá como paramêtro Id, Name, E-mail, Password, Salary.
+Create/User: Esse endpoint é responsável por fazer o cadastro do usuário na aplicação. Receberá como __paramêtros:__
+
+ Id, Name, E-mail, Password.
 
 Response:
 
 * Cod 201.
 
-  ![carbon](https://user-images.githubusercontent.com/110068589/232252863-2b6b0193-1c60-4680-b1f4-29d6bec8fb64.png)
+  ![carbon](https://user-images.githubusercontent.com/101484450/232343833-ff0bb00d-b4e0-481f-9ae3-a11b999bfbfb.png)
+
 
 * Cod 403.
 
@@ -231,9 +235,11 @@ Response:
 
 __*DELETE:*__ 
 
-__/User{Id_user}__
+__/User/{Id_user}__
 
-Delete/User: Esse endpoint é responsável por deletar um usuário na aplicação. Receberá como paramêtro Id do tipo long para idntificar o usuário que será removido.
+Delete/User: Esse endpoint é responsável por deletar um usuário na aplicação. Receberá como __paramêtro:__ 
+
+Id do usuário.
 
 Response: 
 
@@ -251,13 +257,15 @@ __*GET:*__
 
 __/user/login__ 
 
-Login/User: Esse endpoint é responsável por fazer o login do usuário na aplicação. Receberá como paramêtro E-mail e Senha.
+Login/User: Esse endpoint é responsável por fazer o login do usuário na aplicação. Receberá como __paramêtros:__ 
+
+E-mail e Senha.
 
 Response: 
 
   * Cod 200.
+![carbon (5)](https://user-images.githubusercontent.com/101484450/232343911-d92742e5-7aca-4a78-b0ac-51828a3a5ccd.png)
 
-    ![carbon (2)](https://user-images.githubusercontent.com/110068589/232253067-7ace9173-b1de-46b9-a55b-6dda4f2da33a.png)
 
 
 * Cod 404.
@@ -269,9 +277,11 @@ Response:
 
 __*PATCH:*__
 
-__/User{id_User}__
+__/User/{id_User}__
 
-UPDATE/USER: Esse endpoint é responsável por fazer a atualização dos usuários na aplicação. Receberá como paramêtro Id.
+UPDATE/USER: Esse endpoint é responsável por fazer a atualização dos usuários na aplicação. Receberá como __paramêtros:__
+
+ Id do usuário.
 
 Response: 
 
@@ -289,7 +299,9 @@ __*POST:*__
 
 __api/category__
 
-Create/Category: Esse endpoint é responsável por criar uma categoria de despesas do usuário na aplicação. Receberá como paramêtro Id do usuário e da categoria.
+Create/Category: Esse endpoint é responsável por criar uma categoria de despesas do usuário na aplicação. Receberá como __paramêtros:__
+
+ Id do usuário, id da categoria, valor,tipo, descrição e data.
 
 Response: 
 
@@ -306,9 +318,11 @@ Response:
 
 __*PATCH:*__
 
-__api/category{Id}__
+__api/category/{Id_category}__
 
-Update/Category: Esse endpoint é responsáel por atualizar uma categoria. Receberá como paramêtro Id da categoria.
+Update/Category: Esse endpoint é responsáel por atualizar uma categoria. Receberá como __paramêtro:__
+
+ Id da categoria.
 
 Response: 
 
@@ -324,9 +338,11 @@ Response:
 
 __*DELETE:*__
 
-__api/category{Id}__
+__api/category/{Id_category}__
 
-Delete/Category: Esse endpoint é responsável por deletar algo que está atrelado a um tipo de categoria. Receberá como paramêtro Id da categoria.
+Delete/Category: Esse endpoint é responsável por deletar algo que está atrelado a um tipo de categoria. Receberá como __paramêtro:__
+
+ Id da categoria.
 
 Response:
 
@@ -339,13 +355,34 @@ Response:
   ![carbon (2)](https://user-images.githubusercontent.com/110068589/232253316-c8ed5c34-a5d8-4ff7-9de6-10e7c87ce223.png)
 
 ----------------------------------------------
+__*GET:*__
+
+__/category/{Id_User}/{type_moviment}__
+
+Get/Category: Esse endpoint é responsável por pegar Todas as informações de uma determinada categoria seja ela despesa ou receita.
+passando com __paramêtros:__
+
+ O Id do Usuário e o Tipo de Movimentação.
+
+
+Response:
+
+ * Cod 200. 
+
+
+* Cod 404.
+
+
+----------------------------------------------
 
 
 __*POST:*__
 
 __api/objective__
 
-Create/Objective: Esse endpoint é responsável por criar um objetivo. Receberá como parâmetro Id do usuário.
+Create/Objective: Esse endpoint é responsável por criar um objetivo. Receberá como __paramêtros:__
+ 
+ Id do usuário, Id do objective, valor, descrição e  data.
 
 Response: 
 
@@ -362,9 +399,11 @@ Response:
 
 __*PATCH:*__
 
-__api/objective{id}__
+__api/objective/{id_objective}__
 
-Update/Objective: Esse endpoint é responsável por atualizar um objetivo. Receberá como parâmetro Id do objetivo.
+Update/Objective: Esse endpoint é responsável por atualizar um objetivo. Receberá como __paramêtros:__
+
+ Id do objetivo.
 
 Response: 
 
@@ -382,9 +421,11 @@ Response:
 
 __*DELETE:*__
 
-__api/objective{Id}__
+__api/objective/{Id_objective}__
 
-Delete/Objective: Esse endpoint é responsável por deletar um objetivo. Receberá com parâmetro Id do objeivo.
+Delete/Objective: Esse endpoint é responsável por deletar um objetivo. Receberá com __paramêtro:__
+
+ Id do objetivo.
 
 Response: 
 
@@ -397,5 +438,24 @@ Response:
 
   ![carbon (1)](https://user-images.githubusercontent.com/110068589/232253771-9bc9d30f-52d3-4fa3-81cb-8688048f156e.png)
 
+----------------------------------------------
+
+__*GET:*__
+
+__/Objective/{Id_User}__
+
+GET/Objetive: Esse endpoint é responsável por Pegar todos objetivo do usuário passando como __paramêtro:__ 
+
+o Id do Usuário.
+
+Response:
+
+ * Cod 200. 
+
+
+* Cod 404.
+
+
+----------------------------------------------
 
 
