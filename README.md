@@ -370,13 +370,13 @@ Response:
 
  * Cod 200. 
  
- ![getcategory200](https://user-images.githubusercontent.com/101646936/232356956-a1ab6f97-375e-4732-b30c-b46162519434.jpeg)
-
+![carbon (6)](https://user-images.githubusercontent.com/101484450/232363264-4857106f-743c-4ab0-ac8b-c62624d04baa.png)
 
 
 * Cod 404.
 
-![getcategory404](https://user-images.githubusercontent.com/101646936/232357061-bd8204a2-265c-4a71-bfca-72b8e8da1883.jpeg)
+![carbon (7)](https://user-images.githubusercontent.com/101484450/232363281-7ece27c9-7e44-4130-8018-cd8e90c1d43c.png)
+
 
 ----------------------------------------------
 
@@ -457,13 +457,11 @@ Response:
 
  * Cod 200. 
 
-![getobjective200](https://user-images.githubusercontent.com/101646936/232357209-0e202b19-cf32-43e1-8638-6f76b62c7e30.jpeg)
-
-
+![carbon (8)](https://user-images.githubusercontent.com/101484450/232363187-037373ef-3898-475a-a19a-1f41629cc77a.png)
 
 * Cod 404.
+![carbon (9)](https://user-images.githubusercontent.com/101484450/232363113-a4ba97ba-a4c1-4d64-83c7-5da98d46617f.png)
 
-![getobjective404](https://user-images.githubusercontent.com/101646936/232357255-864bff74-8299-4265-b59a-daf4f50e7e44.jpeg)
 
 ----------------------------------------------
 
