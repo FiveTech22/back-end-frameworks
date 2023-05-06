@@ -1,0 +1,1 @@
+/home/selton/Estudos/back-end-frameworks/build/classes/kotlin/main/com/company/confinance/ConfinanceApplication.class:/home/selton/Estudos/back-end-frameworks/build/classes/kotlin/main/com/company/confinance/ConfinanceApplicationKt.class:/home/selton/Estudos/back-end-frameworks/build/classes/kotlin/main/com/company/confinance/model/UserModel.class
