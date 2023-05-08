@@ -19,12 +19,12 @@ data class UserModel(
 
     @Column(nullable = false)
     @Size(min = 3, max = 30)
-    val nome: String = "",
+    var name: String = "",
 
     @Column(nullable = false)
     @Email
-    val email: String = "",
+    var email: String = "",
 
     @Column(nullable = false)
-    val password: String = ""
+    var password: String = ""
 )
