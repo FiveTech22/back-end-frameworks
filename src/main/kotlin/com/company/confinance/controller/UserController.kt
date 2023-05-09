@@ -1,11 +1,14 @@
 package com.company.confinance.controller
 
+import com.company.confinance.model.LoginRequest
 import com.company.confinance.model.UserModel
 import com.company.confinance.model.response.CustomResponse
 import com.company.confinance.repository.UserRepository
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.http.HttpMethod
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
+import org.springframework.security.crypto.bcrypt.BCrypt
 import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
@@ -14,6 +17,7 @@ import org.springframework.web.bind.annotation.PutMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
+import javax.servlet.http.HttpServletRequest
 import javax.validation.Valid
 
 @RestController
@@ -26,13 +30,22 @@ class UserController {
     @GetMapping("/{id}")
     fun getUserId(@PathVariable(value = "id") id: Long): ResponseEntity<Any> {
         val user = repository.findById(id)
-        return if (user.isPresent) {
+
+        return if (id <= 0) {
+            ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                .body(
+                    CustomResponse(
+                        "Erro id informado invalido, Por favor passe o Id correto.",
+                        HttpStatus.BAD_REQUEST.value()
+                    )
+                )
+        } else if (user.isPresent) {
             ResponseEntity.ok(user.get())
         } else {
             ResponseEntity.status(HttpStatus.NOT_FOUND)
                 .body(
                     CustomResponse(
-                        "Usuário não encontrado, passe o id certo.",
+                        "Usuário não encontrado, verifique o id.",
                         HttpStatus.NOT_FOUND.value()
                     )
                 )
@@ -45,24 +58,13 @@ class UserController {
     }
 
     @PostMapping
-    fun createUser(@Valid @RequestBody user: UserModel): ResponseEntity<Any> {
-        val existingEmail = repository.findByEmail(user.email)
-        return if (existingEmail != null) {
-            ResponseEntity.status(HttpStatus.FORBIDDEN).body(
-                CustomResponse(
-                    "Email já cadastrado, por favor coloque outro.",
-                    HttpStatus.FORBIDDEN.value()
-                )
-            )
-        } else {
-            ResponseEntity.status(HttpStatus.CREATED)
-            ResponseEntity.ok(repository.save(user))
-        }
-    }
+
 
     @PutMapping("/{id}")
-    fun updateUser(@PathVariable(value = "id") id: Long,
-        @Valid @RequestBody updatedUser: UserModel): ResponseEntity<Any> {
+    fun updateUser(
+        @PathVariable(value = "id") id: Long,
+        @Valid @RequestBody updatedUser: UserModel
+    ): ResponseEntity<Any> {
         val existingUser = repository.findById(id)
         return if (existingUser.isPresent) {
             val user = existingUser.get()
@@ -83,15 +85,24 @@ class UserController {
     @DeleteMapping("/{id}")
     fun deleteUser(@PathVariable(value = "id") id: Long): ResponseEntity<Any> {
         val existingUser = repository.findById(id)
-        return if (existingUser.isPresent) {
+        return if (id <= 0) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(
+                CustomResponse(
+                    "ID de usuário inválido",
+                    HttpStatus.BAD_REQUEST.value()
+                )
+            )
+        } else if (existingUser.isPresent) {
             repository.deleteById(id)
-            ResponseEntity.ok().build()
+            ResponseEntity.ok()
+                .body(CustomResponse("Usuário Deletado com sucesso", HttpStatus.OK.value()))
         } else {
-            ResponseEntity.status(HttpStatus.NOT_FOUND).body(CustomResponse("Usuário não encontrado",
-                HttpStatus.NOT_FOUND.value()))
+            ResponseEntity.status(HttpStatus.NOT_FOUND).body(
+                CustomResponse(
+                    "Usuário não encontrado, verifique o id.",
+                    HttpStatus.NOT_FOUND.value()
+                )
+            )
         }
     }
-
-
 }
-
