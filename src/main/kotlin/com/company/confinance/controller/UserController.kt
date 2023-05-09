@@ -5,10 +5,8 @@ import com.company.confinance.model.UserModel
 import com.company.confinance.model.response.CustomResponse
 import com.company.confinance.repository.UserRepository
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.http.HttpMethod
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
-import org.springframework.security.crypto.bcrypt.BCrypt
 import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
@@ -17,7 +15,6 @@ import org.springframework.web.bind.annotation.PutMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
-import javax.servlet.http.HttpServletRequest
 import javax.validation.Valid
 
 @RestController
@@ -58,6 +55,19 @@ class UserController {
     }
 
     @PostMapping
+    fun createUser(@Valid @RequestBody user: UserModel): ResponseEntity<Any> {
+        val existingEmail = repository.findByEmail(user.email)
+        return if (existingEmail != null) {
+            ResponseEntity.status(HttpStatus.FORBIDDEN).body(
+                CustomResponse(
+                    "Email já cadastrado, por favor coloque outro.",
+                    HttpStatus.FORBIDDEN.value()
+                )
+            )
+        } else {
+            ResponseEntity.status(HttpStatus.CREATED).body(repository.save(user))
+        }
+    }
 
 
     @PutMapping("/{id}")
@@ -105,4 +115,24 @@ class UserController {
             )
         }
     }
+
+    @PostMapping("/login")
+    fun login(@RequestBody loginRequest: LoginRequest): ResponseEntity<Any> {
+        val user = repository.findByEmail(loginRequest.email)
+            ?: return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                .body(CustomResponse("Email Invalido, verifique.", HttpStatus.UNAUTHORIZED.value()))
+
+        val passwordMatch = loginRequest.password == user.password
+        if (!passwordMatch) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                .body(
+                    CustomResponse(
+                        "Password Invalido, verifique.",
+                        HttpStatus.UNAUTHORIZED.value()
+                    )
+                )
+        }
+        return ResponseEntity.ok(CustomResponse("Login Feito com Sucesso!", HttpStatus.OK.value()))
+    }
+
 }
