@@ -22,7 +22,7 @@ data class UserModel(
     var name: String = "",
 
     @Column(nullable = false)
-    @Email
+    @Email(regexp = "/^[a-zA-Z0-9.!#\$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\\.[a-zA-Z0-9-]+)*\$/.")
     var email: String = "",
 
     @Column(nullable = false)
