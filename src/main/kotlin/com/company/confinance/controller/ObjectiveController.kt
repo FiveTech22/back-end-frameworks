@@ -42,8 +42,8 @@ class ObjectiveController {
         }
 
     @GetMapping
-    fun getAll():List<ObjectiveModel>{
-        return repository.FindAll()
+    fun getAllObjectives(): List<ObjectiveModel> {
+        return repository.findAll()
     }
 
 

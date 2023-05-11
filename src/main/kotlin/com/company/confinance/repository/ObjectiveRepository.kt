@@ -1,14 +1,9 @@
 package com.company.confinance.repository
 
 import com.company.confinance.model.ObjectiveModel
+import org.springframework.data.jpa.repository.JpaRepository
+import org.springframework.stereotype.Repository
 
-
-interface ObjectiveRepository {
-    abstract fun save(objective: ObjectiveModel): ObjectiveModel
-    abstract fun deleteById(id: Long)
-    infix fun FindAll(unit: Unit) {
-
-    }
-
-    fun FindAll(): List<ObjectiveModel>
+@Repository
+interface ObjectiveRepository : JpaRepository<ObjectiveModel,Long>{
 }
