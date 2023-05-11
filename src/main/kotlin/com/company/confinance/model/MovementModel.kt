@@ -27,8 +27,6 @@ data class MovementModel(
     var date: LocalDate,
 
     @ManyToOne
-    @JoinColumn(name = "user_id")
-    @JsonProperty("user_id")
     val user: UserModel
 
 )

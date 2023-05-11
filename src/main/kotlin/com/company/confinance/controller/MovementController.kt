@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*
 import java.util.*
 
 @RestController
-@RequestMapping("/movements")
+@RequestMapping("/movement")
 class MovementController{
 
     @Autowired
@@ -35,7 +35,12 @@ class MovementController{
     fun getMovement(): List<MovementModel> {
         return repository.findAll()
     }
-
+    @GetMapping("/user/{userId}")
+    fun getMovementsByUserId(
+        @PathVariable("userId") userId: Long
+    ): List<MovementModel> {
+        return repository.findByUserId(userId)
+    }
     @PutMapping("/{id}")
     fun updateMovementById(
         @PathVariable("id") id: Long,
