@@ -42,8 +42,15 @@ class ObjectiveController {
         }
 
     @GetMapping
-    fun getAllObjectives(): List<ObjectiveModel> {
-        return repository.findAll()
+    fun getAllObjectives(): List<ObjectiveModel>{
+        return repository.findAll();
+    }
+
+    @GetMapping("/user/{userId}")
+    fun getObjectivesdByUserId(
+        @PathVariable("userId") userId: Long
+    ): List<ObjectiveModel> {
+        return repository.findByUserId(userId)
     }
 
 

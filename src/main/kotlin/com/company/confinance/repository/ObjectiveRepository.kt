@@ -6,4 +6,6 @@ import org.springframework.stereotype.Repository
 
 @Repository
 interface ObjectiveRepository : JpaRepository<ObjectiveModel,Long>{
+    abstract fun findByUserId(userId: Long): List<ObjectiveModel>
+
 }
