@@ -120,19 +120,20 @@ class UserController {
     fun login(@RequestBody loginRequest: LoginRequest): ResponseEntity<Any> {
         val user = repository.findByEmail(loginRequest.email)
             ?: return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
-                .body(CustomResponse("Email Invalido, verifique.", HttpStatus.UNAUTHORIZED.value()))
+                .body(CustomResponse("Email Inválido, verifique.", HttpStatus.UNAUTHORIZED.value()))
 
         val passwordMatch = loginRequest.password == user.password
         if (!passwordMatch) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
                 .body(
                     CustomResponse(
-                        "Password Invalido, verifique.",
+                        "Senha Inválida, verifique.",
                         HttpStatus.UNAUTHORIZED.value()
                     )
                 )
         }
-        return ResponseEntity.ok(CustomResponse("Login Feito com Sucesso!", HttpStatus.OK.value()))
+        val response = CustomResponse("Login Feito com Sucesso!", HttpStatus.OK.value())
+        response.userId = user.id
+        return ResponseEntity.ok(response)
     }
-
 }
