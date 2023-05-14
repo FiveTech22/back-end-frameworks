@@ -1,6 +1,7 @@
 package com.company.confinance.model
 
 import com.fasterxml.jackson.annotation.JsonIdentityReference
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties
 import com.fasterxml.jackson.annotation.JsonProperty
 import org.springframework.boot.autoconfigure.security.SecurityProperties
 import java.time.LocalDate
@@ -24,9 +25,12 @@ data class MovementModel(
     var value: Double,
 
     var description: String,
+
     var date: LocalDate,
 
     @ManyToOne
+    @JoinColumn(name = "user_id")
+    @JsonIgnoreProperties(value = ["name", "email", "password"])
     val user: UserModel
 
 )
