@@ -2,10 +2,13 @@ package com.company.confinance.controller
 
 import com.company.confinance.model.MovementModel
 import com.company.confinance.model.UserModel
+import com.company.confinance.model.response.CustomResponse
 import com.company.confinance.repository.MovementRepository
 import com.company.confinance.repository.UserRepository
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.data.crossstore.ChangeSetPersister
+import org.springframework.http.HttpStatus
+import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 import java.util.*
 
@@ -20,42 +23,120 @@ class MovementController{
     @PostMapping
     fun createMovement(
         @RequestBody movement: MovementModel
-    ): MovementModel {
-        return repository.save(movement)
+    ): ResponseEntity<Any> {
+        return try {
+            ResponseEntity.status(HttpStatus.CREATED).body(repository.save(movement))
+        } catch (ex: Exception) {
+            ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                .body(CustomResponse("Erro ao criar movimento", HttpStatus.INTERNAL_SERVER_ERROR.value()))
+        }
     }
 
     @GetMapping("/{id}")
-    fun getMovementById(
-        @PathVariable("id") id: Long
-    ): Optional<MovementModel> {
-        return repository.findById(id)
+    fun getMovementById(@PathVariable("id") id: Long): ResponseEntity<*> {
+        return if (id <= 0) {
+            ResponseEntity.status(HttpStatus.BAD_REQUEST).body(
+                CustomResponse(
+                    "Erro id informado inválido, por favor passe o Id correto.",
+                    HttpStatus.BAD_REQUEST.value()
+                )
+            )
+        } else {
+            try {
+                val movement = repository.findById(id)
+                if (movement.isPresent) {
+                    ResponseEntity.ok(movement.get())
+                } else {
+                    ResponseEntity.status(HttpStatus.NOT_FOUND).body(
+                        CustomResponse(
+                            "Movimento não encontrado, verifique o id.",
+                            HttpStatus.NOT_FOUND.value()
+                        )
+                    )
+                }
+            } catch (ex: Exception) {
+                ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(
+                        CustomResponse(
+                            "Erro ao buscar movimento",
+                            HttpStatus.INTERNAL_SERVER_ERROR.value()
+                        )
+                    )
+            }
+        }
     }
 
+
     @GetMapping
-    fun getMovement(): List<MovementModel> {
-        return repository.findAll()
+    fun getMovement(): ResponseEntity<Any> {
+        return try {
+            ResponseEntity.ok(repository.findAll())
+        } catch (ex: Exception) {
+            ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                .body(CustomResponse("Erro ao buscar movimentos", HttpStatus.INTERNAL_SERVER_ERROR.value()))
+        }
     }
     @GetMapping("/user/{userId}")
     fun getMovementsByUserId(
         @PathVariable("userId") userId: Long
-    ): List<MovementModel> {
-        return repository.findByUserId(userId)
+    ): ResponseEntity<Any> {
+        return if (userId <= 0) {
+            ResponseEntity.status(HttpStatus.BAD_REQUEST).body(
+                CustomResponse(
+                    "Erro id informado inválido, por favor passe o Id correto.",
+                    HttpStatus.BAD_REQUEST.value()
+                )
+            )
+        } else {
+            ResponseEntity.status(HttpStatus.NOT_FOUND)
+                .body(
+                    CustomResponse(
+                        "Nenhum movimento encontrado para o usuário especificado",
+                        HttpStatus.NOT_FOUND.value()
+                    )
+                )
+        }
     }
+
     @PutMapping("/{id}")
     fun updateMovementById(
         @PathVariable("id") id: Long,
         @RequestBody movement: MovementModel
-    ): MovementModel {
-        if (movement.id != id) {
-            throw IllegalArgumentException("")
+    ): ResponseEntity<Any> {
+        val existingMovement = repository.findById(id)
+        return if (existingMovement.isPresent) {
+            val savedMovement = repository.save(movement.copy(id = id))
+            ResponseEntity.ok(savedMovement)
+        } else {
+            ResponseEntity.status(HttpStatus.NOT_FOUND).body(
+                CustomResponse(
+                    "Movimento não encontrado, verifique o id.",
+                    HttpStatus.NOT_FOUND.value()
+                )
+            )
         }
-        return repository.save(movement)
     }
-
     @DeleteMapping("/{id}")
-    fun deleteMovementById(
-        @PathVariable("id") id: Long
-    ) {
-        return repository.deleteById(id)
+    fun deleteMovement(@PathVariable(value = "id") id: Long): ResponseEntity<Any> {
+        val existingMovement = repository.findById(id)
+        return if (id <= 0) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(
+                CustomResponse(
+                    "ID de movimento inválido",
+                    HttpStatus.BAD_REQUEST.value()
+                )
+            )
+        } else if (existingMovement.isPresent) {
+            repository.deleteById(id)
+            ResponseEntity.ok()
+                .body(CustomResponse("Movimento Deletado com sucesso", HttpStatus.OK.value()))
+        } else {
+            ResponseEntity.status(HttpStatus.NOT_FOUND).body(
+                CustomResponse(
+                    "Movimento não encontrado, verifique o id.",
+                    HttpStatus.NOT_FOUND.value()
+                )
+            )
+        }
     }
 }
