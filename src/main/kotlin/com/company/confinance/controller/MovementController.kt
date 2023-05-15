@@ -14,11 +14,10 @@ import java.util.*
 
 @RestController
 @RequestMapping("/movement")
-class MovementController{
+class MovementController {
 
     @Autowired
     private lateinit var repository: MovementRepository
-
 
     @PostMapping
     fun createMovement(
@@ -32,6 +31,7 @@ class MovementController{
         }
     }
 
+
     @GetMapping("/{id}")
     fun getMovementById(@PathVariable("id") id: Long): ResponseEntity<*> {
         return if (id <= 0) {
@@ -42,26 +42,16 @@ class MovementController{
                 )
             )
         } else {
-            try {
-                val movement = repository.findById(id)
-                if (movement.isPresent) {
-                    ResponseEntity.ok(movement.get())
-                } else {
-                    ResponseEntity.status(HttpStatus.NOT_FOUND).body(
-                        CustomResponse(
-                            "Movimento não encontrado, verifique o id.",
-                            HttpStatus.NOT_FOUND.value()
-                        )
+            val movement = repository.findById(id)
+            if (movement.isPresent) {
+                ResponseEntity.ok(movement.get())
+            } else {
+                ResponseEntity.status(HttpStatus.NOT_FOUND).body(
+                    CustomResponse(
+                        "Movimento não encontrado, verifique o id.",
+                        HttpStatus.NOT_FOUND.value()
                     )
-                }
-            } catch (ex: Exception) {
-                ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body(
-                        CustomResponse(
-                            "Erro ao buscar movimento",
-                            HttpStatus.INTERNAL_SERVER_ERROR.value()
-                        )
-                    )
+                )
             }
         }
     }
@@ -69,13 +59,14 @@ class MovementController{
 
     @GetMapping
     fun getMovement(): ResponseEntity<Any> {
-        return try {
+        return if (repository.findAll().isNotEmpty()) {
             ResponseEntity.ok(repository.findAll())
-        } catch (ex: Exception) {
-            ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                .body(CustomResponse("Erro ao buscar movimentos", HttpStatus.INTERNAL_SERVER_ERROR.value()))
+        } else {
+            ResponseEntity.status(HttpStatus.NOT_FOUND)
+                .body(CustomResponse("Nenhum movimento encontrado", HttpStatus.NOT_FOUND.value()))
         }
     }
+
     @GetMapping("/user/{userId}")
     fun getMovementsByUserId(
         @PathVariable("userId") userId: Long
@@ -116,6 +107,7 @@ class MovementController{
             )
         }
     }
+
     @DeleteMapping("/{id}")
     fun deleteMovement(@PathVariable(value = "id") id: Long): ResponseEntity<Any> {
         val existingMovement = repository.findById(id)
