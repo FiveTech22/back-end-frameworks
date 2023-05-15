@@ -13,23 +13,24 @@ import org.springframework.web.bind.annotation.PutMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
+import java.util.NoSuchElementException
 import javax.management.loading.ClassLoaderRepository
+import javax.persistence.EntityNotFoundException
+import javax.swing.text.html.parser.Entity
 
 
 @RestController
-@RequestMapping("/objectives")
+@RequestMapping("/objective")
 class ObjectiveController {
 
     @Autowired
     private lateinit var repository: ObjectiveRepository
 
     @PostMapping
-    fun createObjective(@RequestBody objective: ObjectiveModel): ResponseEntity<Any> {
-        return try {
-            ResponseEntity.status(HttpStatus.CREATED).body(repository.save(objective))
-        } catch (ex: Exception) {
-            ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Erro ao criar objetivo")
-        }
+    fun createObjective(
+        @RequestBody objective : ObjectiveModel
+    ): ObjectiveModel {
+        return  repository.save(objective)
     }
 
     @DeleteMapping("/{id}")
@@ -39,45 +40,25 @@ class ObjectiveController {
 
     @PutMapping("/{id}")
     fun updateObjectiveById(
-        @PathVariable("id") id: Long,
+        @PathVariable ("id") id: Long,
         @RequestBody objective: ObjectiveModel
-    ): ResponseEntity<Any> {
-        val existingObjective = repository.findById(id)
-        return if (existingObjective.isPresent){
-            val savedObjective = repository.save(objective.copy(id = id))
-            ResponseEntity.ok(savedObjective)
-        } else {
-            ResponseEntity.status(HttpStatus.NOT_FOUND).body("Objetivo não encontrado")
-        }
+    ): ObjectiveModel {
+        return repository.save(objective)
     }
+
 
     @GetMapping("/{id}")
-    fun getObjectiveById(@PathVariable("id") id: Long): ResponseEntity<Any> {
-        return if (id <= 0) {
-            ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Id de objetivo inválido")
-        } else {
-            try {
-                val objective = repository.findById(id)
-                if (objective.isPresent) {
-                    ResponseEntity.ok(objective.get())
-                } else {
-                    ResponseEntity.status(HttpStatus.NOT_FOUND).body("Objetivo não encontrado")
-                }
-            } catch (ex: Exception) {
-                ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body("Erro ao buscar objetivo")
-            }
+    fun getObjectiveId(
+        @PathVariable("id") id: Long,
+    ): ObjectiveModel {
+        return repository.findById(id).orElseThrow(){
+            EntityNotFoundException()
         }
     }
 
-
     @GetMapping
-    fun getObjectives(): ResponseEntity<Any> {
-        return try {
-            ResponseEntity.ok(repository.findAll())
-        } catch (ex: Exception) {
-            ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Erro ao buscar objetivo")
-        }
+    fun getObjective(): List<ObjectiveModel> {
+        return repository.findAll()
     }
 
     @GetMapping("/user/{userId}")
