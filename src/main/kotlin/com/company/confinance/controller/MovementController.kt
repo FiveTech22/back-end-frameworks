@@ -1,12 +1,10 @@
 package com.company.confinance.controller
 
-import com.company.confinance.model.MovementModel
-import com.company.confinance.model.UserModel
+import com.company.confinance.model.entity.MovementModel
+import com.company.confinance.model.mapper.toMovementResponse
 import com.company.confinance.model.response.CustomResponse
 import com.company.confinance.repository.MovementRepository
-import com.company.confinance.repository.UserRepository
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.data.crossstore.ChangeSetPersister
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
@@ -24,10 +22,17 @@ class MovementController {
         @RequestBody movement: MovementModel
     ): ResponseEntity<Any> {
         return try {
-            ResponseEntity.status(HttpStatus.CREATED).body(repository.save(movement))
+
+            ResponseEntity.status(HttpStatus.CREATED)
+                .body(repository.save(movement).toMovementResponse())
         } catch (ex: Exception) {
             ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                .body(CustomResponse("Erro ao criar movimento", HttpStatus.INTERNAL_SERVER_ERROR.value()))
+                .body(
+                    CustomResponse(
+                        "Erro ao criar movimento",
+                        HttpStatus.INTERNAL_SERVER_ERROR.value()
+                    )
+                )
         }
     }
 

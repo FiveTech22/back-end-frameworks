@@ -1,7 +1,6 @@
-package com.company.confinance.model
+package com.company.confinance.model.entity
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties
-import net.bytebuddy.dynamic.loading.InjectionClassLoader.Strategy
 import java.util.Date
 import javax.persistence.Column
 import javax.persistence.Entity

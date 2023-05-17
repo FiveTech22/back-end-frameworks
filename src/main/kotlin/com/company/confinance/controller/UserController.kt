@@ -1,7 +1,7 @@
 package com.company.confinance.controller
 
 import com.company.confinance.model.LoginRequest
-import com.company.confinance.model.UserModel
+import com.company.confinance.model.entity.UserModel
 import com.company.confinance.model.response.CustomResponse
 import com.company.confinance.repository.UserRepository
 import org.springframework.beans.factory.annotation.Autowired

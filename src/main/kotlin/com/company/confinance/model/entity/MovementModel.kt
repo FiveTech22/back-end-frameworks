@@ -1,12 +1,7 @@
-package com.company.confinance.model
+package com.company.confinance.model.entity
 
-import com.fasterxml.jackson.annotation.JsonIdentityReference
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties
-import com.fasterxml.jackson.annotation.JsonProperty
-import org.springframework.boot.autoconfigure.security.SecurityProperties
 import java.time.LocalDate
-import java.time.format.DateTimeFormatter
-import java.util.*
 import javax.persistence.*
 
 @Entity

@@ -1,4 +1,4 @@
-package com.company.confinance.model
+package com.company.confinance.model.entity
 
 import javax.persistence.Column
 import javax.persistence.Entity
