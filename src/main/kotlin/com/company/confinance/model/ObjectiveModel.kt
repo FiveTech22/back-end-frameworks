@@ -32,6 +32,6 @@ data class ObjectiveModel (
     @ManyToOne
     @JoinColumn(name = "user_id")
     @JsonIgnoreProperties(value = ["name", "email", "password"])
-    val user: UserModel
+    val user: UserModel? = null
 
 )

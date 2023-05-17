@@ -42,8 +42,17 @@ class ObjectiveController {
     fun updateObjectiveById(
         @PathVariable ("id") id: Long,
         @RequestBody objective: ObjectiveModel
-    ): ObjectiveModel {
-        return repository.save(objective)
+    ): ResponseEntity<ObjectiveModel> {
+        val existingObjective = repository.findById(id)
+        if (existingObjective.isPresent) {
+            val updateObjective = existingObjective.get()
+            updateObjective.value = objective.value
+            updateObjective.description = objective.description
+            updateObjective.date = objective.date
+            repository.save(updateObjective)
+            return ResponseEntity.ok(updateObjective)
+        }
+        return ResponseEntity.notFound().build()
     }
 
 
