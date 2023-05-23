@@ -132,8 +132,7 @@ class UserController {
                     )
                 )
         }
-        val response = CustomResponse("Login Feito com Sucesso!", HttpStatus.OK.value())
-        response.userId = user.id
+        val response = CustomResponse("Login Feito com Sucesso!", HttpStatus.OK.value(), user.id)
         return ResponseEntity.ok(response)
     }
 }
