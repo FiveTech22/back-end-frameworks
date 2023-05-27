@@ -77,24 +77,55 @@ class ObjectiveController {
 
 
     @GetMapping("/{id}")
-    fun getObjectiveId(
+    fun getObjectiveById(
         @PathVariable("id") id: Long,
-    ): ObjectiveModel {
-        return repository.findById(id).orElseThrow(){
-            EntityNotFoundException()
+    ): ResponseEntity<*> {
+        return if (id <= 0) {
+            ResponseEntity.status(HttpStatus.BAD_REQUEST).body(
+                CustomResponse("Erro id informado inválido, por favor passe o Id correto.",
+                HttpStatus.BAD_REQUEST.value())
+            )
+        } else {
+            val objective = repository.findById(id)
+            if (objective.isPresent) {
+                ResponseEntity.ok(objective.get())
+            } else {
+                ResponseEntity.status(HttpStatus.NOT_FOUND).body(
+                    CustomResponse("Objetivo não encontrado, verifique o id fornecido.",
+                    HttpStatus.NOT_FOUND.value())
+                )
+            }
         }
     }
 
     @GetMapping
-    fun getObjective(): List<ObjectiveModel> {
-        return repository.findAll()
+    fun getObjective(): ResponseEntity<Any> {
+        return if (repository.findAll().isNotEmpty()) {
+            ResponseEntity.ok(repository.findAll())
+        } else {
+            ResponseEntity.status(HttpStatus.NOT_FOUND).body(
+                CustomResponse("Nenhum objetivo encontrado", HttpStatus.NOT_FOUND.value())
+            )
+        }
     }
 
     @GetMapping("/user/{userId}")
     fun getObjectiveByUserId(
         @PathVariable("userId") userId: Long
-    ): List<ObjectiveModel> {
-        return repository.findByUserId(userId)
+    ): ResponseEntity<Any> {
+        return if (userId <= 0) {
+            ResponseEntity.status(HttpStatus.BAD_REQUEST).body(
+                CustomResponse("Erro, id informado inválido, por favor passe o Id correto",
+                HttpStatus.BAD_REQUEST.value())
+            )
+        } else {
+            ResponseEntity.status(HttpStatus.NOT_FOUND).body(
+                CustomResponse(
+                    "Nenhum objetivo encontrado para o usuário especificado",
+                    HttpStatus.NOT_FOUND.value()
+                )
+            )
+        }
     }
 
 
