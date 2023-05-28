@@ -3,6 +3,7 @@ package com.company.confinance.controller
 import com.company.confinance.model.entity.ObjectiveModel
 import com.company.confinance.model.response.CustomResponse
 import com.company.confinance.repository.ObjectiveRepository
+import com.company.confinance.repository.UserRepository
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
@@ -23,6 +24,8 @@ class ObjectiveController {
 
     @Autowired
     private lateinit var repository: ObjectiveRepository
+    @Autowired
+    private lateinit var userRepository: UserRepository
 
     @PostMapping
     fun createObjective(
@@ -110,21 +113,25 @@ class ObjectiveController {
     }
 
     @GetMapping("/user/{userId}")
-    fun getObjectiveByUserId(
-        @PathVariable("userId") userId: Long
+    fun getObjectivesByUserId(
+        @PathVariable("userId") id: Long
     ): ResponseEntity<Any> {
-        return if (userId <= 0) {
-            ResponseEntity.status(HttpStatus.BAD_REQUEST).body(
-                CustomResponse("Erro, id informado inválido, por favor passe o Id correto",
-                HttpStatus.BAD_REQUEST.value())
-            )
+        return if (id <= 0) {
+         ResponseEntity.status(HttpStatus.BAD_REQUEST).body(
+             CustomResponse("Erro, id informado inválido, por favor passe o Id correto.",
+             HttpStatus.BAD_REQUEST.value())
+         )
         } else {
-            ResponseEntity.status(HttpStatus.NOT_FOUND).body(
-                CustomResponse(
-                    "Nenhum objetivo encontrado para o usuário especificado",
-                    HttpStatus.NOT_FOUND.value()
+            val user = userRepository.findById(id)
+            if (user.isPresent) {
+                val objectives = repository.findByUserId(id)
+                ResponseEntity.ok(objectives)
+            } else {
+                ResponseEntity.status(HttpStatus.NOT_FOUND).body(
+                    CustomResponse("Nenhum objetivo encontrado para o usuário",
+                    HttpStatus.NOT_FOUND.value())
                 )
-            )
+            }
         }
     }
 

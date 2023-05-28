@@ -1,6 +1,7 @@
 package com.company.confinance.model.entity
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties
+import java.time.LocalDate
 import java.util.Date
 import javax.persistence.Column
 import javax.persistence.Entity
@@ -26,7 +27,7 @@ data class ObjectiveModel (
 
     var description: String,
 
-    var date: Date,
+    var date: LocalDate,
 
     @ManyToOne
     @JoinColumn(name = "user_id")
