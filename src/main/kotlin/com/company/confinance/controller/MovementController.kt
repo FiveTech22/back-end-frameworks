@@ -4,6 +4,7 @@ import com.company.confinance.model.entity.MovementModel
 import com.company.confinance.model.mapper.toMovementResponse
 import com.company.confinance.model.response.CustomResponse
 import com.company.confinance.repository.MovementRepository
+import com.company.confinance.repository.UserRepository
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
@@ -16,6 +17,8 @@ class MovementController {
 
     @Autowired
     private lateinit var repository: MovementRepository
+    @Autowired
+    private lateinit var userRepository: UserRepository
 
     @PostMapping
     fun createMovement(
@@ -74,9 +77,9 @@ class MovementController {
 
     @GetMapping("/user/{userId}")
     fun getMovementsByUserId(
-        @PathVariable("userId") userId: Long
+        @PathVariable("userId") id: Long
     ): ResponseEntity<Any> {
-        return if (userId <= 0) {
+        return if (id <= 0) {
             ResponseEntity.status(HttpStatus.BAD_REQUEST).body(
                 CustomResponse(
                     "Erro id informado inválido, por favor passe o Id correto.",
@@ -84,13 +87,19 @@ class MovementController {
                 )
             )
         } else {
-            ResponseEntity.status(HttpStatus.NOT_FOUND)
-                .body(
-                    CustomResponse(
-                        "Nenhum movimento encontrado para o usuário especificado",
-                        HttpStatus.NOT_FOUND.value()
+            val user = userRepository.findById(id)
+            if (user.isPresent) {
+                val movements = repository.findByUserId(id)
+                ResponseEntity.ok(movements)
+            } else {
+                ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body(
+                        CustomResponse(
+                            "Nenhum movimento encontrado para o usuário especificado",
+                            HttpStatus.NOT_FOUND.value()
+                        )
                     )
-                )
+            }
         }
     }
 
