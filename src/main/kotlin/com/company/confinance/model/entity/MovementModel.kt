@@ -21,7 +21,7 @@ data class MovementModel(
 
     var description: String,
 
-    var date: LocalDate,
+    var date: String,
 
     @ManyToOne
     @JoinColumn(name = "user_id")

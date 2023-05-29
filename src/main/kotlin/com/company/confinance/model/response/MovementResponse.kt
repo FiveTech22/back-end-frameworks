@@ -7,6 +7,6 @@ data class MovementResponse(
     var type_movement: String,
     var value: Double,
     var description: String,
-    var date: LocalDate,
+    var date: String,
     val userId: Long
 )
