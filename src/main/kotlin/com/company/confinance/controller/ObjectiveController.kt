@@ -30,109 +30,54 @@ class ObjectiveController {
     @PostMapping
     fun createObjective(
         @RequestBody objective : ObjectiveModel
-    ): ResponseEntity <Any> {
-         return try {
-             ResponseEntity.status(HttpStatus.CREATED).body(repository.save(objective))
-         } catch (ex: Exception) {
-             ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Erro ao criar objetivo")
-         }
+    ): ObjectiveModel {
+        return  repository.save(objective)
     }
 
     @DeleteMapping("/{id}")
-    fun delete(@PathVariable(value = "id") id: Long
-    ): ResponseEntity <Any> {
-        val existingObjective = repository.findById(id)
-        return if (id <= 0) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(
-                CustomResponse("ID do objectivo inválido", HttpStatus.BAD_REQUEST.value())
-            )
-        } else if (existingObjective.isPresent) {
-            repository.deleteById(id)
-            ResponseEntity.ok().body(CustomResponse
-                ("Objetivo Deletado com sucesso", HttpStatus.OK.value()))
-        } else {
-            ResponseEntity.status(HttpStatus.NOT_FOUND).body(
-                CustomResponse("Não foi possível deletar o objetivo, verifique o id informado.", HttpStatus.NOT_FOUND.value())
-            )
-
-        }
+    fun delete(@PathVariable id: Long) {
+        return repository.deleteById(id)
     }
+
 
     @PutMapping("/{id}")
     fun updateObjectiveById(
         @PathVariable (value = "id") id: Long,
         @RequestBody objective: ObjectiveModel
-    ): ResponseEntity<Any> {
-        return if (repository.existsById(id)) {
-            val existingObjective = repository.findById(id).get()
-            existingObjective.value = objective.value
-            existingObjective.description = objective.description
-            existingObjective.date = objective.date
-            repository.save(existingObjective)
-            ResponseEntity.ok(existingObjective)
-        } else {
-            ResponseEntity.status(HttpStatus.NOT_FOUND).body(
-                CustomResponse("Não foi possível atualizar o objetivo, por favor verefique o id fornecido.", HttpStatus.NOT_FOUND.value())
-            )
+    ): ResponseEntity<ObjectiveModel> {
+        val existingObjective = repository.findById(id)
+        if (existingObjective.isPresent) {
+            val updateObjective = existingObjective.get()
+            updateObjective.value = objective.value
+            updateObjective.description = objective.description
+            updateObjective.date = objective.date
+            repository.save(updateObjective)
+            return ResponseEntity.ok(updateObjective)
         }
+        return ResponseEntity.notFound().build()
     }
 
 
 
     @GetMapping("/{id}")
-    fun getObjectiveById(
+    fun getObjectiveId(
         @PathVariable("id") id: Long,
-    ): ResponseEntity<*> {
-        return if (id <= 0) {
-            ResponseEntity.status(HttpStatus.BAD_REQUEST).body(
-                CustomResponse("Erro id informado inválido, por favor passe o Id correto.",
-                HttpStatus.BAD_REQUEST.value())
-            )
-        } else {
-            val objective = repository.findById(id)
-            if (objective.isPresent) {
-                ResponseEntity.ok(objective.get())
-            } else {
-                ResponseEntity.status(HttpStatus.NOT_FOUND).body(
-                    CustomResponse("Objetivo não encontrado, verifique o id fornecido.",
-                    HttpStatus.NOT_FOUND.value())
-                )
-            }
+    ): ObjectiveModel {
+        return repository.findById(id).orElseThrow(){
+            EntityNotFoundException()
         }
     }
 
     @GetMapping
-    fun getObjective(): ResponseEntity<Any> {
-        return if (repository.findAll().isNotEmpty()) {
-            ResponseEntity.ok(repository.findAll())
-        } else {
-            ResponseEntity.status(HttpStatus.NOT_FOUND).body(
-                CustomResponse("Nenhum objetivo encontrado", HttpStatus.NOT_FOUND.value())
-            )
-        }
+    fun getObjective(): List<ObjectiveModel> {
+        return repository.findAll()
     }
 
     @GetMapping("/user/{userId}")
-    fun getObjectivesByUserId(
-        @PathVariable("userId") id: Long
-    ): ResponseEntity<Any> {
-        return if (id <= 0) {
-         ResponseEntity.status(HttpStatus.BAD_REQUEST).body(
-             CustomResponse("Erro, id informado inválido, por favor passe o Id correto.",
-             HttpStatus.BAD_REQUEST.value())
-         )
-        } else {
-            val user = userRepository.findById(id)
-            if (user.isPresent) {
-                val objectives = repository.findByUserId(id)
-                ResponseEntity.ok(objectives)
-            } else {
-                ResponseEntity.status(HttpStatus.NOT_FOUND).body(
-                    CustomResponse("Nenhum objetivo encontrado para o usuário",
-                    HttpStatus.NOT_FOUND.value())
-                )
-            }
-        }
+    fun getObjectiveByUserId(
+        @PathVariable("userId") userId: Long
+    ): List<ObjectiveModel> {
+        return repository.findByUserId(userId)
     }
 
 
