@@ -104,6 +104,33 @@ class MovementController {
         }
     }
 
+    @GetMapping("/totals")
+    fun getTotals(): ResponseEntity<Any> {
+        val movements = repository.findAll()
+
+        var totalRevenues = 0.0
+        var totalExpenses = 0.0
+
+        for (movement in movements) {
+            if (movement.type_movement == "revenue") {
+                totalRevenues += movement.value
+            } else if (movement.type_movement == "expense") {
+                totalExpenses += movement.value
+            }
+        }
+
+        val total = totalRevenues - totalExpenses
+
+        val totals = mapOf(
+            "totalRevenues" to totalRevenues,
+            "totalExpenses" to totalExpenses,
+            "total" to total
+        )
+
+        return ResponseEntity.ok(totals)
+    }
+
+
     @PutMapping("/{id}")
     fun updateMovementById(
         @PathVariable("id") id: Long,
