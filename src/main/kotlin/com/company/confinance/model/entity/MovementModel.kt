@@ -23,7 +23,7 @@ data class MovementModel(
 
     var date: String,
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     @JsonIgnoreProperties(value = ["name", "email", "password"])
     val user: UserModel

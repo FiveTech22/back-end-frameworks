@@ -10,5 +10,4 @@ interface MovementRepository : JpaRepository<MovementModel, Long> {
     @Query("SELECT m FROM MovementModel m WHERE m.user.id = :userId AND m.id = :movementId")
     fun findByUserIdAndMovementId(userId: Long, movementId: Long): Optional<MovementModel>
 
-
 }

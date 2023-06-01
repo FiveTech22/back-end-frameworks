@@ -6,6 +6,7 @@ import com.company.confinance.model.response.CustomResponse
 import com.company.confinance.repository.MovementRepository
 import com.company.confinance.repository.UserRepository
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.data.jpa.domain.AbstractPersistable_.id
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
@@ -104,17 +105,17 @@ class MovementController {
         }
     }
 
-    @GetMapping("/totals")
-    fun getTotals(): ResponseEntity<Any> {
-        val movements = repository.findAll()
-
+    @GetMapping("/totals/user/{userId}")
+    fun getTotals( @PathVariable("userId") id: Long): ResponseEntity<Any> {
+        val user = userRepository.findById(id)
+        val movements = repository.findByUserId(id)
         var totalRevenues = 0.0
         var totalExpenses = 0.0
 
         for (movement in movements) {
-            if (movement.type_movement == "revenue") {
+            if (movement.type_movement == "receita") {
                 totalRevenues += movement.value
-            } else if (movement.type_movement == "expense") {
+            } else if (movement.type_movement == "despesa") {
                 totalExpenses += movement.value
             }
         }
@@ -122,9 +123,11 @@ class MovementController {
         val total = totalRevenues - totalExpenses
 
         val totals = mapOf(
+            "userId" to id,
             "totalRevenues" to totalRevenues,
             "totalExpenses" to totalExpenses,
             "total" to total
+
         )
 
         return ResponseEntity.ok(totals)
