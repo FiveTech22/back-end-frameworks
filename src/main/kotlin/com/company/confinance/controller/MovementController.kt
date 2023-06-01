@@ -6,7 +6,6 @@ import com.company.confinance.model.response.CustomResponse
 import com.company.confinance.repository.MovementRepository
 import com.company.confinance.repository.UserRepository
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.data.jpa.domain.AbstractPersistable_.id
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
@@ -150,10 +149,12 @@ class MovementController {
                         )
                     )
             }
+
         }
+    }
 
 
-        @PutMapping("/{id}")
+      @PutMapping("/{id}")
         fun updateMovementById(
             @PathVariable("id") id: Long,
             @RequestBody movement: MovementModel
@@ -172,7 +173,7 @@ class MovementController {
             }
         }
 
-        @DeleteMapping("/{id}")
+      @DeleteMapping("/{id}")
         fun deleteMovement(@PathVariable(value = "id") id: Long): ResponseEntity<Any> {
             val existingMovement = repository.findById(id)
             return if (id <= 0) {
@@ -196,7 +197,7 @@ class MovementController {
             }
         }
 
-        @DeleteMapping("/user/{userId}/movement/{movementId}")
+       @DeleteMapping("/user/{userId}/movement/{movementId}")
         fun deleteMovementByUserIdAndMovementId(
             @PathVariable("userId") userId: Long,
             @PathVariable("movementId") movementId: Long
@@ -240,4 +241,3 @@ class MovementController {
             }
         }
     }
-}
