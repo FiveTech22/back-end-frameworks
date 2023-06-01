@@ -49,7 +49,7 @@ class ObjectiveController {
         if (existingObjective.isPresent) {
             val updateObjective = existingObjective.get()
             updateObjective.value = objective.value
-            updateObjective.description = objective.description
+            updateObjective.name = objective.name
             updateObjective.date = objective.date
             repository.save(updateObjective)
             return ResponseEntity.ok(updateObjective)

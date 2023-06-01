@@ -25,7 +25,7 @@ data class ObjectiveModel (
     @Column(nullable = false)
     var value: Double,
 
-    var description: String,
+    var name: String,
 
     var date: LocalDate,
 
