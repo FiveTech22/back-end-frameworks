@@ -72,7 +72,7 @@ class ObjectiveController {
         return if (repository.existsById(id)) {
             val existingObjective = repository.findById(id).get()
             existingObjective.value = objective.value
-            existingObjective.description = objective.description
+            existingObjective.name = objective.name
             existingObjective.date = objective.date
             repository.save(existingObjective)
             ResponseEntity.ok(existingObjective)
