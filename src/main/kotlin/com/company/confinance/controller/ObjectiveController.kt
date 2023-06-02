@@ -7,15 +7,7 @@ import com.company.confinance.repository.UserRepository
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
-import org.springframework.web.bind.annotation.DeleteMapping
-import org.springframework.web.bind.annotation.GetMapping
-import org.springframework.web.bind.annotation.PathVariable
-import org.springframework.web.bind.annotation.PostMapping
-import org.springframework.web.bind.annotation.PutMapping
-import org.springframework.web.bind.annotation.RequestBody
-import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.RestController
-import javax.persistence.EntityNotFoundException
+import org.springframework.web.bind.annotation.*
 
 
 @RestController
@@ -72,7 +64,7 @@ class ObjectiveController {
         return if (repository.existsById(id)) {
             val existingObjective = repository.findById(id).get()
             existingObjective.value = objective.value
-            existingObjective.description = objective.description
+            existingObjective.name = objective.name
             existingObjective.date = objective.date
             repository.save(existingObjective)
             ResponseEntity.ok(existingObjective)
