@@ -1,8 +1,8 @@
 package com.company.confinance.model.entity
 
+import com.fasterxml.jackson.annotation.JsonFormat
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties
 import java.time.LocalDate
-import java.util.Date
 import javax.persistence.Column
 import javax.persistence.Entity
 import javax.persistence.GeneratedValue
@@ -27,6 +27,8 @@ data class ObjectiveModel (
 
     var name: String,
 
+    @JsonFormat(pattern = "dd/MM/yyyy")
+    @Column(nullable = false)
     var date: LocalDate,
 
     @ManyToOne
