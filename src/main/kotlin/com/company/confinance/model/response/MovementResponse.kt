@@ -2,6 +2,7 @@ package com.company.confinance.model.response
 
 import java.time.LocalDate
 
+
 data class MovementResponse(
     var id: Long? = null,
     var type_movement: String,

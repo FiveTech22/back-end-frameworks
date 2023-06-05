@@ -1,5 +1,6 @@
 package com.company.confinance.model.entity
 
+import com.fasterxml.jackson.annotation.JsonFormat
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties
 import java.time.LocalDate
 import javax.persistence.*
@@ -21,6 +22,7 @@ data class MovementModel(
 
     var description: String,
 
+    @Column(nullable = false)
     var date: String,
 
     @ManyToOne(fetch = FetchType.LAZY)
