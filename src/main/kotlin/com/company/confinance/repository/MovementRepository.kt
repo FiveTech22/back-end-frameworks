@@ -7,7 +7,5 @@ import java.util.*
 
 interface MovementRepository : JpaRepository<MovementModel, Long> {
     fun findByUserId(userId: Long): List<MovementModel>
-    @Query("SELECT m FROM MovementModel m WHERE m.user.id = :userId AND m.id = :movementId")
-    fun findByUserIdAndMovementId(userId: Long, movementId: Long): Optional<MovementModel>
 
 }

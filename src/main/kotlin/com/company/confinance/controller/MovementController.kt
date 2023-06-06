@@ -196,48 +196,4 @@ class MovementController {
                 )
             }
         }
-
-       @DeleteMapping("/user/{userId}/movement/{movementId}")
-        fun deleteMovementByUserIdAndMovementId(
-            @PathVariable("userId") userId: Long,
-            @PathVariable("movementId") movementId: Long
-        ): ResponseEntity<Any> {
-            return if (userId <= 0 || movementId <= 0) {
-                ResponseEntity.status(HttpStatus.BAD_REQUEST).body(
-                    CustomResponse(
-                        "IDs de usuário ou movimento inválidos",
-                        HttpStatus.BAD_REQUEST.value()
-                    )
-                )
-            } else {
-                val user = userRepository.findById(userId)
-                if (user.isPresent) {
-                    val movement = repository.findByUserIdAndMovementId(userId, movementId)
-                    if (movement.isPresent) {
-                        repository.deleteById(movementId)
-                        ResponseEntity.ok()
-                            .body(
-                                CustomResponse(
-                                    "Movimento do usuário deletado com sucesso",
-                                    HttpStatus.OK.value()
-                                )
-                            )
-                    } else {
-                        ResponseEntity.status(HttpStatus.NOT_FOUND).body(
-                            CustomResponse(
-                                "Movimento não encontrado para o usuário especificado",
-                                HttpStatus.NOT_FOUND.value()
-                            )
-                        )
-                    }
-                } else {
-                    ResponseEntity.status(HttpStatus.NOT_FOUND).body(
-                        CustomResponse(
-                            "Usuário não encontrado, verifique o ID.",
-                            HttpStatus.NOT_FOUND.value()
-                        )
-                    )
-                }
-            }
-        }
     }

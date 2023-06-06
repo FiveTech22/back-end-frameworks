@@ -20,6 +20,7 @@ data class MovementModel(
     @Column(nullable = false)
     var value: Double,
 
+    @Column
     var description: String,
 
     @Column(nullable = false)
