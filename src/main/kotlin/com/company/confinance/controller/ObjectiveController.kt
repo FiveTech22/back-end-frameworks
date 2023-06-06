@@ -71,7 +71,7 @@ class ObjectiveController {
         } else {
             ResponseEntity.status(HttpStatus.NOT_FOUND).body(
                 CustomResponse(
-                    "Não foi possível atualizar o objetivo, por favor verifique o ID e tente novamnte.",
+                    "Não foi possível atualizar o objetivo, por favor verifique o ID e tente novamente.",
                     HttpStatus.NOT_FOUND.value()
                 )
             )
