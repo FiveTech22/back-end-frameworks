@@ -7,6 +7,7 @@ import com.company.confinance.repository.UserRepository
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
+import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
@@ -23,6 +24,9 @@ class UserController {
 
     @Autowired
     private lateinit var repository: UserRepository
+
+    @Autowired
+    private lateinit var passwordEncoder: PasswordEncoder
 
     @GetMapping("/{id}")
     fun getUserId(@PathVariable(value = "id") id: Long): ResponseEntity<Any> {
@@ -54,7 +58,7 @@ class UserController {
         return repository.findAll()
     }
 
-    @PostMapping
+    @PostMapping("/create")
     fun createUser(@Valid @RequestBody user: UserModel): ResponseEntity<Any> {
         val existingEmail = repository.findByEmail(user.email)
         return if (existingEmail != null) {
@@ -65,6 +69,7 @@ class UserController {
                 )
             )
         } else {
+            user.password = passwordEncoder.encode(user.password)
             ResponseEntity.status(HttpStatus.CREATED).body(repository.save(user))
         }
     }
@@ -121,8 +126,7 @@ class UserController {
         val user = repository.findByEmail(loginRequest.email)
             ?: return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
                 .body(CustomResponse("Email Inválido, verifique.", HttpStatus.UNAUTHORIZED.value()))
-
-        val passwordMatch = loginRequest.password == user.password
+        val passwordMatch = passwordEncoder.matches(loginRequest.password, user.password)
         if (!passwordMatch) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
                 .body(
