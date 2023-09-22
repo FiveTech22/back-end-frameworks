@@ -70,7 +70,13 @@ class UserController {
             )
         } else {
             user.password = passwordEncoder.encode(user.password)
-            ResponseEntity.status(HttpStatus.CREATED).body(repository.save(user))
+            val savedUser = repository.save(user)
+            ResponseEntity.status(HttpStatus.CREATED).body(
+                CustomResponse(
+                    "Usuário criado com sucesso.",
+                    HttpStatus.CREATED.value()
+                )
+            )
         }
     }
 
