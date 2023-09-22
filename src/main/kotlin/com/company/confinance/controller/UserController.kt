@@ -1,12 +1,19 @@
 package com.company.confinance.controller
 
+import com.company.confinance.config.EmailConfig
+import com.company.confinance.model.entity.PasswordRecoveryModel
 import com.company.confinance.model.LoginRequest
 import com.company.confinance.model.entity.UserModel
 import com.company.confinance.model.response.CustomResponse
+import com.company.confinance.model.response.RecoverPassword
+import com.company.confinance.model.response.ValidatePassword
+import com.company.confinance.repository.PasswordRecoveryRepository
 import com.company.confinance.repository.UserRepository
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
+import org.springframework.mail.SimpleMailMessage
+import org.springframework.mail.javamail.JavaMailSender
 import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.GetMapping
@@ -16,6 +23,7 @@ import org.springframework.web.bind.annotation.PutMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
+import java.time.LocalDateTime
 import javax.validation.Valid
 
 @RestController
@@ -27,6 +35,15 @@ class UserController {
 
     @Autowired
     private lateinit var passwordEncoder: PasswordEncoder
+
+    @Autowired
+    private lateinit var emailSender: JavaMailSender
+
+    @Autowired
+    private lateinit var emailConfig: EmailConfig
+
+    @Autowired
+    private lateinit var passwordrecoveryrepository: PasswordRecoveryRepository
 
     @GetMapping("/{id}")
     fun getUserId(@PathVariable(value = "id") id: Long): ResponseEntity<Any> {
@@ -145,4 +162,95 @@ class UserController {
         val response = CustomResponse("Login Feito com Sucesso!", HttpStatus.OK.value(), user.id)
         return ResponseEntity.ok(response)
     }
+
+    @PostMapping("/recover-password")
+    fun recoverPassword(@RequestBody recoverPassword: RecoverPassword): ResponseEntity<Any> {
+        val user = repository.findByEmail(recoverPassword.email)
+
+        if (user == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(
+                CustomResponse(
+                    "E-mail não encontrado no sistema.",
+                    HttpStatus.NOT_FOUND.value()
+                )
+            )
+        } else {
+            val code = emailConfig.generateRandomCode(6)
+            val expirationTime = LocalDateTime.now()
+                .plusMinutes(3)
+
+            val recoveryCode = PasswordRecoveryModel(
+                email = recoverPassword.email,
+                code = code,
+                expirationTime = expirationTime
+            )
+            passwordrecoveryrepository.save(recoveryCode)
+
+            val message = SimpleMailMessage()
+            message.setTo(recoverPassword.email)
+            message.subject = "Código de Recuperação de Senha"
+            message.text = "Seu código de recuperação de senha é: $code"
+            emailSender.send(message)
+
+            return ResponseEntity.ok(
+                CustomResponse(
+                    "Código de recuperação de senha enviado com sucesso!",
+                    HttpStatus.OK.value()
+                )
+            )
+        }
+    }
+
+    @PostMapping("/validate-password")
+    fun validatePassword(@RequestBody validatePassword: ValidatePassword): ResponseEntity<Any> {
+        val user = repository.findByEmail(validatePassword.email)
+
+        if (user == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(
+                CustomResponse(
+                    "E-mail não encontrado no sistema.",
+                    HttpStatus.NOT_FOUND.value()
+                )
+            )
+        } else {
+            val recoveryCode = passwordrecoveryrepository.findByEmail(validatePassword.email)
+
+            if (recoveryCode == null || recoveryCode.code != validatePassword.code) {
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(
+                    CustomResponse(
+                        "Código de recuperação de senha inválido.",
+                        HttpStatus.BAD_REQUEST.value()
+                    )
+                )
+            }
+            val now = LocalDateTime.now()
+            if (recoveryCode.expirationTime.isBefore(now)) {
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(
+                    CustomResponse(
+                        "Código de recuperação de senha expirado.",
+                        HttpStatus.BAD_REQUEST.value()
+                    )
+                )
+            } else {
+                passwordrecoveryrepository.delete(recoveryCode)
+
+                val updatedUser = UserModel(
+                    id = user.id,
+                    name = user.name,
+                    email = user.email,
+                    password = validatePassword.newPassword
+                )
+                repository.save(updatedUser)
+                return ResponseEntity.ok(
+                    CustomResponse(
+                        "Senha alterada com Sucesso!",
+                        HttpStatus.OK.value()
+                    )
+
+                )
+
+            }
+        }
+    }
 }
+
