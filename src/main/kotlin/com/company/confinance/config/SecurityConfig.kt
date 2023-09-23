@@ -22,12 +22,12 @@ class SecurityConfig(private val userDetailsService: UserDetailsService) : WebSe
 
     override fun configure(http: HttpSecurity) {
         http
+            .httpBasic()
+            .and()
             .csrf().disable()
             .authorizeRequests()
             .antMatchers("/user/create", "/user/login", "/user/recover-password/{email}", "/user/validate-password").permitAll()
             .anyRequest().authenticated()
-            .and()
-            .httpBasic()
             .and()
             .formLogin().disable()
     }

@@ -110,7 +110,7 @@ class UserController {
             val user = existingUser.get()
             user.name = updatedUser.name
             user.email = updatedUser.email
-            user.password = updatedUser.password
+            user.password = passwordEncoder.encode(updatedUser.password)
             ResponseEntity.ok(repository.save(user))
         } else {
             ResponseEntity.status(HttpStatus.NOT_FOUND).body(
@@ -148,22 +148,21 @@ class UserController {
 
     @PostMapping("/login")
     fun login(@RequestBody loginRequest: LoginRequest): ResponseEntity<Any> {
-        val user = repository.findByEmail(loginRequest.email)
-            ?: return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
-                .body(CustomResponse("Email Inválido, verifique.", HttpStatus.UNAUTHORIZED.value()))
-        val passwordMatch = passwordEncoder.matches(loginRequest.password, user.password)
-        if (!passwordMatch) {
+        val user = repository.findByEmailAndPassword(loginRequest.email, loginRequest.password)
+        if (user != null) {
+            val response = CustomResponse("Login Feito com Sucesso!", HttpStatus.OK.value(), user.id)
+            return ResponseEntity.ok(response)
+        } else {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
                 .body(
                     CustomResponse(
-                        "Senha Inválida, verifique.",
+                        "Credenciais Inválidas, verifique seu e-mail e senha.",
                         HttpStatus.UNAUTHORIZED.value()
                     )
                 )
         }
-        val response = CustomResponse("Login Feito com Sucesso!", HttpStatus.OK.value(), user.id)
-        return ResponseEntity.ok(response)
     }
+
 
     @PostMapping("recover-password/{email}")
     fun recoverPassword(@PathVariable email: String): ResponseEntity<Any> {
