@@ -22,8 +22,10 @@ import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.PutMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
+import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
 import java.time.LocalDateTime
+import javax.annotation.security.PermitAll
 import javax.validation.Valid
 
 @RestController
@@ -163,9 +165,9 @@ class UserController {
         return ResponseEntity.ok(response)
     }
 
-    @PostMapping("/recover-password")
-    fun recoverPassword(@RequestBody recoverPassword: RecoverPassword): ResponseEntity<Any> {
-        val user = repository.findByEmail(recoverPassword.email)
+    @PostMapping("recover-password/{email}")
+    fun recoverPassword(@PathVariable email: String): ResponseEntity<Any> {
+        val user = repository.findByEmail(email)
 
         if (user == null) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(
@@ -180,14 +182,14 @@ class UserController {
                 .plusMinutes(3)
 
             val recoveryCode = PasswordRecoveryModel(
-                email = recoverPassword.email,
+                email = email,
                 code = code,
                 expirationTime = expirationTime
             )
             passwordrecoveryrepository.save(recoveryCode)
 
             val message = SimpleMailMessage()
-            message.setTo(recoverPassword.email)
+            message.setTo(email)
             message.subject = "Código de Recuperação de Senha"
             message.text = "Seu código de recuperação de senha é: $code"
             emailSender.send(message)

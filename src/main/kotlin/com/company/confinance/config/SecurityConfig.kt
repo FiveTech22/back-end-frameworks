@@ -24,7 +24,7 @@ class SecurityConfig(private val userDetailsService: UserDetailsService) : WebSe
         http
             .csrf().disable()
             .authorizeRequests()
-            .antMatchers("/user/create", "/user/login", "/user/recover-password", "/user/validate-password").permitAll()
+            .antMatchers("/user/create", "/user/login", "/user/recover-password/{email}", "/user/validate-password").permitAll()
             .anyRequest().authenticated()
             .and()
             .httpBasic()
