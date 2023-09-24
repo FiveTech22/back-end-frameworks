@@ -5,7 +5,6 @@ import com.company.confinance.model.entity.PasswordRecoveryModel
 import com.company.confinance.model.LoginRequest
 import com.company.confinance.model.entity.UserModel
 import com.company.confinance.model.response.CustomResponse
-import com.company.confinance.model.response.RecoverPassword
 import com.company.confinance.model.response.ValidatePassword
 import com.company.confinance.repository.PasswordRecoveryRepository
 import com.company.confinance.repository.UserRepository
@@ -14,6 +13,8 @@ import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.mail.SimpleMailMessage
 import org.springframework.mail.javamail.JavaMailSender
+import org.springframework.security.core.annotation.AuthenticationPrincipal
+import org.springframework.security.core.userdetails.UserDetails
 import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.GetMapping
@@ -22,10 +23,8 @@ import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.PutMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
 import java.time.LocalDateTime
-import javax.annotation.security.PermitAll
 import javax.validation.Valid
 
 @RestController
@@ -48,14 +47,28 @@ class UserController {
     private lateinit var passwordrecoveryrepository: PasswordRecoveryRepository
 
     @GetMapping("/{id}")
-    fun getUserId(@PathVariable(value = "id") id: Long): ResponseEntity<Any> {
+    fun getUserId(
+        @PathVariable(value = "id") id: Long,
+        @AuthenticationPrincipal userDetails: UserDetails?
+    ): ResponseEntity<Any> {
+        // Verifique se o usuário está autenticado
+        if (userDetails == null) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                .body(
+                    CustomResponse(
+                        "Acesso não autorizado. Faça login para acessar este recurso.",
+                        HttpStatus.UNAUTHORIZED.value()
+                    )
+                )
+        }
+
         val user = repository.findById(id)
 
         return if (id <= 0) {
             ResponseEntity.status(HttpStatus.BAD_REQUEST)
                 .body(
                     CustomResponse(
-                        "Erro id informado invalido, Por favor passe o Id correto.",
+                        "Erro id informado inválido. Por favor, passe o Id correto.",
                         HttpStatus.BAD_REQUEST.value()
                     )
                 )
@@ -148,11 +161,14 @@ class UserController {
 
     @PostMapping("/login")
     fun login(@RequestBody loginRequest: LoginRequest): ResponseEntity<Any> {
-        val user = repository.findByEmailAndPassword(loginRequest.email, loginRequest.password)
-        if (user != null) {
-            val response = CustomResponse("Login Feito com Sucesso!", HttpStatus.OK.value(), user.id)
+        val user = repository.findByEmail(loginRequest.email)
+
+        if (user != null && passwordEncoder.matches(loginRequest.password, user.password)) {
+            val response =
+                CustomResponse("Login Feito com Sucesso!", HttpStatus.OK.value(), user.id)
             return ResponseEntity.ok(response)
         } else {
+
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
                 .body(
                     CustomResponse(
@@ -176,9 +192,21 @@ class UserController {
                 )
             )
         } else {
-            val code = emailConfig.generateRandomCode(6)
-            val expirationTime = LocalDateTime.now()
-                .plusMinutes(3)
+            val now = LocalDateTime.now()
+            val existingCode =
+                passwordrecoveryrepository.findByEmailAndExpirationTimeAfter(email, now)
+
+            if (existingCode != null) {
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(
+                    CustomResponse(
+                        "Espere passar os 3 minutos antes de enviar novamente!",
+                        HttpStatus.BAD_REQUEST.value()
+                    )
+                )
+            }
+
+            val code = emailConfig.generateRandomCode(4)
+            val expirationTime = now.plusMinutes(1)
 
             val recoveryCode = PasswordRecoveryModel(
                 email = email,
@@ -201,6 +229,7 @@ class UserController {
             )
         }
     }
+
 
     @PostMapping("/validate-password")
     fun validatePassword(@RequestBody validatePassword: ValidatePassword): ResponseEntity<Any> {
@@ -226,6 +255,7 @@ class UserController {
             }
             val now = LocalDateTime.now()
             if (recoveryCode.expirationTime.isBefore(now)) {
+                passwordrecoveryrepository.delete(recoveryCode)
                 return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(
                     CustomResponse(
                         "Código de recuperação de senha expirado.",
@@ -234,12 +264,14 @@ class UserController {
                 )
             } else {
                 passwordrecoveryrepository.delete(recoveryCode)
+                val hashedNewPassword = passwordEncoder.encode(validatePassword.newPassword)
+
 
                 val updatedUser = UserModel(
                     id = user.id,
                     name = user.name,
                     email = user.email,
-                    password = validatePassword.newPassword
+                    password = hashedNewPassword
                 )
                 repository.save(updatedUser)
                 return ResponseEntity.ok(
