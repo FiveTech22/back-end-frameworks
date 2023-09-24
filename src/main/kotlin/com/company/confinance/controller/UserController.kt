@@ -47,28 +47,14 @@ class UserController {
     private lateinit var passwordrecoveryrepository: PasswordRecoveryRepository
 
     @GetMapping("/{id}")
-    fun getUserId(
-        @PathVariable(value = "id") id: Long,
-        @AuthenticationPrincipal userDetails: UserDetails?
-    ): ResponseEntity<Any> {
-        // Verifique se o usuário está autenticado
-        if (userDetails == null) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
-                .body(
-                    CustomResponse(
-                        "Acesso não autorizado. Faça login para acessar este recurso.",
-                        HttpStatus.UNAUTHORIZED.value()
-                    )
-                )
-        }
-
+    fun getUserId(@PathVariable(value = "id") id: Long): ResponseEntity<Any> {
         val user = repository.findById(id)
 
         return if (id <= 0) {
             ResponseEntity.status(HttpStatus.BAD_REQUEST)
                 .body(
                     CustomResponse(
-                        "Erro id informado inválido. Por favor, passe o Id correto.",
+                        "Erro id informado invalido, Por favor passe o Id correto.",
                         HttpStatus.BAD_REQUEST.value()
                     )
                 )
