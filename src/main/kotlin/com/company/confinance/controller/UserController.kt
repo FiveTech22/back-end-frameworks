@@ -195,7 +195,7 @@ class UserController {
             }
 
             val code = emailConfig.generateRandomCode(4)
-            val expirationTime = now.plusMinutes(1)
+            val expirationTime = now.plusMinutes(3)
 
             val recoveryCode = PasswordRecoveryModel(
                 email = email,
@@ -243,9 +243,9 @@ class UserController {
                 )
             )
         } else {
+            validationService.setValidationResult(validatePassword.email, true)
             passwordrecoveryrepository.delete(recoveryCode)
 
-            validationService.setValidationResult(validatePassword.email, true)
 
             return ResponseEntity.ok(
                 CustomResponse(
