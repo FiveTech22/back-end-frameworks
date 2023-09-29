@@ -196,7 +196,7 @@ class UserController {
             }
 
             val code = emailConfig.generateRandomCode(4)
-            val expirationTime = now.plusMinutes(1)
+            val expirationTime = now.plusMinutes(3)
 
             val recoveryCode = PasswordRecoveryModel(
                 email = email,
@@ -206,6 +206,7 @@ class UserController {
             passwordrecoveryrepository.save(recoveryCode)
 
             val message = SimpleMailMessage()
+            message.from= emailConfig.getFromAddress()
             message.setTo(email)
             message.subject = "Código de Recuperação de Senha"
             message.text = "Seu código de recuperação de senha é: $code"

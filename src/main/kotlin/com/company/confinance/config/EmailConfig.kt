@@ -1,5 +1,6 @@
 package com.company.confinance.config
 
+import org.springframework.beans.factory.annotation.Value
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.mail.javamail.JavaMailSender
@@ -8,16 +9,16 @@ import org.springframework.mail.javamail.JavaMailSenderImpl
 @Configuration
 class EmailConfig {
 
-    @org.springframework.beans.factory.annotation.Value("\${spring.mail.host}")
+    @Value("\${spring.mail.host}")
     private val host: String = ""
 
-    @org.springframework.beans.factory.annotation.Value("\${spring.mail.port}")
+    @Value("\${spring.mail.port}")
     private val port: Int = 0
 
-    @org.springframework.beans.factory.annotation.Value("\${spring.mail.username}")
+    @Value("\${spring.mail.username}")
     private val username: String = ""
 
-    @org.springframework.beans.factory.annotation.Value("\${spring.mail.password}")
+    @Value("\${spring.mail.password}")
     private val password: String = ""
 
     @Bean
@@ -44,5 +45,8 @@ class EmailConfig {
         }
 
         return code.toString()
+    }
+    fun getFromAddress(): String {
+        return username
     }
 }
