@@ -7,6 +7,9 @@ import java.time.LocalDateTime
 interface PasswordRecoveryRepository: JpaRepository<PasswordRecoveryModel, Long> {
         fun findByEmail(email: String): PasswordRecoveryModel?
 
+        fun deleteByExpirationTimeBefore(expirationTime: LocalDateTime)
+
+
         fun findByEmailAndExpirationTimeAfter(email: String, expirationTime: LocalDateTime): PasswordRecoveryModel?
 
 }

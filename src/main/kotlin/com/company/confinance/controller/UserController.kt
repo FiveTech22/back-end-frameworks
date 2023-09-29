@@ -16,6 +16,7 @@ import org.springframework.http.ResponseEntity
 import org.springframework.mail.SimpleMailMessage
 import org.springframework.mail.javamail.JavaMailSender
 import org.springframework.security.crypto.password.PasswordEncoder
+import org.springframework.transaction.annotation.Transactional
 import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
@@ -167,8 +168,7 @@ class UserController {
                 )
         }
     }
-
-
+    @Transactional
     @PostMapping("recover-password/{email}")
     fun recoverPassword(@PathVariable email: String): ResponseEntity<Any> {
         val user = repository.findByEmail(email)
@@ -182,6 +182,7 @@ class UserController {
             )
         } else {
             val now = LocalDateTime.now()
+            passwordrecoveryrepository.deleteByExpirationTimeBefore(now)
             val existingCode =
                 passwordrecoveryrepository.findByEmailAndExpirationTimeAfter(email, now)
 
@@ -195,7 +196,7 @@ class UserController {
             }
 
             val code = emailConfig.generateRandomCode(4)
-            val expirationTime = now.plusMinutes(3)
+            val expirationTime = now.plusMinutes(1)
 
             val recoveryCode = PasswordRecoveryModel(
                 email = email,
