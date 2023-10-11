@@ -197,7 +197,7 @@ class MovementController {
         }
     }
 
-    @GetMapping("/user/{userId}/month/{month}/year/{year}")
+    @GetMapping("/user/{userId}/month/{month}")
     fun getMovementsByUserIdAndMonth(
         @PathVariable("userId") id: Long,
         @PathVariable("month") month: Int
