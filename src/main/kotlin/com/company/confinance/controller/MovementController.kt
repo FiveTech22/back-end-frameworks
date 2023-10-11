@@ -154,46 +154,95 @@ class MovementController {
     }
 
 
-      @PutMapping("/{id}")
-        fun updateMovementById(
-            @PathVariable("id") id: Long,
-            @RequestBody movement: MovementModel
-        ): ResponseEntity<Any> {
-            val existingMovement = repository.findById(id)
-            return if (existingMovement.isPresent) {
-                val savedMovement = repository.save(movement.copy(id = id))
-                ResponseEntity.ok(savedMovement)
-            } else {
-                ResponseEntity.status(HttpStatus.NOT_FOUND).body(
-                    CustomResponse(
-                        "Movimento não encontrado, verifique o id.",
-                        HttpStatus.NOT_FOUND.value()
-                    )
+    @PutMapping("/{id}")
+    fun updateMovementById(
+        @PathVariable("id") id: Long,
+        @RequestBody movement: MovementModel
+    ): ResponseEntity<Any> {
+        val existingMovement = repository.findById(id)
+        return if (existingMovement.isPresent) {
+            val savedMovement = repository.save(movement.copy(id = id))
+            ResponseEntity.ok(savedMovement)
+        } else {
+            ResponseEntity.status(HttpStatus.NOT_FOUND).body(
+                CustomResponse(
+                    "Movimento não encontrado, verifique o id.",
+                    HttpStatus.NOT_FOUND.value()
                 )
-            }
+            )
         }
+    }
 
-      @DeleteMapping("/{id}")
-        fun deleteMovement(@PathVariable(value = "id") id: Long): ResponseEntity<Any> {
-            val existingMovement = repository.findById(id)
-            return if (id <= 0) {
-                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(
-                    CustomResponse(
-                        "ID de movimento inválido",
-                        HttpStatus.BAD_REQUEST.value()
-                    )
+    @DeleteMapping("/{id}")
+    fun deleteMovement(@PathVariable(value = "id") id: Long): ResponseEntity<Any> {
+        val existingMovement = repository.findById(id)
+        return if (id <= 0) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(
+                CustomResponse(
+                    "ID de movimento inválido",
+                    HttpStatus.BAD_REQUEST.value()
                 )
-            } else if (existingMovement.isPresent) {
-                repository.deleteById(id)
-                ResponseEntity.ok()
-                    .body(CustomResponse("Movimento Deletado com sucesso", HttpStatus.OK.value()))
+            )
+        } else if (existingMovement.isPresent) {
+            repository.deleteById(id)
+            ResponseEntity.ok()
+                .body(CustomResponse("Movimento Deletado com sucesso", HttpStatus.OK.value()))
+        } else {
+            ResponseEntity.status(HttpStatus.NOT_FOUND).body(
+                CustomResponse(
+                    "Movimento não encontrado, verifique o id.",
+                    HttpStatus.NOT_FOUND.value()
+                )
+            )
+        }
+    }
+
+    @GetMapping("/user/{userId}/month/{month}/year/{year}")
+    fun getMovementsByUserIdAndMonth(
+        @PathVariable("userId") id: Long,
+        @PathVariable("month") month: Int
+    ): ResponseEntity<Any> {
+        return if (id <= 0 || month < 1 || month > 12) {
+            ResponseEntity.status(HttpStatus.BAD_REQUEST).body(
+                CustomResponse(
+                    "Parâmetros inválidos, por favor, forneça um ID de usuário válido e um número de mês entre 1 e 12.",
+                    HttpStatus.BAD_REQUEST.value()
+                )
+            )
+        } else {
+            val user = userRepository.findById(id)
+            if (user.isPresent) {
+                val movements = repository.findByUserIdAndMonth(id, month)
+                var totalRevenues = 0.0
+                var totalExpenses = 0.0
+
+                for (movement in movements) {
+                    if (movement.type_movement == "receita") {
+                        totalRevenues += movement.value
+                    } else if (movement.type_movement == "despesa") {
+                        totalExpenses += movement.value
+                    }
+                }
+
+                val total = totalRevenues - totalExpenses
+
+                val totals = mapOf(
+                    "userId" to id,
+                    "totalRevenues" to totalRevenues,
+                    "totalExpenses" to totalExpenses,
+                    "total" to total
+                )
+
+                ResponseEntity.ok(totals)
             } else {
-                ResponseEntity.status(HttpStatus.NOT_FOUND).body(
-                    CustomResponse(
-                        "Movimento não encontrado, verifique o id.",
-                        HttpStatus.NOT_FOUND.value()
+                ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body(
+                        CustomResponse(
+                            "Nenhum movimento encontrado para o usuário especificado",
+                            HttpStatus.NOT_FOUND.value()
+                        )
                     )
-                )
             }
         }
     }
+}

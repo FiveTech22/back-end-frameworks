@@ -15,7 +15,9 @@ import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.mail.SimpleMailMessage
 import org.springframework.mail.javamail.JavaMailSender
+import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.security.crypto.password.PasswordEncoder
+import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler
 import org.springframework.transaction.annotation.Transactional
 import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.GetMapping
@@ -26,6 +28,8 @@ import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
 import java.time.LocalDateTime
+import javax.servlet.http.HttpServletRequest
+import javax.servlet.http.HttpServletResponse
 import javax.validation.Valid
 
 @RestController
@@ -168,6 +172,7 @@ class UserController {
                 )
         }
     }
+
     @Transactional
     @PostMapping("recover-password/{email}")
     fun recoverPassword(@PathVariable email: String): ResponseEntity<Any> {
@@ -206,7 +211,7 @@ class UserController {
             passwordrecoveryrepository.save(recoveryCode)
 
             val message = SimpleMailMessage()
-            message.from= emailConfig.getFromAddress()
+            message.from = emailConfig.getFromAddress()
             message.setTo(email)
             message.subject = "Código de Recuperação de Senha"
             message.text = "Seu código de recuperação de senha é: $code"
@@ -300,4 +305,28 @@ class UserController {
             )
         }
     }
+
+    @PostMapping("/logout")
+    fun logout(request: HttpServletRequest, response: HttpServletResponse): ResponseEntity<Any> {
+        val authentication = SecurityContextHolder.getContext().authentication
+
+        if (authentication != null) {
+            val logoutHandler = SecurityContextLogoutHandler()
+            logoutHandler.logout(request, response, authentication)
+            return ResponseEntity.ok(
+                CustomResponse(
+                    "Logout realizado com sucesso!",
+                    HttpStatus.OK.value()
+                )
+            )
+        } else {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(
+                CustomResponse(
+                    "Não foi possivel realizar o logout!",
+                    HttpStatus.UNAUTHORIZED.value()
+                )
+            )
+        }
+    }
+
 }
