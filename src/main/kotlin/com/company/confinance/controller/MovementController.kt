@@ -197,10 +197,11 @@ class MovementController {
         }
     }
 
-    @GetMapping("/user/{userId}/month/{month}")
-    fun getMovementsByUserIdAndMonth(
+    @GetMapping("/user/{userId}/month/{month}/year/{year}")
+    fun getMovementsByUserIdAndMonthandYear(
         @PathVariable("userId") id: Long,
-        @PathVariable("month") month: Int
+        @PathVariable("month") month: Int,
+        @PathVariable("year") year: Int
     ): ResponseEntity<Any> {
         return if (id <= 0 || month < 1 || month > 12) {
             ResponseEntity.status(HttpStatus.BAD_REQUEST).body(
@@ -212,7 +213,7 @@ class MovementController {
         } else {
             val user = userRepository.findById(id)
             if (user.isPresent) {
-                val movements = repository.findByUserIdAndMonth(id, month)
+                val movements = repository.findByUserIdAndMonthandYear(id, month, year)
                 var totalRevenues = 0.0
                 var totalExpenses = 0.0
 
