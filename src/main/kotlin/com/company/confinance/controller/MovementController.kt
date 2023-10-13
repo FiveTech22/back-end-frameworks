@@ -214,10 +214,8 @@ class MovementController {
         } else {
             val user = userRepository.findById(id)
             if (user.isPresent) {
-                // Use YearMonth to represent the current year
                 val currentYearMonth = YearMonth.now()
 
-                // Check if the provided year and month are valid and not in the future
                 if (year < currentYearMonth.year || (year == currentYearMonth.year && month > currentYearMonth.monthValue)) {
                     ResponseEntity.status(HttpStatus.BAD_REQUEST).body(
                         CustomResponse(
