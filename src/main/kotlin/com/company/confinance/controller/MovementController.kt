@@ -9,7 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
-import java.time.YearMonth
 import java.util.*
 
 @RestController
@@ -214,41 +213,28 @@ class MovementController {
         } else {
             val user = userRepository.findById(id)
             if (user.isPresent) {
-                // Use YearMonth to represent the current year
-                val currentYearMonth = YearMonth.now()
+                val movements = repository.findByUserIdAndMonthandYear(id, month, year)
+                var totalRevenues = 0.0
+                var totalExpenses = 0.0
 
-                // Check if the provided year and month are valid and not in the future
-                if (year < currentYearMonth.year || (year == currentYearMonth.year && month > currentYearMonth.monthValue)) {
-                    ResponseEntity.status(HttpStatus.BAD_REQUEST).body(
-                        CustomResponse(
-                            "Parâmetros inválidos, por favor, forneça um ano e mês válidos até o presente.",
-                            HttpStatus.BAD_REQUEST.value()
-                        )
-                    )
-                } else {
-                    val movements = repository.findByUserIdAndMonthandYear(id, month, year)
-                    var totalRevenues = 0.0
-                    var totalExpenses = 0.0
-
-                    for (movement in movements) {
-                        if (movement.type_movement == "receita") {
-                            totalRevenues += movement.value
-                        } else if (movement.type_movement == "despesa") {
-                            totalExpenses += movement.value
-                        }
+                for (movement in movements) {
+                    if (movement.type_movement == "receita") {
+                        totalRevenues += movement.value
+                    } else if (movement.type_movement == "despesa") {
+                        totalExpenses += movement.value
                     }
-
-                    val total = totalRevenues - totalExpenses
-
-                    val totals = mapOf(
-                        "userId" to id,
-                        "totalRevenues" to totalRevenues,
-                        "totalExpenses" to totalExpenses,
-                        "total" to total
-                    )
-
-                    ResponseEntity.ok(totals)
                 }
+
+                val total = totalRevenues - totalExpenses
+
+                val totals = mapOf(
+                    "userId" to id,
+                    "totalRevenues" to totalRevenues,
+                    "totalExpenses" to totalExpenses,
+                    "total" to total
+                )
+
+                ResponseEntity.ok(totals)
             } else {
                 ResponseEntity.status(HttpStatus.NOT_FOUND)
                     .body(
