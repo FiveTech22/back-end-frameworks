@@ -1,6 +1,7 @@
 package com.company.confinance.controller
 
 import com.company.confinance.config.EmailConfig
+import com.company.confinance.config.TokenService
 import com.company.confinance.model.entity.PasswordRecoveryModel
 import com.company.confinance.model.LoginRequest
 import com.company.confinance.model.entity.UserModel
@@ -15,6 +16,8 @@ import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.mail.SimpleMailMessage
 import org.springframework.mail.javamail.JavaMailSender
+import org.springframework.security.authentication.AuthenticationManager
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder
 import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler
@@ -35,6 +38,12 @@ import javax.validation.Valid
 @RestController
 @RequestMapping("/user")
 class UserController {
+
+    @Autowired
+    private lateinit var authenticationManager: AuthenticationManagerBuilder
+
+    @Autowired
+    private lateinit var tokenService: TokenService
 
     @Autowired
     private lateinit var repository: UserRepository
@@ -158,9 +167,14 @@ class UserController {
         val user = repository.findByEmail(loginRequest.email)
 
         if (user != null && passwordEncoder.matches(loginRequest.password, user.password)) {
-            val response =
-                CustomResponse("Login Feito com Sucesso!", HttpStatus.OK.value(), user.id)
-            return ResponseEntity.ok(response)
+            val token = tokenService.gerarToken(user)
+            return ResponseEntity.ok(
+                mapOf(
+                    "token" to token,
+                    "message" to "Login Feito com Sucesso!",
+                    "userId" to user.id
+                )
+            )
         } else {
 
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
