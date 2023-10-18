@@ -1,14 +1,10 @@
 package com.company.confinance.model.entity
 
-import javax.persistence.CollectionTable
 import javax.persistence.Column
-import javax.persistence.ElementCollection
 import javax.persistence.Entity
-import javax.persistence.FetchType
 import javax.persistence.GeneratedValue
 import javax.persistence.GenerationType
 import javax.persistence.Id
-import javax.persistence.JoinColumn
 import javax.persistence.Table
 import javax.validation.constraints.Email
 
@@ -18,7 +14,7 @@ data class UserModel(
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    val id: Long,
+    val id:Long,
 
     @Column(nullable = false)
     var name: String = "",
@@ -28,10 +24,5 @@ data class UserModel(
     var email: String = "",
 
     @Column(nullable = false)
-    var password: String = "",
-
-    @ElementCollection(fetch = FetchType.EAGER)
-    @CollectionTable(name = "user_roles", joinColumns = [JoinColumn(name = "user_id")])
-    @Column(name = "role")
-    val roles: Set<String> = emptySet()
+    var password: String = ""
 )

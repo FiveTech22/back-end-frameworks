@@ -30,10 +30,6 @@ dependencies {
 	implementation ("org.springframework.security:spring-security-crypto")
 	implementation("org.jetbrains.kotlin:kotlin-reflect")
 	implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
-
-	implementation("io.jsonwebtoken:jjwt-api:0.11.3")
-	implementation("io.jsonwebtoken:jjwt-impl:0.11.3")
-	implementation("io.jsonwebtoken:jjwt-jackson:0.11.3")
 }
 
 tasks.withType<KotlinCompile> {
