@@ -9,10 +9,11 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.core.userdetails.UserDetailsService
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 import org.springframework.security.crypto.password.PasswordEncoder
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter
 
 @Configuration
 @EnableWebSecurity
-class SecurityConfig(private val userDetailsService: UserDetailsService) : WebSecurityConfigurerAdapter() {
+class SecurityConfig(private val userDetailsService: UserDetailsService, private val filterToken: FilterToken) : WebSecurityConfigurerAdapter() {
 
 
     @Bean
@@ -26,10 +27,12 @@ class SecurityConfig(private val userDetailsService: UserDetailsService) : WebSe
             .and()
             .csrf().disable()
             .authorizeRequests()
-            .antMatchers("/user/**","/movement/**", "/objective/**").permitAll()
+            .antMatchers("/user/create","/user/login","/user/recover-password/{email}","/user/validate-password","/user/reset-password").permitAll()
             .anyRequest().authenticated()
             .and()
             .formLogin().disable()
+            .addFilterBefore(filterToken, UsernamePasswordAuthenticationFilter::class.java)
+
     }
 
     override fun configure(auth: AuthenticationManagerBuilder) {
