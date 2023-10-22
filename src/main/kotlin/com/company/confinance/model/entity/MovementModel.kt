@@ -26,6 +26,10 @@ data class MovementModel(
     @Column(nullable = false)
     var date: String,
 
+    @Column(nullable = false)
+    var Photo: Int,
+
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     @JsonIgnoreProperties(value = ["name", "email", "password"])
