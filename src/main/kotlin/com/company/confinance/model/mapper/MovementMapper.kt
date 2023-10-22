@@ -11,5 +11,7 @@ fun MovementModel.toMovementResponse(): MovementResponse =
         description = this.description,
         date = this.date,
         photo = this.Photo,
+        fixedIncome = this.fixedIncome,
+        fixedIncomeDurationMonths = this.fixedIncomeDurationMonths,
         userId = this.user.id
     )

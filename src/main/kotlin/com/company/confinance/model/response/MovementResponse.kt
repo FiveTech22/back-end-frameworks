@@ -10,5 +10,7 @@ data class MovementResponse(
     var description: String,
     var date: String,
     var photo : Int,
+    var fixedIncome : Boolean,
+    var fixedIncomeDurationMonths : Int,
     val userId: Long
 )

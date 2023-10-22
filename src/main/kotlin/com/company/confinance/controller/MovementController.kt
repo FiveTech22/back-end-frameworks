@@ -9,7 +9,9 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
+import java.time.LocalDate
 import java.time.YearMonth
+import java.time.format.DateTimeFormatter
 import java.util.*
 
 @RestController
@@ -22,11 +24,17 @@ class MovementController {
     @Autowired
     private lateinit var userRepository: UserRepository
 
+
     @PostMapping
     fun createMovement(
         @RequestBody movement: MovementModel
     ): ResponseEntity<Any> {
         return try {
+            if (movement.fixedIncome == true && movement.fixedIncomeDurationMonths > 0) {
+                createFixedIncomeMovements(movement)
+            } else {
+                repository.save(movement)
+            }
 
             ResponseEntity.status(HttpStatus.CREATED)
                 .body(repository.save(movement).toMovementResponse())
@@ -38,6 +46,22 @@ class MovementController {
                         HttpStatus.INTERNAL_SERVER_ERROR.value()
                     )
                 )
+        }
+    }
+
+    private fun createFixedIncomeMovements(movement: MovementModel) {
+        val currentYearMonth = YearMonth.now()
+        val currentMonth = currentYearMonth.monthValue
+        val currentYear = currentYearMonth.year
+
+        val dateFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy")
+        val originalDate = LocalDate.parse(movement.date, dateFormatter)
+
+        for (i in 0 until movement.fixedIncomeDurationMonths) {
+            val newDate = originalDate.plusMonths(i.toLong())
+            val newDateString = newDate.format(dateFormatter)
+            val newMovement = movement.copy(date = newDateString)
+            repository.save(newMovement)
         }
     }
 

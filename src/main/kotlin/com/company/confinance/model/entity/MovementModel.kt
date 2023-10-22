@@ -2,6 +2,7 @@ package com.company.confinance.model.entity
 
 import com.fasterxml.jackson.annotation.JsonFormat
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties
+import com.fasterxml.jackson.annotation.JsonProperty
 import java.time.LocalDate
 import javax.persistence.*
 
@@ -28,6 +29,12 @@ data class MovementModel(
 
     @Column(nullable = false)
     var Photo: Int,
+
+    @Column(nullable = false)
+    var fixedIncome: Boolean,
+
+    @Column(nullable = false)
+    var fixedIncomeDurationMonths: Int,
 
 
     @ManyToOne(fetch = FetchType.LAZY)
