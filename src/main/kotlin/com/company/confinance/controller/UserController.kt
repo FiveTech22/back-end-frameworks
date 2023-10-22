@@ -167,10 +167,8 @@ class UserController {
         val user = repository.findByEmail(loginRequest.email)
 
         if (user != null && passwordEncoder.matches(loginRequest.password, user.password)) {
-            val token = tokenService.gerarToken(user)
             return ResponseEntity.ok(
                 mapOf(
-                    "token" to token,
                     "message" to "Login Feito com Sucesso!",
                     "userId" to user.id
                 )
