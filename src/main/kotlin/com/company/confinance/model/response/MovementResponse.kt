@@ -11,5 +11,7 @@ data class MovementResponse(
     var date: String,
     var photo : Int,
     var fixedIncome : Boolean,
+    var recurrenceFrequency: String?,
+    var  recurrenceIntervals : Int ?,
     val userId: Long
 )

@@ -33,6 +33,12 @@ data class MovementModel(
     @Column(nullable = false)
     var fixedIncome: Boolean,
 
+    @Column
+    var recurrenceFrequency: String?, /*"daily", "weekly", "monthly", "annually"*/
+
+    @Column
+    var recurrenceIntervals: Int?,
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     @JsonIgnoreProperties(value = ["name", "email", "password"])

@@ -31,38 +31,27 @@ class MovementController {
     ): ResponseEntity<Any> {
         return try {
             if (movement.fixedIncome == true) {
-                createFixedIncomeMovements(movement) // No need to set fixedIncomeDurationMonths
+                // Handle fixed income movements as before
+                createFixedIncomeMovements(movement)
+            } else if (movement.recurrenceFrequency != null) {
+                createRecurringMovements(movement)
             } else {
+                // Handle one-time, non-recurring movements
                 repository.save(movement)
             }
 
             ResponseEntity.status(HttpStatus.CREATED)
                 .body(repository.save(movement).toMovementResponse())
         } catch (ex: Exception) {
-            ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(
-                CustomResponse(
-                    "Erro ao criar movimento", HttpStatus.INTERNAL_SERVER_ERROR.value()
+            ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                .body(
+                    CustomResponse(
+                        "Erro ao criar movimento",
+                        HttpStatus.INTERNAL_SERVER_ERROR.value()
+                    )
                 )
-            )
         }
     }
-
-    private fun createFixedIncomeMovements(movement: MovementModel) {
-        val currentYearMonth = YearMonth.now()
-        val currentMonth = currentYearMonth.monthValue
-        val currentYear = currentYearMonth.year
-
-        val dateFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy")
-        val originalDate = LocalDate.parse(movement.date, dateFormatter)
-
-        for (i in 1 until 12) { // Fixed at 12 months for fixed income
-            val newDate = originalDate.plusMonths(i.toLong())
-            val newDateString = newDate.format(dateFormatter)
-            val newMovement = movement.copy(date = newDateString)
-            repository.save(newMovement)
-        }
-    }
-
 
     @GetMapping("/{id}")
     fun getMovementById(@PathVariable("id") id: Long): ResponseEntity<*> {
@@ -261,4 +250,76 @@ class MovementController {
             }
         }
     }
+
+    private fun createFixedIncomeMovements(movement: MovementModel) {
+        val currentYearMonth = YearMonth.now()
+        val currentMonth = currentYearMonth.monthValue
+        val currentYear = currentYearMonth.year
+
+        val dateFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy")
+        val originalDate = LocalDate.parse(movement.date, dateFormatter)
+
+        for (i in 1 until 12) {
+            val newDate = originalDate.plusMonths(i.toLong())
+            val newDateString = newDate.format(dateFormatter)
+            val newMovement = movement.copy(date = newDateString)
+            repository.save(newMovement)
+        }
+    }
+
+    private fun createRecurringMovements(movement: MovementModel) {
+        val recurrenceFrequency = movement.recurrenceFrequency
+        val recurrenceIntervals = movement.recurrenceIntervals
+
+        val dateFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy")
+        val originalDate = LocalDate.parse(movement.date, dateFormatter)
+
+        val newMovements = mutableListOf<MovementModel>()
+
+        when (recurrenceFrequency) {
+            "daily" -> {
+                for (i in 1 until recurrenceIntervals!!) {
+                    val newDate = originalDate.plusDays(i.toLong())
+                    val newDateString = newDate.format(dateFormatter)
+                    val newMovement = movement.copy(date = newDateString)
+                    newMovements.add(newMovement)
+                }
+            }
+
+            "weekly" -> {
+                for (i in 1 until recurrenceIntervals!!) {
+                    val newDate = originalDate.plusWeeks(i.toLong())
+                    val newDateString = newDate.format(dateFormatter)
+                    val newMovement = movement.copy(date = newDateString)
+                    newMovements.add(newMovement)
+                }
+            }
+
+            "monthly" -> {
+                for (i in 1 until recurrenceIntervals!!) {
+                    val newDate = originalDate.plusMonths(i.toLong())
+                    val newDateString = newDate.format(dateFormatter)
+                    val newMovement = movement.copy(date = newDateString)
+                    newMovements.add(newMovement)
+                }
+            }
+
+            "annually" -> {
+                val currentYear = originalDate.year
+                for (i in 1 until recurrenceIntervals!!) {
+                    val newYear = currentYear + i
+                    val newDate = originalDate.withYear(newYear)
+                    val newDateString = newDate.format(dateFormatter)
+                    val newMovement = movement.copy(date = newDateString)
+                    newMovements.add(newMovement)
+                }
+            }
+
+            else -> {
+                throw IllegalArgumentException("Unsupported recurrence frequency: $recurrenceFrequency")
+            }
+        }
+        repository.saveAll(newMovements)
+    }
+
 }
