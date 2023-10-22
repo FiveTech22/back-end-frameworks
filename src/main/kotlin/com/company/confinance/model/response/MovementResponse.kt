@@ -9,5 +9,6 @@ data class MovementResponse(
     var value: Double,
     var description: String,
     var date: String,
+    var photo : Int,
     val userId: Long
 )

@@ -10,5 +10,6 @@ fun MovementModel.toMovementResponse(): MovementResponse =
         value = this.value,
         description = this.description,
         date = this.date,
+        photo = this.Photo,
         userId = this.user.id
     )
