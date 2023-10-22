@@ -30,8 +30,8 @@ class MovementController {
         @RequestBody movement: MovementModel
     ): ResponseEntity<Any> {
         return try {
-            if (movement.fixedIncome == true && movement.fixedIncomeDurationMonths > 0) {
-                createFixedIncomeMovements(movement)
+            if (movement.fixedIncome == true) {
+                createFixedIncomeMovements(movement) // No need to set fixedIncomeDurationMonths
             } else {
                 repository.save(movement)
             }
@@ -39,13 +39,11 @@ class MovementController {
             ResponseEntity.status(HttpStatus.CREATED)
                 .body(repository.save(movement).toMovementResponse())
         } catch (ex: Exception) {
-            ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                .body(
-                    CustomResponse(
-                        "Erro ao criar movimento",
-                        HttpStatus.INTERNAL_SERVER_ERROR.value()
-                    )
+            ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(
+                CustomResponse(
+                    "Erro ao criar movimento", HttpStatus.INTERNAL_SERVER_ERROR.value()
                 )
+            )
         }
     }
 
@@ -57,7 +55,7 @@ class MovementController {
         val dateFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy")
         val originalDate = LocalDate.parse(movement.date, dateFormatter)
 
-        for (i in 0 until movement.fixedIncomeDurationMonths) {
+        for (i in 1 until 12) { // Fixed at 12 months for fixed income
             val newDate = originalDate.plusMonths(i.toLong())
             val newDateString = newDate.format(dateFormatter)
             val newMovement = movement.copy(date = newDateString)
@@ -82,8 +80,7 @@ class MovementController {
             } else {
                 ResponseEntity.status(HttpStatus.NOT_FOUND).body(
                     CustomResponse(
-                        "Movimento não encontrado, verifique o id.",
-                        HttpStatus.NOT_FOUND.value()
+                        "Movimento não encontrado, verifique o id.", HttpStatus.NOT_FOUND.value()
                     )
                 )
             }
@@ -118,13 +115,12 @@ class MovementController {
                 val movements = repository.findByUserId(id)
                 ResponseEntity.ok(movements)
             } else {
-                ResponseEntity.status(HttpStatus.NOT_FOUND)
-                    .body(
-                        CustomResponse(
-                            "Nenhum movimento encontrado para o usuário especificado",
-                            HttpStatus.NOT_FOUND.value()
-                        )
+                ResponseEntity.status(HttpStatus.NOT_FOUND).body(
+                    CustomResponse(
+                        "Nenhum movimento encontrado para o usuário especificado",
+                        HttpStatus.NOT_FOUND.value()
                     )
+                )
             }
         }
     }
@@ -166,13 +162,12 @@ class MovementController {
 
                 return ResponseEntity.ok(totals)
             } else {
-                ResponseEntity.status(HttpStatus.NOT_FOUND)
-                    .body(
-                        CustomResponse(
-                            "Nenhum movimento encontrado para o usuário especificado",
-                            HttpStatus.NOT_FOUND.value()
-                        )
+                ResponseEntity.status(HttpStatus.NOT_FOUND).body(
+                    CustomResponse(
+                        "Nenhum movimento encontrado para o usuário especificado",
+                        HttpStatus.NOT_FOUND.value()
                     )
+                )
             }
 
         }
@@ -181,8 +176,7 @@ class MovementController {
 
     @PutMapping("/{id}")
     fun updateMovementById(
-        @PathVariable("id") id: Long,
-        @RequestBody movement: MovementModel
+        @PathVariable("id") id: Long, @RequestBody movement: MovementModel
     ): ResponseEntity<Any> {
         val existingMovement = repository.findById(id)
         return if (existingMovement.isPresent) {
@@ -191,8 +185,7 @@ class MovementController {
         } else {
             ResponseEntity.status(HttpStatus.NOT_FOUND).body(
                 CustomResponse(
-                    "Movimento não encontrado, verifique o id.",
-                    HttpStatus.NOT_FOUND.value()
+                    "Movimento não encontrado, verifique o id.", HttpStatus.NOT_FOUND.value()
                 )
             )
         }
@@ -204,8 +197,7 @@ class MovementController {
         return if (id <= 0) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(
                 CustomResponse(
-                    "ID de movimento inválido",
-                    HttpStatus.BAD_REQUEST.value()
+                    "ID de movimento inválido", HttpStatus.BAD_REQUEST.value()
                 )
             )
         } else if (existingMovement.isPresent) {
@@ -215,8 +207,7 @@ class MovementController {
         } else {
             ResponseEntity.status(HttpStatus.NOT_FOUND).body(
                 CustomResponse(
-                    "Movimento não encontrado, verifique o id.",
-                    HttpStatus.NOT_FOUND.value()
+                    "Movimento não encontrado, verifique o id.", HttpStatus.NOT_FOUND.value()
                 )
             )
         }
@@ -238,47 +229,35 @@ class MovementController {
         } else {
             val user = userRepository.findById(id)
             if (user.isPresent) {
-                val currentYearMonth = YearMonth.now()
+                val movements = repository.findByUserIdAndMonthandYear(id, month, year)
+                var totalRevenues = 0.0
+                var totalExpenses = 0.0
 
-                if (year < currentYearMonth.year || (year == currentYearMonth.year && month > currentYearMonth.monthValue)) {
-                    ResponseEntity.status(HttpStatus.BAD_REQUEST).body(
-                        CustomResponse(
-                            "Parâmetros inválidos, por favor, forneça um ano e mês válidos até o presente.",
-                            HttpStatus.BAD_REQUEST.value()
-                        )
-                    )
-                } else {
-                    val movements = repository.findByUserIdAndMonthandYear(id, month, year)
-                    var totalRevenues = 0.0
-                    var totalExpenses = 0.0
-
-                    for (movement in movements) {
-                        if (movement.type_movement == "receita") {
-                            totalRevenues += movement.value
-                        } else if (movement.type_movement == "despesa") {
-                            totalExpenses += movement.value
-                        }
+                for (movement in movements) {
+                    if (movement.type_movement == "receita") {
+                        totalRevenues += movement.value
+                    } else if (movement.type_movement == "despesa") {
+                        totalExpenses += movement.value
                     }
-
-                    val total = totalRevenues - totalExpenses
-
-                    val totals = mapOf(
-                        "userId" to id,
-                        "totalRevenues" to totalRevenues,
-                        "totalExpenses" to totalExpenses,
-                        "total" to total
-                    )
-
-                    ResponseEntity.ok(totals)
                 }
+
+                val total = totalRevenues - totalExpenses
+
+                val totals = mapOf(
+                    "userId" to id,
+                    "totalRevenues" to totalRevenues,
+                    "totalExpenses" to totalExpenses,
+                    "total" to total
+                )
+
+                ResponseEntity.ok(totals)
             } else {
-                ResponseEntity.status(HttpStatus.NOT_FOUND)
-                    .body(
-                        CustomResponse(
-                            "Nenhum movimento encontrado para o usuário especificado",
-                            HttpStatus.NOT_FOUND.value()
-                        )
+                ResponseEntity.status(HttpStatus.NOT_FOUND).body(
+                    CustomResponse(
+                        "Nenhum movimento encontrado para o usuário especificado",
+                        HttpStatus.NOT_FOUND.value()
                     )
+                )
             }
         }
     }

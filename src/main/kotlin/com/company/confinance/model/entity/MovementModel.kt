@@ -33,10 +33,6 @@ data class MovementModel(
     @Column(nullable = false)
     var fixedIncome: Boolean,
 
-    @Column(nullable = false)
-    var fixedIncomeDurationMonths: Int,
-
-
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     @JsonIgnoreProperties(value = ["name", "email", "password"])
