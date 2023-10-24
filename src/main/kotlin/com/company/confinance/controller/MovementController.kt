@@ -31,17 +31,15 @@ class MovementController {
     ): ResponseEntity<Any> {
         return try {
             if (movement.fixedIncome == true) {
-                // Handle fixed income movements as before
                 createFixedIncomeMovements(movement)
             } else if (movement.recurrenceFrequency != null) {
                 createRecurringMovements(movement)
             } else {
-                // Handle one-time, non-recurring movements
                 repository.save(movement)
             }
 
             ResponseEntity.status(HttpStatus.CREATED)
-                .body(repository.save(movement).toMovementResponse())
+                .body(CustomResponse("Movimentação criada com sucesso!",HttpStatus.CREATED.value()))
         } catch (ex: Exception) {
             ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                 .body(
@@ -278,7 +276,7 @@ class MovementController {
 
         when (recurrenceFrequency) {
             "daily" -> {
-                for (i in 1 until recurrenceIntervals!!) {
+                for (i in 0 until recurrenceIntervals!!) {
                     val newDate = originalDate.plusDays(i.toLong())
                     val newDateString = newDate.format(dateFormatter)
                     val newMovement = movement.copy(date = newDateString)
@@ -287,7 +285,7 @@ class MovementController {
             }
 
             "weekly" -> {
-                for (i in 1 until recurrenceIntervals!!) {
+                for (i in 0 until recurrenceIntervals!!) {
                     val newDate = originalDate.plusWeeks(i.toLong())
                     val newDateString = newDate.format(dateFormatter)
                     val newMovement = movement.copy(date = newDateString)
@@ -296,7 +294,7 @@ class MovementController {
             }
 
             "monthly" -> {
-                for (i in 1 until recurrenceIntervals!!) {
+                for (i in 0 until recurrenceIntervals!!) {
                     val newDate = originalDate.plusMonths(i.toLong())
                     val newDateString = newDate.format(dateFormatter)
                     val newMovement = movement.copy(date = newDateString)
@@ -306,7 +304,7 @@ class MovementController {
 
             "annually" -> {
                 val currentYear = originalDate.year
-                for (i in 1 until recurrenceIntervals!!) {
+                for (i in 0 until recurrenceIntervals!!) {
                     val newYear = currentYear + i
                     val newDate = originalDate.withYear(newYear)
                     val newDateString = newDate.format(dateFormatter)
