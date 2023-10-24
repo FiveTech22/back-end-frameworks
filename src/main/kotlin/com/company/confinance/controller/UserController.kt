@@ -115,7 +115,6 @@ class UserController {
         }
     }
 
-
     @PutMapping("/{id}")
     fun updateUser(
         @PathVariable(value = "id") id: Long,
@@ -124,12 +123,35 @@ class UserController {
         val existingUser = repository.findById(id)
         return if (existingUser.isPresent) {
             val user = existingUser.get()
-            user.name = updatedUser.name
-            user.email = updatedUser.email
-            user.password = passwordEncoder.encode(updatedUser.password)
-            ResponseEntity.ok(repository.save(user))
+            val existingEmailUser = repository.findByEmail(updatedUser.email)
+            if (existingEmailUser != null && existingEmailUser.id != id) {
+                return ResponseEntity.status(HttpStatus.FORBIDDEN).body(
+                    CustomResponse(
+                        "Email já cadastrado, por favor coloque outro.",
+                        HttpStatus.FORBIDDEN.value()
+                    )
+                )
+            }
+            if (!updatedUser.name.isNullOrBlank()) {
+                user.name = updatedUser.name
+            }
+            if (!updatedUser.email.isNullOrBlank()) {
+                user.email = updatedUser.email
+            }
+            if (!updatedUser.password.isNullOrBlank()) {
+                user.password = passwordEncoder.encode(updatedUser.password)
+            }
+
+            val updatedUser = repository.save(user)
+
+            return ResponseEntity.ok(
+                CustomResponse(
+                    "Atualizado com sucesso.",
+                    HttpStatus.OK.value()
+                )
+            )
         } else {
-            ResponseEntity.status(HttpStatus.NOT_FOUND).body(
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(
                 CustomResponse(
                     "Usuário não encontrado, por favor verifique o id fornecido.",
                     HttpStatus.NOT_FOUND.value()
@@ -137,6 +159,7 @@ class UserController {
             )
         }
     }
+
 
     @DeleteMapping("/{id}")
     fun deleteUser(@PathVariable(value = "id") id: Long): ResponseEntity<Any> {
