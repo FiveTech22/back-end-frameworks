@@ -112,6 +112,48 @@ class MovementController {
         }
     }
 
+    @GetMapping("/user/{userId}/movements")
+    fun getMovementsByType(
+        @PathVariable("userId") userId: Long,
+        @RequestParam("type") type: String
+    ): ResponseEntity<Any> {
+        if (userId <= 0) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(
+                CustomResponse(
+                    "Erro: ID informado é inválido. Por favor, forneça um ID válido.",
+                    HttpStatus.BAD_REQUEST.value()
+                )
+            )
+        }
+        val user = userRepository.findById(userId)
+        if (!user.isPresent) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(
+                CustomResponse(
+                    "Nenhum usuário encontrado com o ID especificado.",
+                    HttpStatus.NOT_FOUND.value()
+                )
+            )
+        }
+
+        val movements = when (type) {
+            "receita" -> repository.findRevenues()
+            "despesa" -> repository.findExpenses()
+            else -> repository.findByUserId(userId)
+        }
+
+        if (movements.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(
+                CustomResponse(
+                    "Nenhuma movimentação encontrada com o tipo especificado.",
+                    HttpStatus.NOT_FOUND.value()
+                )
+            )
+        }
+
+        return ResponseEntity.ok(movements)
+    }
+
+
     @GetMapping("/totals/user/{userId}")
     fun getTotals(@PathVariable("userId") id: Long): Any {
         return if (id <= 0) {
