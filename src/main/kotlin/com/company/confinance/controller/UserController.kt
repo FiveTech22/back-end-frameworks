@@ -24,6 +24,7 @@ import org.springframework.security.web.authentication.logout.SecurityContextLog
 import org.springframework.transaction.annotation.Transactional
 import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.GetMapping
+import org.springframework.web.bind.annotation.PatchMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.PutMapping
@@ -132,14 +133,61 @@ class UserController {
                     )
                 )
             }
-            if (!updatedUser.name.isNullOrBlank()) {
-                user.name = updatedUser.name
-            }
-            if (!updatedUser.email.isNullOrBlank()) {
+
+            user.name = updatedUser.name
+
+            if (user.email != updatedUser.email) {
                 user.email = updatedUser.email
             }
-            if (!updatedUser.password.isNullOrBlank()) {
-                user.password = passwordEncoder.encode(updatedUser.password)
+
+            user.password = passwordEncoder.encode(updatedUser.password)
+
+            val savedUser = repository.save(user)
+
+            return ResponseEntity.ok(
+                CustomResponse(
+                    "Atualizado com sucesso.",
+                    HttpStatus.OK.value()
+                )
+            )
+        } else {
+            ResponseEntity.status(HttpStatus.NOT_FOUND).body(
+                CustomResponse(
+                    "Informações inválidas para o usúario.",
+                    HttpStatus.NOT_FOUND.value()
+                )
+            )
+        }
+    }
+
+
+    @PatchMapping("/{id}")
+    fun patchUser(
+        @PathVariable(value = "id") id: Long,
+        @RequestBody partialUser: UserModel
+    ): ResponseEntity<Any> {
+        val existingUser = repository.findById(id)
+        return if (existingUser.isPresent) {
+            val user = existingUser.get()
+            val existingEmailUser = repository.findByEmail(partialUser.email)
+
+            if (existingEmailUser != null && existingEmailUser.id != id) {
+                return ResponseEntity.status(HttpStatus.FORBIDDEN).body(
+                    CustomResponse(
+                        "Email já cadastrado, por favor coloque outro.",
+                        HttpStatus.FORBIDDEN.value()
+                    )
+                )
+            }
+
+            if (!partialUser.name.isNullOrBlank()) {
+                user.name = partialUser.name
+            }
+            if (!partialUser.email.isNullOrBlank()) {
+                user.email = partialUser.email
+            }
+            if (!partialUser.password.isNullOrBlank()) {
+                user.password = passwordEncoder.encode(partialUser.password)
             }
 
             val updatedUser = repository.save(user)
