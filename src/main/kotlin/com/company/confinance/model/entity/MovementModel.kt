@@ -28,7 +28,7 @@ data class MovementModel(
     var date: String,
 
     @Column(nullable = false)
-    var Photo: Int,
+    var photo: Int?,
 
     @Column(nullable = false)
     var fixedIncome: Boolean,
@@ -38,6 +38,8 @@ data class MovementModel(
 
     @Column
     var recurrenceIntervals: Int?,
+
+    var parentMovementId: Long? = null,
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")

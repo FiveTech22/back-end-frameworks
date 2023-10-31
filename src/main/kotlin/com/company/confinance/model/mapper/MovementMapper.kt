@@ -10,9 +10,10 @@ fun MovementModel.toMovementResponse(): MovementResponse =
         value = this.value,
         description = this.description,
         date = this.date,
-        photo = this.Photo,
+        photo = this.photo,
         fixedIncome = this.fixedIncome,
         recurrenceFrequency = this.recurrenceFrequency,
         recurrenceIntervals =  this.recurrenceIntervals,
+        parentMovementId = this.parentMovementId,
         userId = this.user.id
     )

@@ -8,6 +8,8 @@ import java.util.*
 interface MovementRepository : JpaRepository<MovementModel, Long> {
     fun findByUserId(userId: Long): List<MovementModel>
 
+    fun findByParentMovementIdAndFixedIncome(parentMovementId: Long?, fixedIncome: Boolean): List<MovementModel>
+
     @Query("SELECT m FROM MovementModel m WHERE m.user.id = :userId AND MONTH(STR_TO_DATE(m.date, '%d/%m/%Y')) = :month AND YEAR(STR_TO_DATE(m.date, '%d/%m/%Y')) = :year")
     fun findByUserIdAndMonthandYear(userId: Long, month: Int, year: Int): List<MovementModel>
 

@@ -1,8 +1,10 @@
 package com.company.confinance.controller
 
+import com.company.confinance.main
 import com.company.confinance.model.entity.MovementModel
 import com.company.confinance.model.mapper.toMovementResponse
 import com.company.confinance.model.response.CustomResponse
+import com.company.confinance.model.response.MovementUpdateRequest
 import com.company.confinance.repository.MovementRepository
 import com.company.confinance.repository.UserRepository
 import org.springframework.beans.factory.annotation.Autowired
@@ -31,7 +33,8 @@ class MovementController {
     ): ResponseEntity<Any> {
         return try {
             if (movement.fixedIncome == true) {
-                createFixedIncomeMovements(movement)
+                val mainMovement = repository.save(movement)
+                createFixedIncomeMovements(movement, mainMovement.id!!)
             } else if (movement.recurrenceFrequency != null) {
                 createRecurringMovements(movement)
             } else {
@@ -39,7 +42,12 @@ class MovementController {
             }
 
             ResponseEntity.status(HttpStatus.CREATED)
-                .body(CustomResponse("Movimentação criada com sucesso!",HttpStatus.CREATED.value()))
+                .body(
+                    CustomResponse(
+                        "Movimentação criada com sucesso!",
+                        HttpStatus.CREATED.value()
+                    )
+                )
         } catch (ex: Exception) {
             ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                 .body(
@@ -208,30 +216,40 @@ class MovementController {
         @RequestBody updatedMovement: MovementModel
     ): ResponseEntity<Any> {
         val existingMovement = repository.findById(id)
+
         return if (existingMovement.isPresent) {
             val currentMovement = existingMovement.get()
 
-            if (!currentMovement.fixedIncome && updatedMovement.fixedIncome) {
-                currentMovement.fixedIncome = true
-                val fixedIncomeMovements = updateFixedIncomeMovement(currentMovement)
-                val savedMovement = repository.save(currentMovement)
-                repository.saveAll(fixedIncomeMovements)
-
-                val customResponse = CustomResponse(
-                    "Movimento atualizado com sucesso",
-                    HttpStatus.OK.value()
-                )
-
-                ResponseEntity.ok(customResponse)
-            } else if (updatedMovement.recurrenceFrequency != null) {
+            if (updatedMovement.description != null &&
+                updatedMovement.type_movement != null &&
+                updatedMovement.photo != null &&
+                updatedMovement.value != null &&
+                updatedMovement.date != null
+            ) {
                 currentMovement.description = updatedMovement.description
+                currentMovement.type_movement = updatedMovement.type_movement
+                currentMovement.photo = updatedMovement.photo
                 currentMovement.value = updatedMovement.value
                 currentMovement.date = updatedMovement.date
-                currentMovement.recurrenceFrequency = updatedMovement.recurrenceFrequency
-                currentMovement.recurrenceIntervals = updatedMovement.recurrenceIntervals
 
-                val updatedMovements = updateRecurringMovements(currentMovement)
-                val savedMovements = repository.saveAll(updatedMovements)
+                if (!currentMovement.fixedIncome && updatedMovement.fixedIncome) {
+                    currentMovement.fixedIncome = true
+                    val fixedIncomeMovements = updateFixedIncomeMovement(currentMovement)
+                    val savedMovement = repository.save(currentMovement)
+                    repository.saveAll(fixedIncomeMovements)
+                } else if (updatedMovement.recurrenceFrequency != null) {
+                    currentMovement.fixedIncome = false
+                    currentMovement.recurrenceFrequency = updatedMovement.recurrenceFrequency
+                    currentMovement.recurrenceIntervals = updatedMovement.recurrenceIntervals
+
+                    val updatedMovements = updateRecurringMovements(currentMovement)
+                    val savedMovements = repository.saveAll(updatedMovements)
+                } else {
+                    currentMovement.fixedIncome = false
+                    deleteFixedIncomeMovements(currentMovement)
+                }
+
+                val savedMovement = repository.save(currentMovement)
 
                 val customResponse = CustomResponse(
                     "Movimento atualizado com sucesso",
@@ -240,22 +258,67 @@ class MovementController {
 
                 ResponseEntity.ok(customResponse)
             } else {
-                currentMovement.description = updatedMovement.description
-                currentMovement.value = updatedMovement.value
-                currentMovement.date = updatedMovement.date
-
-                val savedMovement = repository.save(currentMovement)
-
                 val customResponse = CustomResponse(
-                    "Movimento atualizado com sucesso",
-                    HttpStatus.OK.value()
+                    "Todos os campos devem estar presentes no corpo da solicitação para atualização.",
+                    HttpStatus.BAD_REQUEST.value()
                 )
-
-                ResponseEntity.ok(customResponse)
+                ResponseEntity.status(HttpStatus.BAD_REQUEST).body(customResponse)
             }
         } else {
             val customResponse = CustomResponse(
                 "Movimento não encontrado, verifique o id.",
+                HttpStatus.NOT_FOUND.value()
+            )
+            ResponseEntity.status(HttpStatus.NOT_FOUND).body(customResponse)
+        }
+    }
+
+
+    @PatchMapping("/{id}")
+    fun partialUpdateMovementById(
+        @PathVariable("id") id: Long,
+        @RequestBody updatedMovement: MovementUpdateRequest
+    ): ResponseEntity<Any> {
+        val existingMovement = repository.findById(id)
+
+        return if (existingMovement.isPresent) {
+            val currentMovement = existingMovement.get()
+
+            updatedMovement.description?.let { currentMovement.description = it }
+            updatedMovement.photo?.let { currentMovement.photo = it }
+            updatedMovement.type_movement?.let { currentMovement.type_movement = it }
+            updatedMovement.value?.let { currentMovement.value = it }
+            updatedMovement.date?.let { currentMovement.date = it }
+
+            if (updatedMovement.fixedIncome != null) {
+                if (!currentMovement.fixedIncome && updatedMovement.fixedIncome) {
+                    currentMovement.fixedIncome = true
+                    val fixedIncomeMovements = updateFixedIncomeMovement(currentMovement)
+                    repository.saveAll(fixedIncomeMovements)
+                } else if (currentMovement.fixedIncome && !updatedMovement.fixedIncome) {
+                    currentMovement.fixedIncome = false
+                    deleteFixedIncomeMovements(currentMovement)
+                }
+            }
+
+            if (updatedMovement.recurrenceFrequency != null) {
+                currentMovement.recurrenceFrequency = updatedMovement.recurrenceFrequency
+                currentMovement.recurrenceIntervals = updatedMovement.recurrenceIntervals
+                val updatedMovements = updateRecurringMovements(currentMovement)
+                repository.saveAll(updatedMovements)
+            }
+
+            val savedMovement = repository.save(currentMovement)
+
+            val customResponse = CustomResponse(
+                "Movimento atualizado com sucesso",
+                HttpStatus.OK.value()
+            )
+
+            ResponseEntity.ok(customResponse)
+        } else {
+            val customResponse = CustomResponse(
+                "Movimento não encontrado, verifique o ID.",
                 HttpStatus.NOT_FOUND.value()
             )
             ResponseEntity.status(HttpStatus.NOT_FOUND).body(customResponse)
@@ -334,18 +397,23 @@ class MovementController {
         }
     }
 
-    private fun createFixedIncomeMovements(movement: MovementModel) {
+    private fun createFixedIncomeMovements(mainMovement: MovementModel, parentMovementId: Long) {
         val currentYearMonth = YearMonth.now()
         val currentMonth = currentYearMonth.monthValue
         val currentYear = currentYearMonth.year
 
         val dateFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy")
-        val originalDate = LocalDate.parse(movement.date, dateFormatter)
+        val originalDate = LocalDate.parse(mainMovement.date, dateFormatter)
 
         for (i in 1 until 12) {
             val newDate = originalDate.plusMonths(i.toLong())
             val newDateString = newDate.format(dateFormatter)
-            val newMovement = movement.copy(id = null, date = newDateString, fixedIncome = true)
+            val newMovement = mainMovement.copy(
+                id = null,
+                date = newDateString,
+                fixedIncome = true,
+                parentMovementId = parentMovementId
+            )
             repository.save(newMovement)
         }
     }
@@ -418,12 +486,18 @@ class MovementController {
         for (i in 1 until 12) {
             val newDate = originalDate.plusMonths(i.toLong())
             val newDateString = newDate.format(dateFormatter)
-            val newMovement = movement.copy(id = null, date = newDateString, fixedIncome = true)
+            val newMovement = movement.copy(
+                id = null,
+                date = newDateString,
+                fixedIncome = true,
+                parentMovementId = movement.id
+            )
             fixedIncomeMovements.add(newMovement)
         }
 
         return fixedIncomeMovements
     }
+
     private fun updateRecurringMovements(movement: MovementModel): List<MovementModel> {
         val recurrenceFrequency = movement.recurrenceFrequency
         val recurrenceIntervals = movement.recurrenceIntervals
@@ -479,5 +553,12 @@ class MovementController {
 
         return updatedMovements
     }
+
+    private fun deleteFixedIncomeMovements(movement: MovementModel) {
+        val fixedIncomeMovements =
+            repository.findByParentMovementIdAndFixedIncome(movement.id, true)
+        repository.deleteAll(fixedIncomeMovements)
+    }
+
 
 }
