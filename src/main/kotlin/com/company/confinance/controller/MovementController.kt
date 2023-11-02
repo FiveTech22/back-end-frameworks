@@ -45,7 +45,7 @@ class MovementController {
                 .body(
                     CustomResponse(
                         "Movimentação criada com sucesso!",
-                        HttpStatus.CREATED.value()
+                        HttpStatus.CREATED.value(),
                     )
                 )
         } catch (ex: Exception) {

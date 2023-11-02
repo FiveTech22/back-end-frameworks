@@ -110,7 +110,9 @@ class UserController {
             ResponseEntity.status(HttpStatus.CREATED).body(
                 CustomResponse(
                     "Usuário criado com sucesso.",
-                    HttpStatus.CREATED.value()
+                    HttpStatus.CREATED.value(),
+                    savedUser.id
+
                 )
             )
         }
@@ -358,6 +360,7 @@ class UserController {
                 )
             )
         }
+
         val user = repository.findByEmail(resetPassword.email)
 
         if (user == null) {
@@ -368,48 +371,33 @@ class UserController {
                 )
             )
         } else {
-            val hashedNewPassword = passwordEncoder.encode(resetPassword.newPassword)
+            if (passwordEncoder.matches(resetPassword.currentPassword, user.password)) {
+                val hashedNewPassword = passwordEncoder.encode(resetPassword.newPassword)
 
-            val updatedUser = UserModel(
-                id = user.id,
-                name = user.name,
-                email = user.email,
-                password = hashedNewPassword
-            )
-            repository.save(updatedUser)
-
-            validationService.setValidationResult(resetPassword.email, false)
-
-            return ResponseEntity.ok(
-                CustomResponse(
-                    "Senha redefinida com sucesso!",
-                    HttpStatus.OK.value()
+                val updatedUser = UserModel(
+                    id = user.id,
+                    name = user.name,
+                    email = user.email,
+                    password = hashedNewPassword
                 )
-            )
+                repository.save(updatedUser)
+
+                validationService.setValidationResult(resetPassword.email, false)
+
+                return ResponseEntity.ok(
+                    CustomResponse(
+                        "Senha redefinida com sucesso!",
+                        HttpStatus.OK.value()
+                    )
+                )
+            } else {
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(
+                    CustomResponse(
+                        "Senha atual incorreta. Por favor, forneça a senha atual correta.",
+                        HttpStatus.BAD_REQUEST.value()
+                    )
+                )
+            }
         }
     }
-
-    @PostMapping("/logout")
-    fun logout(request: HttpServletRequest, response: HttpServletResponse): ResponseEntity<Any> {
-        val authentication = SecurityContextHolder.getContext().authentication
-
-        if (authentication != null) {
-            val logoutHandler = SecurityContextLogoutHandler()
-            logoutHandler.logout(request, response, authentication)
-            return ResponseEntity.ok(
-                CustomResponse(
-                    "Logout realizado com sucesso!",
-                    HttpStatus.OK.value()
-                )
-            )
-        } else {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(
-                CustomResponse(
-                    "Não foi possivel realizar o logout!",
-                    HttpStatus.UNAUTHORIZED.value()
-                )
-            )
-        }
-    }
-
 }
