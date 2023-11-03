@@ -13,6 +13,8 @@ interface MovementRepository : JpaRepository<MovementModel, Long> {
     @Query("SELECT m FROM MovementModel m WHERE m.user.id = :userId AND MONTH(STR_TO_DATE(m.date, '%d/%m/%Y')) = :month AND YEAR(STR_TO_DATE(m.date, '%d/%m/%Y')) = :year")
     fun findByUserIdAndMonthandYear(userId: Long, month: Int, year: Int): List<MovementModel>
 
+    fun findByParentMovementId(parentMovementId: Long?): List<MovementModel>
+
     @Query("SELECT m FROM MovementModel m WHERE m.type_movement= 'receita'")
     fun findRevenues(): List<MovementModel>
 
