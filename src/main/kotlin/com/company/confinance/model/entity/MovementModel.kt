@@ -41,9 +41,6 @@ data class MovementModel(
 
     var parentMovementId: Long? = null,
 
-    @Column
-    var position: Int? = 1,
-
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     @JsonIgnoreProperties(value = ["name", "email", "password"])

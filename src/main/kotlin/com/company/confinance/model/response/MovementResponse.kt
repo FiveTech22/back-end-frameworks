@@ -14,6 +14,5 @@ data class MovementResponse(
     var recurrenceFrequency: String?,
     var  recurrenceIntervals : Int ?,
     var parentMovementId: Long? = null,
-    var position: Int? = null,
     val userId: Long
 )

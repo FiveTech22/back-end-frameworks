@@ -15,6 +15,5 @@ fun MovementModel.toMovementResponse(): MovementResponse =
         recurrenceFrequency = this.recurrenceFrequency,
         recurrenceIntervals =  this.recurrenceIntervals,
         parentMovementId = this.parentMovementId,
-        position = this.position,
         userId = this.user.id
     )

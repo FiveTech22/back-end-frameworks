@@ -405,15 +405,14 @@ class MovementController {
         val dateFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy")
         val originalDate = LocalDate.parse(mainMovement.date, dateFormatter)
 
-        for (i in 1 until 13) {
+        for (i in 1 until 12) {
             val newDate = originalDate.plusMonths(i.toLong())
             val newDateString = newDate.format(dateFormatter)
             val newMovement = mainMovement.copy(
                 id = null,
                 date = newDateString,
                 fixedIncome = true,
-                parentMovementId = parentMovementId,
-                position = i
+                parentMovementId = parentMovementId
             )
             repository.save(newMovement)
         }
@@ -484,15 +483,14 @@ class MovementController {
 
         val fixedIncomeMovements = mutableListOf<MovementModel>()
 
-        for (i in 1 until 13) {
+        for (i in 1 until 12) {
             val newDate = originalDate.plusMonths(i.toLong())
             val newDateString = newDate.format(dateFormatter)
             val newMovement = movement.copy(
                 id = null,
                 date = newDateString,
                 fixedIncome = true,
-                parentMovementId = movement.id,
-                position = i
+                parentMovementId = movement.id
             )
             fixedIncomeMovements.add(newMovement)
         }

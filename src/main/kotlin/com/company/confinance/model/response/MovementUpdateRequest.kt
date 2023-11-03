@@ -9,6 +9,5 @@ data class MovementUpdateRequest(
     val fixedIncome: Boolean?,
     val recurrenceFrequency: String?,
     val recurrenceIntervals: Int?,
-    val parentMovementId: Long? = null,
-    val position: Int? = null
+    val parentMovementId: Long? = null
 )
