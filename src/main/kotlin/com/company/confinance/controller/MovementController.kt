@@ -233,23 +233,34 @@ class MovementController {
                 currentMovement.value = updatedMovement.value
                 currentMovement.date = updatedMovement.date
 
-                if (!currentMovement.fixedIncome && updatedMovement.fixedIncome) {
-                    currentMovement.fixedIncome = true
-                    val fixedIncomeMovements = updateFixedIncomeMovement(currentMovement)
-                    val savedMovement = repository.save(currentMovement)
-                    repository.saveAll(fixedIncomeMovements)
-                } else if (updatedMovement.recurrenceFrequency != null) {
-                    currentMovement.fixedIncome = false
-                    currentMovement.recurrenceFrequency = updatedMovement.recurrenceFrequency
-                    currentMovement.recurrenceIntervals = updatedMovement.recurrenceIntervals
+                // Check if the recurrence details have changed
+                if (currentMovement.recurrenceFrequency != updatedMovement.recurrenceFrequency ||
+                    currentMovement.recurrenceIntervals != updatedMovement.recurrenceIntervals
+                ) {
+                    // Delete existing recurring movements
+                    deleteRecurringMovements(currentMovement)
 
-                    val updatedMovements = updateRecurringMovements(currentMovement)
-                    val savedMovements = repository.saveAll(updatedMovements)
-                } else {
-                    currentMovement.fixedIncome = false
-                    deleteFixedIncomeMovements(currentMovement)
+                    if (updatedMovement.recurrenceFrequency != null) {
+                        // Update recurrence details and create new recurring movements
+                        currentMovement.recurrenceFrequency = updatedMovement.recurrenceFrequency
+                        currentMovement.recurrenceIntervals = updatedMovement.recurrenceIntervals
+                        createRecurringMovements(currentMovement, currentMovement.id!!)
+                    }
                 }
 
+                // Check for fixed income changes
+                if (currentMovement.fixedIncome != updatedMovement.fixedIncome) {
+                    if (updatedMovement.fixedIncome) {
+                        // Transition from non-fixed income to fixed income
+                        currentMovement.fixedIncome = true
+                        val fixedIncomeMovements = updateFixedIncomeMovement(currentMovement)
+                        repository.saveAll(fixedIncomeMovements)
+                    } else {
+                        // Transition from fixed income to non-fixed income
+                        currentMovement.fixedIncome = false
+                        deleteFixedIncomeMovements(currentMovement)
+                    }
+                }
                 val savedMovement = repository.save(currentMovement)
 
                 val customResponse = CustomResponse(
@@ -273,7 +284,6 @@ class MovementController {
             ResponseEntity.status(HttpStatus.NOT_FOUND).body(customResponse)
         }
     }
-
 
     @PatchMapping("/{id}")
     fun partialUpdateMovementById(
@@ -560,12 +570,14 @@ class MovementController {
 
         return updatedMovements
     }
-
     private fun deleteFixedIncomeMovements(movement: MovementModel) {
         val fixedIncomeMovements =
             repository.findByParentMovementIdAndFixedIncome(movement.id, true)
         repository.deleteAll(fixedIncomeMovements)
     }
-
+    private fun deleteRecurringMovements(movement: MovementModel) {
+        val recurringMovements = repository.findByParentMovementIdAndRecurrenceFrequencyNotNull(movement.id)
+        repository.deleteAll(recurringMovements)
+    }
 
 }
