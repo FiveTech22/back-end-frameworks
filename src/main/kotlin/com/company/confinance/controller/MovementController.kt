@@ -233,11 +233,9 @@ class MovementController {
                 currentMovement.value = updatedMovement.value
                 currentMovement.date = updatedMovement.date
 
-                // Check if the recurrence details have changed
                 if (currentMovement.recurrenceFrequency != updatedMovement.recurrenceFrequency ||
                     currentMovement.recurrenceIntervals != updatedMovement.recurrenceIntervals
                 ) {
-                    // Delete existing recurring movements
                     deleteRecurringMovements(currentMovement)
 
                     if (updatedMovement.recurrenceFrequency != null) {
@@ -251,12 +249,10 @@ class MovementController {
                 // Check for fixed income changes
                 if (currentMovement.fixedIncome != updatedMovement.fixedIncome) {
                     if (updatedMovement.fixedIncome) {
-                        // Transition from non-fixed income to fixed income
                         currentMovement.fixedIncome = true
                         val fixedIncomeMovements = updateFixedIncomeMovement(currentMovement)
                         repository.saveAll(fixedIncomeMovements)
                     } else {
-                        // Transition from fixed income to non-fixed income
                         currentMovement.fixedIncome = false
                         deleteFixedIncomeMovements(currentMovement)
                     }
