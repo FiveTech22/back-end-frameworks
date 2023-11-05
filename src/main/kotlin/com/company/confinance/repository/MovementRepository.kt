@@ -19,11 +19,12 @@ interface MovementRepository : JpaRepository<MovementModel, Long> {
     @Query("SELECT m FROM MovementModel m WHERE m.parentMovementId = :parentId AND m.recurrenceFrequency IS NOT NULL")
     fun findByParentMovementIdAndRecurrenceFrequencyNotNull(@Param("parentId") parentId: Long?): List<MovementModel>
 
-    @Query("SELECT m FROM MovementModel m WHERE m.type_movement= 'receita'")
-    fun findRevenues(): List<MovementModel>
+    @Query("SELECT m FROM MovementModel m WHERE m.user.id = :userId AND m.type_movement = 'receita'")
+    fun findRevenuesByUserId(@Param("userId") userId: Long): List<MovementModel>
 
-    @Query("SELECT m FROM MovementModel m WHERE m.type_movement = 'despesa'")
-    fun findExpenses(): List<MovementModel>
+    @Query("SELECT m FROM MovementModel m WHERE m.user.id = :userId AND m.type_movement = 'despesa'")
+    fun findExpensesByUserId(@Param("userId") userId: Long): List<MovementModel>
+
 
 
 

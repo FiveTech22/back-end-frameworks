@@ -145,8 +145,8 @@ class MovementController {
         }
 
         val movements = when (type) {
-            "receita" -> repository.findRevenues()
-            "despesa" -> repository.findExpenses()
+            "receita" -> repository.findRevenuesByUserId(userId)
+            "despesa" -> repository.findExpensesByUserId(userId)
             else -> repository.findByUserId(userId)
         }
 
