@@ -1,8 +1,6 @@
 package com.company.confinance.model.response
 
-import javax.validation.constraints.Null
-
-data class RecoverPassword (
+data class SendMailCode (
     val email : String,
     val code : String
     )

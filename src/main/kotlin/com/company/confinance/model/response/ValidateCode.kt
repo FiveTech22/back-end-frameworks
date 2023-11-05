@@ -1,6 +1,6 @@
 package com.company.confinance.model.response
 
-data class ValidatePassword (
+data class ValidateCode (
     val email: String,
     val code: String,
         )

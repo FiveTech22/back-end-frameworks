@@ -6,9 +6,10 @@ import com.company.confinance.model.entity.PasswordRecoveryModel
 import com.company.confinance.model.LoginRequest
 import com.company.confinance.model.entity.UserModel
 import com.company.confinance.model.response.CustomResponse
+import com.company.confinance.model.response.PasswordResetRequest
 import com.company.confinance.model.response.PasswordResetValidationService
 import com.company.confinance.model.response.ResetPassword
-import com.company.confinance.model.response.ValidatePassword
+import com.company.confinance.model.response.ValidateCode
 import com.company.confinance.repository.PasswordRecoveryRepository
 import com.company.confinance.repository.UserRepository
 import org.springframework.beans.factory.annotation.Autowired
@@ -16,11 +17,8 @@ import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.mail.SimpleMailMessage
 import org.springframework.mail.javamail.JavaMailSender
-import org.springframework.security.authentication.AuthenticationManager
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder
-import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.security.crypto.password.PasswordEncoder
-import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler
 import org.springframework.transaction.annotation.Transactional
 import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.GetMapping
@@ -32,8 +30,6 @@ import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
 import java.time.LocalDateTime
-import javax.servlet.http.HttpServletRequest
-import javax.servlet.http.HttpServletResponse
 import javax.validation.Valid
 
 @RestController
@@ -69,8 +65,7 @@ class UserController {
         val user = repository.findById(id)
 
         return if (id <= 0) {
-            ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                .body(
+            ResponseEntity.status(HttpStatus.BAD_REQUEST).body(
                     CustomResponse(
                         "Erro id informado invalido, Por favor passe o Id correto.",
                         HttpStatus.BAD_REQUEST.value()
@@ -79,11 +74,9 @@ class UserController {
         } else if (user.isPresent) {
             ResponseEntity.ok(user.get())
         } else {
-            ResponseEntity.status(HttpStatus.NOT_FOUND)
-                .body(
+            ResponseEntity.status(HttpStatus.NOT_FOUND).body(
                     CustomResponse(
-                        "Usuário não encontrado, verifique o id.",
-                        HttpStatus.NOT_FOUND.value()
+                        "Usuário não encontrado, verifique o id.", HttpStatus.NOT_FOUND.value()
                     )
                 )
         }
@@ -100,8 +93,7 @@ class UserController {
         return if (existingEmail != null) {
             ResponseEntity.status(HttpStatus.FORBIDDEN).body(
                 CustomResponse(
-                    "Email já cadastrado, por favor coloque outro.",
-                    HttpStatus.FORBIDDEN.value()
+                    "Email já cadastrado, por favor coloque outro.", HttpStatus.FORBIDDEN.value()
                 )
             )
         } else {
@@ -109,19 +101,50 @@ class UserController {
             val savedUser = repository.save(user)
             ResponseEntity.status(HttpStatus.CREATED).body(
                 CustomResponse(
-                    "Usuário criado com sucesso.",
-                    HttpStatus.CREATED.value(),
-                    savedUser.id
+                    "Usuário criado com sucesso.", HttpStatus.CREATED.value(), savedUser.id
 
                 )
             )
         }
     }
 
+    @PutMapping("/{userId}/reset-password")
+    fun resetPassword(
+        @PathVariable("userId") userId: Long,
+        @RequestBody passwordResetRequest: PasswordResetRequest
+    ): ResponseEntity<Any> {
+        val user = repository.findById(userId)
+        if (user.isPresent) {
+            val existingUser = user.get()
+            if (passwordEncoder.matches(
+                    passwordResetRequest.currentPassword, existingUser.password
+                )
+            ) {
+                existingUser.password = passwordEncoder.encode(passwordResetRequest.newPassword)
+                repository.save(existingUser)
+                return ResponseEntity.ok(
+                    CustomResponse(
+                        "Senha atualizada com sucesso", HttpStatus.OK.value(), userId
+                    )
+                )
+            } else {
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(
+                    CustomResponse("Senha atual incorreta", HttpStatus.UNAUTHORIZED.value())
+                )
+            }
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(
+                CustomResponse(
+                    "Nenhum usuário encontrado com o ID especificado.", HttpStatus.NOT_FOUND.value()
+                )
+            )
+        }
+
+    }
+
     @PutMapping("/{id}")
     fun updateUser(
-        @PathVariable(value = "id") id: Long,
-        @Valid @RequestBody updatedUser: UserModel
+        @PathVariable(value = "id") id: Long, @Valid @RequestBody updatedUser: UserModel
     ): ResponseEntity<Any> {
         val existingUser = repository.findById(id)
         return if (existingUser.isPresent) {
@@ -148,15 +171,13 @@ class UserController {
 
             return ResponseEntity.ok(
                 CustomResponse(
-                    "Atualizado com sucesso.",
-                    HttpStatus.OK.value()
+                    "Atualizado com sucesso.", HttpStatus.OK.value()
                 )
             )
         } else {
             ResponseEntity.status(HttpStatus.NOT_FOUND).body(
                 CustomResponse(
-                    "Informações inválidas para o usúario.",
-                    HttpStatus.NOT_FOUND.value()
+                    "Informações inválidas para o usúario.", HttpStatus.NOT_FOUND.value()
                 )
             )
         }
@@ -165,8 +186,7 @@ class UserController {
 
     @PatchMapping("/{id}")
     fun patchUser(
-        @PathVariable(value = "id") id: Long,
-        @RequestBody partialUser: UserModel
+        @PathVariable(value = "id") id: Long, @RequestBody partialUser: UserModel
     ): ResponseEntity<Any> {
         val existingUser = repository.findById(id)
         return if (existingUser.isPresent) {
@@ -196,8 +216,7 @@ class UserController {
 
             return ResponseEntity.ok(
                 CustomResponse(
-                    "Atualizado com sucesso.",
-                    HttpStatus.OK.value()
+                    "Atualizado com sucesso.", HttpStatus.OK.value()
                 )
             )
         } else {
@@ -217,8 +236,7 @@ class UserController {
         return if (id <= 0) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(
                 CustomResponse(
-                    "ID de usuário inválido",
-                    HttpStatus.BAD_REQUEST.value()
+                    "ID de usuário inválido", HttpStatus.BAD_REQUEST.value()
                 )
             )
         } else if (existingUser.isPresent) {
@@ -228,8 +246,7 @@ class UserController {
         } else {
             ResponseEntity.status(HttpStatus.NOT_FOUND).body(
                 CustomResponse(
-                    "Usuário não encontrado, verifique o id.",
-                    HttpStatus.NOT_FOUND.value()
+                    "Usuário não encontrado, verifique o id.", HttpStatus.NOT_FOUND.value()
                 )
             )
         }
@@ -242,14 +259,12 @@ class UserController {
         if (user != null && passwordEncoder.matches(loginRequest.password, user.password)) {
             return ResponseEntity.ok(
                 mapOf(
-                    "message" to "Login Feito com Sucesso!",
-                    "userId" to user.id
+                    "message" to "Login Feito com Sucesso!", "userId" to user.id
                 )
             )
         } else {
 
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
-                .body(
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(
                     CustomResponse(
                         "Credenciais Inválidas, verifique seu e-mail e senha.",
                         HttpStatus.UNAUTHORIZED.value()
@@ -259,15 +274,14 @@ class UserController {
     }
 
     @Transactional
-    @PostMapping("recover-password/{email}")
-    fun recoverPassword(@PathVariable email: String): ResponseEntity<Any> {
+    @PostMapping("send-mail/{email}")
+    fun sendMailCode(@PathVariable email: String): ResponseEntity<Any> {
         val user = repository.findByEmail(email)
 
         if (user == null) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(
                 CustomResponse(
-                    "E-mail não encontrado no sistema.",
-                    HttpStatus.NOT_FOUND.value()
+                    "E-mail não encontrado no sistema.", HttpStatus.NOT_FOUND.value()
                 )
             )
         } else {
@@ -289,9 +303,7 @@ class UserController {
             val expirationTime = now.plusMinutes(3)
 
             val recoveryCode = PasswordRecoveryModel(
-                email = email,
-                code = code,
-                expirationTime = expirationTime
+                email = email, code = code, expirationTime = expirationTime
             )
             passwordrecoveryrepository.save(recoveryCode)
 
@@ -304,23 +316,21 @@ class UserController {
 
             return ResponseEntity.ok(
                 CustomResponse(
-                    "Código de recuperação de senha enviado com sucesso!",
-                    HttpStatus.OK.value()
+                    "Código de recuperação de senha enviado com sucesso!", HttpStatus.OK.value()
                 )
             )
         }
     }
 
 
-    @PostMapping("/validate-password")
-    fun validateResetCode(@RequestBody validatePassword: ValidatePassword): ResponseEntity<Any> {
-        val recoveryCode = passwordrecoveryrepository.findByEmail(validatePassword.email)
+    @PostMapping("/validate-code")
+    fun validateCode(@RequestBody validateCode: ValidateCode): ResponseEntity<Any> {
+        val recoveryCode = passwordrecoveryrepository.findByEmail(validateCode.email)
 
-        if (recoveryCode == null || recoveryCode.code != validatePassword.code) {
+        if (recoveryCode == null || recoveryCode.code != validateCode.code) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(
                 CustomResponse(
-                    "Código de recuperação de senha inválido.",
-                    HttpStatus.BAD_REQUEST.value()
+                    "Código de recuperação de senha inválido.", HttpStatus.BAD_REQUEST.value()
                 )
             )
         }
@@ -330,19 +340,17 @@ class UserController {
             passwordrecoveryrepository.delete(recoveryCode)
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(
                 CustomResponse(
-                    "Código de recuperação de senha expirado.",
-                    HttpStatus.BAD_REQUEST.value()
+                    "Código de recuperação de senha expirado.", HttpStatus.BAD_REQUEST.value()
                 )
             )
         } else {
-            validationService.setValidationResult(validatePassword.email, true)
+            validationService.setValidationResult(validateCode.email, true)
             passwordrecoveryrepository.delete(recoveryCode)
 
 
             return ResponseEntity.ok(
                 CustomResponse(
-                    "Código de recuperação de senha válido.",
-                    HttpStatus.OK.value()
+                    "Código de recuperação de senha válido.", HttpStatus.OK.value()
                 )
             )
         }
@@ -366,8 +374,7 @@ class UserController {
         if (user == null) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(
                 CustomResponse(
-                    "E-mail não encontrado no sistema.",
-                    HttpStatus.NOT_FOUND.value()
+                    "E-mail não encontrado no sistema.", HttpStatus.NOT_FOUND.value()
                 )
             )
         } else {
@@ -375,10 +382,7 @@ class UserController {
                 val hashedNewPassword = passwordEncoder.encode(resetPassword.newPassword)
 
                 val updatedUser = UserModel(
-                    id = user.id,
-                    name = user.name,
-                    email = user.email,
-                    password = hashedNewPassword
+                    id = user.id, name = user.name, email = user.email, password = hashedNewPassword
                 )
                 repository.save(updatedUser)
 
@@ -386,8 +390,7 @@ class UserController {
 
                 return ResponseEntity.ok(
                     CustomResponse(
-                        "Senha redefinida com sucesso!",
-                        HttpStatus.OK.value()
+                        "Senha redefinida com sucesso!", HttpStatus.OK.value()
                     )
                 )
             } else {
