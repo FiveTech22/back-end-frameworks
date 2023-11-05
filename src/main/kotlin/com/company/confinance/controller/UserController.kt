@@ -271,7 +271,6 @@ class UserController {
                 )
             )
         } else {
-            val userId = user.id
             val now = LocalDateTime.now()
             passwordrecoveryrepository.deleteByExpirationTimeBefore(now)
             val existingCode =
@@ -306,8 +305,7 @@ class UserController {
             return ResponseEntity.ok(
                 CustomResponse(
                     "Código de recuperação de senha enviado com sucesso!",
-                    HttpStatus.OK.value(),
-                    userId
+                    HttpStatus.OK.value()
                 )
             )
         }
@@ -337,74 +335,69 @@ class UserController {
                 )
             )
         } else {
-            val user = repository.findByEmail(validatePassword.email)
-            val userId = user?.id
+            validationService.setValidationResult(validatePassword.email, true)
+            passwordrecoveryrepository.delete(recoveryCode)
 
-            if (userId != null) {
-                validationService.setValidationResult(validatePassword.email, true)
-                passwordrecoveryrepository.delete(recoveryCode)
+
+            return ResponseEntity.ok(
+                CustomResponse(
+                    "Código de recuperação de senha válido.",
+                    HttpStatus.OK.value()
+                )
+            )
+        }
+    }
+
+    @PostMapping("/reset-password")
+    fun resetPassword(@RequestBody resetPassword: ResetPassword): ResponseEntity<Any> {
+        val isValid = validationService.getValidationResult(resetPassword.email) ?: false
+
+        if (!isValid) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(
+                CustomResponse(
+                    "Validação de código não concluída. Por favor, valide o código primeiro.",
+                    HttpStatus.BAD_REQUEST.value()
+                )
+            )
+        }
+
+        val user = repository.findByEmail(resetPassword.email)
+
+        if (user == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(
+                CustomResponse(
+                    "E-mail não encontrado no sistema.",
+                    HttpStatus.NOT_FOUND.value()
+                )
+            )
+        } else {
+            if (passwordEncoder.matches(resetPassword.currentPassword, user.password)) {
+                val hashedNewPassword = passwordEncoder.encode(resetPassword.newPassword)
+
+                val updatedUser = UserModel(
+                    id = user.id,
+                    name = user.name,
+                    email = user.email,
+                    password = hashedNewPassword
+                )
+                repository.save(updatedUser)
+
+                validationService.setValidationResult(resetPassword.email, false)
 
                 return ResponseEntity.ok(
                     CustomResponse(
-                        "Código de recuperação de senha válido.",
-                        HttpStatus.OK.value(),
-                        userId 
+                        "Senha redefinida com sucesso!",
+                        HttpStatus.OK.value()
                     )
                 )
             } else {
-                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(
                     CustomResponse(
-                        "Erro interno: o usuário associado ao código de recuperação não foi encontrado.",
-                        HttpStatus.INTERNAL_SERVER_ERROR.value()
+                        "Senha atual incorreta. Por favor, forneça a senha atual correta.",
+                        HttpStatus.BAD_REQUEST.value()
                     )
                 )
             }
         }
     }
-
-
-    @PostMapping("/reset-password")
-    fun resetPassword(@RequestBody resetPassword: ResetPassword): ResponseEntity<Any> {
-        val userId = resetPassword.id
-        val user = repository.findById(userId)
-
-        if (user.isEmpty) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(
-                CustomResponse(
-                    "Usuário não encontrado no sistema.",
-                    HttpStatus.NOT_FOUND.value()
-                )
-            )
-        }
-
-        val existingUser = user.get()
-
-        if (passwordEncoder.matches(resetPassword.currentPassword, existingUser.password)) {
-            val hashedNewPassword = passwordEncoder.encode(resetPassword.newPassword)
-
-            val updatedUser = UserModel(
-                id = existingUser.id,
-                name = existingUser.name,
-                email = existingUser.email,
-                password = hashedNewPassword
-            )
-            repository.save(updatedUser)
-
-            return ResponseEntity.ok(
-                CustomResponse(
-                    "Senha redefinida com sucesso!",
-                    HttpStatus.OK.value(),
-                    existingUser.id
-                )
-            )
-        } else {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(
-                CustomResponse(
-                    "Senha atual incorreta. Por favor, forneça a senha atual correta.",
-                    HttpStatus.BAD_REQUEST.value()
-                )
-            )
-        }
-    }
-
 }
