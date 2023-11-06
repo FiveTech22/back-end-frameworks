@@ -142,7 +142,7 @@ class UserController {
 
     }
 
-    @PutMapping("/{id}")
+    @PatchMapping("/{id}")
     fun updateUser(
         @PathVariable(value = "id") id: Long, @Valid @RequestBody updatedUser: UserModel
     ): ResponseEntity<Any> {
