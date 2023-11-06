@@ -256,15 +256,14 @@ class UserController {
     fun login(@RequestBody loginRequest: LoginRequest): ResponseEntity<Any> {
         val user = repository.findByEmail(loginRequest.email)
 
-        if (user != null && passwordEncoder.matches(loginRequest.password, user.password)) {
-            return ResponseEntity.ok(
-                mapOf(
-                    "message" to "Login Feito com Sucesso!", "userId" to user.id
+        return if (user != null && passwordEncoder.matches(loginRequest.password, user.password)) {
+            ResponseEntity.ok(
+                CustomResponse(
+                    "Login Feito com Sucesso!", HttpStatus.OK.value(), user.id
                 )
             )
         } else {
-
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(
+            ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(
                 CustomResponse(
                     "Credenciais Inválidas, verifique seu e-mail e senha.",
                     HttpStatus.UNAUTHORIZED.value()
@@ -272,6 +271,7 @@ class UserController {
             )
         }
     }
+
 
     @Transactional
     @PostMapping("send-mail/{email}")
