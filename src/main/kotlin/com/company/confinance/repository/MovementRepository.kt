@@ -25,6 +25,13 @@ interface MovementRepository : JpaRepository<MovementModel, Long> {
     @Query("SELECT m FROM MovementModel m WHERE m.user.id = :userId AND m.type_movement = 'despesa'")
     fun findExpensesByUserId(@Param("userId") userId: Long): List<MovementModel>
 
+    @Query("SELECT COALESCE(SUM(m.value), 0) FROM MovementModel m WHERE m.user.id = :userId AND m.type_movement = 'receita'")
+    fun findTotalRevenuesByUserId(@Param("userId") userId: Long): Double
+
+    @Query("SELECT COALESCE(SUM(m.value), 0) FROM MovementModel m WHERE m.user.id = :userId AND m.type_movement = 'despesa'")
+    fun findTotalExpensesByUserId(@Param("userId") userId: Long): Double
+
+
 
 
 

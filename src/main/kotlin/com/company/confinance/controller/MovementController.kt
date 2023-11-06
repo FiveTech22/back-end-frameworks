@@ -42,19 +42,16 @@ class MovementController {
                 repository.save(movement)
             }
 
-            ResponseEntity.status(HttpStatus.CREATED)
-                .body(
+            ResponseEntity.status(HttpStatus.CREATED).body(
                     CustomResponse(
                         "Movimentação criada com sucesso!",
                         HttpStatus.CREATED.value(),
                     )
                 )
         } catch (ex: Exception) {
-            ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                .body(
+            ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(
                     CustomResponse(
-                        "Erro ao criar movimento",
-                        HttpStatus.INTERNAL_SERVER_ERROR.value()
+                        "Erro ao criar movimento", HttpStatus.INTERNAL_SERVER_ERROR.value()
                     )
                 )
         }
@@ -123,8 +120,7 @@ class MovementController {
 
     @GetMapping("/user/{userId}/movements")
     fun getMovementsByType(
-        @PathVariable("userId") userId: Long,
-        @RequestParam("type") type: String
+        @PathVariable("userId") userId: Long, @RequestParam("type") type: String
     ): ResponseEntity<Any> {
         if (userId <= 0) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(
@@ -138,8 +134,7 @@ class MovementController {
         if (!user.isPresent) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(
                 CustomResponse(
-                    "Nenhum usuário encontrado com o ID especificado.",
-                    HttpStatus.NOT_FOUND.value()
+                    "Nenhum usuário encontrado com o ID especificado.", HttpStatus.NOT_FOUND.value()
                 )
             )
         }
@@ -165,77 +160,56 @@ class MovementController {
 
     @GetMapping("/totals/user/{userId}")
     fun getTotals(@PathVariable("userId") id: Long): Any {
-        return if (id <= 0) {
-            ResponseEntity.status(HttpStatus.BAD_REQUEST).body(
+        if (id <= 0) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(
                 CustomResponse(
-                    "Erro id informado inválido, por favor passe o Id correto.",
+                    "Erro: ID informado é inválido. Por favor, forneça um ID válido.",
                     HttpStatus.BAD_REQUEST.value()
                 )
             )
+        }
+
+        val user = userRepository.findById(id)
+        if (user.isPresent) {
+            val totalRevenues = repository.findTotalRevenuesByUserId(id)
+            val totalExpenses = repository.findTotalExpensesByUserId(id)
+            val total = totalRevenues - totalExpenses
+
+            val totals = mapOf(
+                "userId" to id,
+                "totalRevenues" to totalRevenues,
+                "totalExpenses" to totalExpenses,
+                "total" to total
+            )
+
+            return ResponseEntity.ok(totals)
         } else {
-
-            val user = userRepository.findById(id)
-            if (user.isPresent) {
-                val movements = repository.findByUserId(id)
-                var totalRevenues = 0.0
-                var totalExpenses = 0.0
-
-                for (movement in movements) {
-                    if (movement.type_movement == "receita") {
-                        totalRevenues += movement.value
-                    } else if (movement.type_movement == "despesa") {
-                        totalExpenses += movement.value
-                    }
-                }
-
-                val total = totalRevenues - totalExpenses
-
-                val totals = mapOf(
-                    "userId" to id,
-                    "totalRevenues" to totalRevenues,
-                    "totalExpenses" to totalExpenses,
-                    "total" to total
-
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(
+                CustomResponse(
+                    "Nenhum movimento encontrado para o usuário especificado",
+                    HttpStatus.NOT_FOUND.value()
                 )
-
-                return ResponseEntity.ok(totals)
-            } else {
-                ResponseEntity.status(HttpStatus.NOT_FOUND).body(
-                    CustomResponse(
-                        "Nenhum movimento encontrado para o usuário especificado",
-                        HttpStatus.NOT_FOUND.value()
-                    )
-                )
-            }
-
+            )
         }
     }
 
     @PutMapping("/{id}")
     fun updateMovementById(
-        @PathVariable("id") id: Long,
-        @RequestBody updatedMovement: MovementModel
+        @PathVariable("id") id: Long, @RequestBody updatedMovement: MovementModel
     ): ResponseEntity<Any> {
         val existingMovement = repository.findById(id)
 
         return if (existingMovement.isPresent) {
             val currentMovement = existingMovement.get()
 
-            if (updatedMovement.description != null &&
-                updatedMovement.type_movement != null &&
-                updatedMovement.photo != null &&
-                updatedMovement.value != null &&
-                updatedMovement.date != null
-            ) {
+            if (updatedMovement.description != null && updatedMovement.type_movement != null && updatedMovement.photo != null && updatedMovement.value != null && updatedMovement.date != null) {
                 currentMovement.description = updatedMovement.description
                 currentMovement.type_movement = updatedMovement.type_movement
                 currentMovement.photo = updatedMovement.photo
                 currentMovement.value = updatedMovement.value
                 currentMovement.date = updatedMovement.date
 
-                if (currentMovement.recurrenceFrequency != updatedMovement.recurrenceFrequency ||
-                    currentMovement.recurrenceIntervals != updatedMovement.recurrenceIntervals
-                ) {
+                if (currentMovement.recurrenceFrequency != updatedMovement.recurrenceFrequency || currentMovement.recurrenceIntervals != updatedMovement.recurrenceIntervals) {
                     deleteRecurringMovements(currentMovement)
 
                     if (updatedMovement.recurrenceFrequency != null) {
@@ -257,8 +231,7 @@ class MovementController {
                 val savedMovement = repository.save(currentMovement)
 
                 val customResponse = CustomResponse(
-                    "Movimento atualizado com sucesso",
-                    HttpStatus.OK.value()
+                    "Movimento atualizado com sucesso", HttpStatus.OK.value()
                 )
 
                 ResponseEntity.ok(customResponse)
@@ -271,8 +244,7 @@ class MovementController {
             }
         } else {
             val customResponse = CustomResponse(
-                "Movimento não encontrado, verifique o id.",
-                HttpStatus.NOT_FOUND.value()
+                "Movimento não encontrado, verifique o id.", HttpStatus.NOT_FOUND.value()
             )
             ResponseEntity.status(HttpStatus.NOT_FOUND).body(customResponse)
         }
@@ -280,8 +252,7 @@ class MovementController {
 
     @PatchMapping("/{id}")
     fun partialUpdateMovementById(
-        @PathVariable("id") id: Long,
-        @RequestBody updatedMovement: MovementUpdateRequest
+        @PathVariable("id") id: Long, @RequestBody updatedMovement: MovementUpdateRequest
     ): ResponseEntity<Any> {
         val existingMovement = repository.findById(id)
 
@@ -315,15 +286,13 @@ class MovementController {
             val savedMovement = repository.save(currentMovement)
 
             val customResponse = CustomResponse(
-                "Movimento atualizado com sucesso",
-                HttpStatus.OK.value()
+                "Movimento atualizado com sucesso", HttpStatus.OK.value()
             )
 
             ResponseEntity.ok(customResponse)
         } else {
             val customResponse = CustomResponse(
-                "Movimento não encontrado, verifique o ID.",
-                HttpStatus.NOT_FOUND.value()
+                "Movimento não encontrado, verifique o ID.", HttpStatus.NOT_FOUND.value()
             )
             ResponseEntity.status(HttpStatus.NOT_FOUND).body(customResponse)
         }
@@ -335,8 +304,7 @@ class MovementController {
         if (id <= 0) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(
                 CustomResponse(
-                    "ID de movimento inválido",
-                    HttpStatus.BAD_REQUEST.value()
+                    "ID de movimento inválido", HttpStatus.BAD_REQUEST.value()
                 )
             )
         }
@@ -361,8 +329,7 @@ class MovementController {
         } else {
             ResponseEntity.status(HttpStatus.NOT_FOUND).body(
                 CustomResponse(
-                    "Movimento não encontrado, verifique o id.",
-                    HttpStatus.NOT_FOUND.value()
+                    "Movimento não encontrado, verifique o id.", HttpStatus.NOT_FOUND.value()
                 )
             )
         }
@@ -475,9 +442,7 @@ class MovementController {
 
             val newDateString = newDate.format(dateFormatter)
             val newMovement = mainMovement.copy(
-                id = null,
-                date = newDateString,
-                parentMovementId = parentMovementId
+                id = null, date = newDateString, parentMovementId = parentMovementId
             )
             repository.save(newMovement)
         }
@@ -497,10 +462,7 @@ class MovementController {
             val newDate = originalDate.plusMonths(i.toLong())
             val newDateString = newDate.format(dateFormatter)
             val newMovement = movement.copy(
-                id = null,
-                date = newDateString,
-                fixedIncome = true,
-                parentMovementId = movement.id
+                id = null, date = newDateString, fixedIncome = true, parentMovementId = movement.id
             )
             fixedIncomeMovements.add(newMovement)
         }
@@ -563,13 +525,16 @@ class MovementController {
 
         return updatedMovements
     }
+
     private fun deleteFixedIncomeMovements(movement: MovementModel) {
         val fixedIncomeMovements =
             repository.findByParentMovementIdAndFixedIncome(movement.id, true)
         repository.deleteAll(fixedIncomeMovements)
     }
+
     private fun deleteRecurringMovements(movement: MovementModel) {
-        val recurringMovements = repository.findByParentMovementIdAndRecurrenceFrequencyNotNull(movement.id)
+        val recurringMovements =
+            repository.findByParentMovementIdAndRecurrenceFrequencyNotNull(movement.id)
         repository.deleteAll(recurringMovements)
     }
 

@@ -4,7 +4,7 @@ data class MovementUpdateRequest(
     val description: String?,
     val type_movement: String?,
     val photo: Int?,
-    val value: Double?,
+    val value: Double,
     val date: String?,
     val fixedIncome: Boolean?,
     val recurrenceFrequency: String?,
