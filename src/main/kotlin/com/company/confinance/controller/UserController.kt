@@ -66,19 +66,19 @@ class UserController {
 
         return if (id <= 0) {
             ResponseEntity.status(HttpStatus.BAD_REQUEST).body(
-                    CustomResponse(
-                        "Erro id informado invalido, Por favor passe o Id correto.",
-                        HttpStatus.BAD_REQUEST.value()
-                    )
+                CustomResponse(
+                    "Erro id informado invalido, Por favor passe o Id correto.",
+                    HttpStatus.BAD_REQUEST.value()
                 )
+            )
         } else if (user.isPresent) {
             ResponseEntity.ok(user.get())
         } else {
             ResponseEntity.status(HttpStatus.NOT_FOUND).body(
-                    CustomResponse(
-                        "Usuário não encontrado, verifique o id.", HttpStatus.NOT_FOUND.value()
-                    )
+                CustomResponse(
+                    "Usuário não encontrado, verifique o id.", HttpStatus.NOT_FOUND.value()
                 )
+            )
         }
     }
 
@@ -265,11 +265,11 @@ class UserController {
         } else {
 
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(
-                    CustomResponse(
-                        "Credenciais Inválidas, verifique seu e-mail e senha.",
-                        HttpStatus.UNAUTHORIZED.value()
-                    )
+                CustomResponse(
+                    "Credenciais Inválidas, verifique seu e-mail e senha.",
+                    HttpStatus.UNAUTHORIZED.value()
                 )
+            )
         }
     }
 
@@ -378,29 +378,16 @@ class UserController {
                 )
             )
         } else {
-            if (passwordEncoder.matches(resetPassword.currentPassword, user.password)) {
-                val hashedNewPassword = passwordEncoder.encode(resetPassword.newPassword)
+            val hashedNewPassword = passwordEncoder.encode(resetPassword.newPassword)
+            user.password = hashedNewPassword
 
-                val updatedUser = UserModel(
-                    id = user.id, name = user.name, email = user.email, password = hashedNewPassword
-                )
-                repository.save(updatedUser)
+            validationService.setValidationResult(resetPassword.email, false)
 
-                validationService.setValidationResult(resetPassword.email, false)
-
-                return ResponseEntity.ok(
-                    CustomResponse(
-                        "Senha redefinida com sucesso!", HttpStatus.OK.value()
-                    )
+            return ResponseEntity.ok(
+                CustomResponse(
+                    "Senha redefinida com sucesso!", HttpStatus.OK.value()
                 )
-            } else {
-                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(
-                    CustomResponse(
-                        "Senha atual incorreta. Por favor, forneça a senha atual correta.",
-                        HttpStatus.BAD_REQUEST.value()
-                    )
-                )
-            }
+            )
         }
     }
 }

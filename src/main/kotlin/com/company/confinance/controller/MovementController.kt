@@ -239,14 +239,11 @@ class MovementController {
                     deleteRecurringMovements(currentMovement)
 
                     if (updatedMovement.recurrenceFrequency != null) {
-                        // Update recurrence details and create new recurring movements
                         currentMovement.recurrenceFrequency = updatedMovement.recurrenceFrequency
                         currentMovement.recurrenceIntervals = updatedMovement.recurrenceIntervals
                         createRecurringMovements(currentMovement, currentMovement.id!!)
                     }
                 }
-
-                // Check for fixed income changes
                 if (currentMovement.fixedIncome != updatedMovement.fixedIncome) {
                     if (updatedMovement.fixedIncome) {
                         currentMovement.fixedIncome = true
