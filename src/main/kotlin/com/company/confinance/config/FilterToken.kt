@@ -14,9 +14,10 @@ import javax.servlet.http.HttpServletResponse
 
 @Component
 class FilterToken(
+    /*
     private val tokenService: TokenService,
     private val userRepository: UserRepository
-) : OncePerRequestFilter() {
+) : OncePerRequestFilter()
 
     @Throws(ServletException::class, IOException::class)
     override fun doFilterInternal(
@@ -40,3 +41,5 @@ class FilterToken(
         filterChain.doFilter(request, response)
     }
 }
+*/
+)

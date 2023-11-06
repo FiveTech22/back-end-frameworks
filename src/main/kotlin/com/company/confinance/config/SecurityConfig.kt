@@ -31,8 +31,6 @@ class SecurityConfig(private val userDetailsService: UserDetailsService, private
             .anyRequest().authenticated()
             .and()
             .formLogin().disable()
-            .addFilterBefore(filterToken, UsernamePasswordAuthenticationFilter::class.java)
-
     }
 
     override fun configure(auth: AuthenticationManagerBuilder) {

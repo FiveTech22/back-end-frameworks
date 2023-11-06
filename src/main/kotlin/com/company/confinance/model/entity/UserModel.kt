@@ -28,10 +28,5 @@ data class UserModel(
     var email: String = "",
 
     @Column(nullable = false)
-    var password: String = "",
-
-     @ElementCollection(fetch = FetchType.EAGER)
-    @CollectionTable(name = "user_roles", joinColumns = [JoinColumn(name = "user_id")])
-    @Column(name = "role")
-    val roles: Set<String> = emptySet()
+    var password: String = ""
 )
