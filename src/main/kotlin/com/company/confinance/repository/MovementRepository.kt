@@ -31,6 +31,11 @@ interface MovementRepository : JpaRepository<MovementModel, Long> {
     @Query("SELECT COALESCE(SUM(m.value), 0) FROM MovementModel m WHERE m.user.id = :userId AND m.type_movement = 'despesa'")
     fun findTotalExpensesByUserId(@Param("userId") userId: Long): Double
 
+    @Query("SELECT m FROM MovementModel m WHERE m.user.id = :userId AND MONTH(STR_TO_DATE(m.date, '%d/%m/%Y')) = :month AND YEAR(STR_TO_DATE(m.date, '%d/%m/%Y')) = :year AND m.type_movement = 'receita'")
+    fun findRevenuesByUserIdAndMonthAndYear(@Param("userId") userId: Long, @Param("month") month: Int, @Param("year") year: Int): List<MovementModel>
+
+    @Query("SELECT m FROM MovementModel m WHERE m.user.id = :userId AND MONTH(STR_TO_DATE(m.date, '%d/%m/%Y')) = :month AND YEAR(STR_TO_DATE(m.date, '%d/%m/%Y')) = :year AND m.type_movement = 'despesa'")
+    fun findExpensesByUserIdAndMonthAndYear(@Param("userId") userId: Long, @Param("month") month: Int, @Param("year") year: Int): List<MovementModel>
 
 
 

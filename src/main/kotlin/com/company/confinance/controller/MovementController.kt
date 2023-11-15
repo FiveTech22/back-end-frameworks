@@ -335,6 +335,46 @@ class MovementController {
         }
     }
 
+    @GetMapping("/user/{userId}/revenues")
+    fun getRevenuesByUserIdAndMonthAndYear(
+        @PathVariable("userId") userId: Long,
+        @RequestParam("month") month: Int,
+        @RequestParam("year") year: Int
+    ): ResponseEntity<Any> {
+        val revenues = repository.findRevenuesByUserIdAndMonthAndYear(userId, month, year)
+
+        return if (revenues.isEmpty()) {
+            ResponseEntity.status(HttpStatus.NOT_FOUND).body(
+                CustomResponse(
+                    "Nenhuma receita encontrada para o usuário, mês e ano especificados.",
+                    HttpStatus.NOT_FOUND.value()
+                )
+            )
+        } else {
+            ResponseEntity.ok(revenues)
+        }
+    }
+
+    @GetMapping("/user/{userId}/expenses")
+    fun getExpensesByUserIdAndMonthAndYear(
+        @PathVariable("userId") userId: Long,
+        @RequestParam("month") month: Int,
+        @RequestParam("year") year: Int
+    ): ResponseEntity<Any> {
+        val expenses = repository.findExpensesByUserIdAndMonthAndYear(userId, month, year)
+
+        return if (expenses.isEmpty()) {
+            ResponseEntity.status(HttpStatus.NOT_FOUND).body(
+                CustomResponse(
+                    "Nenhuma despesa encontrada para o usuário, mês e ano especificados.",
+                    HttpStatus.NOT_FOUND.value()
+                )
+            )
+        } else {
+            ResponseEntity.ok(expenses)
+        }
+    }
+
 
     @GetMapping("/user/{userId}/month/{month}/year/{year}")
     fun getMovementsByUserIdAndMonthandYear(

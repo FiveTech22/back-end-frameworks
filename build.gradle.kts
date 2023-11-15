@@ -34,7 +34,10 @@ dependencies {
 	implementation("io.jsonwebtoken:jjwt-api:0.11.3")
 	implementation("io.jsonwebtoken:jjwt-impl:0.11.3")
 	implementation("io.jsonwebtoken:jjwt-jackson:0.11.3")
+	implementation("software.amazon.awssdk:s3:2.16.66")
+
 }
+
 
 tasks.withType<KotlinCompile> {
 	kotlinOptions {
