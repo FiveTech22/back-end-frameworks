@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties
 import java.time.LocalDate
 import javax.persistence.Column
 import javax.persistence.Entity
+import javax.persistence.FetchType
 import javax.persistence.GeneratedValue
 import javax.persistence.GenerationType
 import javax.persistence.Id
@@ -25,13 +26,16 @@ data class ObjectiveModel (
     @Column(nullable = false)
     var value: Double,
 
+    @Column(nullable = false)
     var name: String,
 
-    @JsonFormat(pattern = "dd/MM/yyyy")
     @Column(nullable = false)
-    var date: LocalDate,
+    var photo: Int,
 
-    @ManyToOne
+    @Column(nullable = false)
+    var date: String,
+
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     @JsonIgnoreProperties(value = ["name", "email", "password"])
     val user: UserModel? = null
