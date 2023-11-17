@@ -43,17 +43,17 @@ class MovementController {
             }
 
             ResponseEntity.status(HttpStatus.CREATED).body(
-                    CustomResponse(
-                        "Movimentação criada com sucesso!",
-                        HttpStatus.CREATED.value(),
-                    )
+                CustomResponse(
+                    "Movimentação criada com sucesso!",
+                    HttpStatus.CREATED.value(),
                 )
+            )
         } catch (ex: Exception) {
             ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(
-                    CustomResponse(
-                        "Erro ao criar movimento", HttpStatus.INTERNAL_SERVER_ERROR.value()
-                    )
+                CustomResponse(
+                    "Erro ao criar movimento", HttpStatus.INTERNAL_SERVER_ERROR.value()
                 )
+            )
         }
     }
 
@@ -309,16 +309,11 @@ class MovementController {
             )
         }
 
-        val mainMovement = repository.findById(id)
-        return if (mainMovement.isPresent) {
-            val mainMovementId = mainMovement.get().id
-
-            val relatedMovements = repository.findByParentMovementId(mainMovementId)
-
-            val movementsToDelete = mutableListOf(mainMovement.get())
-            movementsToDelete.addAll(relatedMovements)
-
-            repository.deleteInBatch(movementsToDelete)
+        val childMovement = repository.findById(id)
+        return if (childMovement.isPresent) {
+            val parentMovementId = childMovement.get().parentMovementId
+            val relatedMovements = repository.findByParentMovementId(parentMovementId)
+            repository.deleteInBatch(relatedMovements)
 
             ResponseEntity.ok().body(
                 CustomResponse(
@@ -334,6 +329,7 @@ class MovementController {
             )
         }
     }
+
 
     @GetMapping("/user/{userId}/revenues")
     fun getRevenuesByUserIdAndMonthAndYear(
@@ -433,6 +429,10 @@ class MovementController {
         val dateFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy")
         val originalDate = LocalDate.parse(mainMovement.date, dateFormatter)
 
+        mainMovement.parentMovementId = parentMovementId
+        repository.save(mainMovement)
+
+
         for (i in 1 until 12) {
             val newDate = originalDate.plusMonths(i.toLong())
             val newDateString = newDate.format(dateFormatter)
@@ -452,6 +452,10 @@ class MovementController {
 
         val dateFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy")
         val originalDate = LocalDate.parse(mainMovement.date, dateFormatter)
+
+
+        mainMovement.parentMovementId = parentMovementId
+        repository.save(mainMovement)
 
         for (i in 1 until recurrenceIntervals!!) {
             val newDate: LocalDate

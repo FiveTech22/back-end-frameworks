@@ -30,9 +30,7 @@ class ObjectiveController {
 
             ResponseEntity.status(HttpStatus.CREATED).body(
                 CustomResponse(
-                    "Objetivo criado com sucesso!",
-                    HttpStatus.CREATED.value(),
-                    savedObjective.id
+                    "Objetivo criado com sucesso!", HttpStatus.CREATED.value(), savedObjective.id
                 )
             )
         } catch (ex: Exception) {
@@ -50,15 +48,16 @@ class ObjectiveController {
         val existingObjective = repository.findById(id)
         return when {
             id <= 0 -> ResponseEntity.status(HttpStatus.BAD_REQUEST).body(
-                CustomResponse("ID do objetivo inválido. Informe um ID válido", HttpStatus.BAD_REQUEST.value())
+                CustomResponse(
+                    "ID do objetivo inválido. Informe um ID válido", HttpStatus.BAD_REQUEST.value()
+                )
             )
 
             existingObjective.isPresent -> {
                 repository.deleteById(id)
                 ResponseEntity.ok().body(
                     CustomResponse(
-                        "Objetivo deletado com sucesso!",
-                        HttpStatus.OK.value()
+                        "Objetivo deletado com sucesso!", HttpStatus.OK.value()
                     )
                 )
             }
@@ -74,8 +73,7 @@ class ObjectiveController {
 
     @PutMapping("/{id}")
     fun updateObjectiveById(
-        @PathVariable(value = "id") id: Long,
-        @RequestBody objective: ObjectiveModel
+        @PathVariable(value = "id") id: Long, @RequestBody objective: ObjectiveModel
     ): ResponseEntity<Any> {
         return if (repository.existsById(id)) {
             val existingObjective = repository.findById(id).get()
@@ -89,9 +87,7 @@ class ObjectiveController {
 
             ResponseEntity.ok(
                 CustomResponse(
-                    "Objetivo atualizado com sucesso!",
-                    HttpStatus.OK.value(),
-                    existingObjective.id
+                    "Objetivo atualizado com sucesso!", HttpStatus.OK.value(), existingObjective.id
                 )
             )
         } else {
@@ -106,8 +102,7 @@ class ObjectiveController {
 
     @PatchMapping("/{id}")
     fun updateObjective(
-        @PathVariable id: Long,
-        @RequestBody updatedObjective: UpdateObjectiveResponse
+        @PathVariable id: Long, @RequestBody updatedObjective: UpdateObjectiveResponse
     ): ResponseEntity<Any> {
         return try {
             val existingObjective = repository.findById(id)
@@ -116,7 +111,7 @@ class ObjectiveController {
                 val currentObjective = existingObjective.get()
 
                 updatedObjective.name?.let { currentObjective.name = it }
-                updatedObjective.value?.let { currentObjective.value = it}
+                updatedObjective.value?.let { currentObjective.value = it }
                 updatedObjective.photo?.let { currentObjective.photo = it }
                 updatedObjective.date?.let { currentObjective.date = it }
 
@@ -124,16 +119,13 @@ class ObjectiveController {
 
                 ResponseEntity.ok(
                     CustomResponse(
-                        "Objetivo atualizado com sucesso!",
-                        HttpStatus.OK.value(),
-                        savedObjective.id
+                        "Objetivo atualizado com sucesso!", HttpStatus.OK.value(), savedObjective.id
                     )
                 )
             } else {
                 ResponseEntity.status(HttpStatus.NOT_FOUND).body(
                     CustomResponse(
-                        "Objetivo não encontrado",
-                        HttpStatus.NOT_FOUND.value()
+                        "Objetivo não encontrado", HttpStatus.NOT_FOUND.value()
                     )
                 )
             }
@@ -178,8 +170,7 @@ class ObjectiveController {
         } else {
             ResponseEntity.status(HttpStatus.NOT_FOUND).body(
                 CustomResponse(
-                    "Nenhum objetivo encontrado",
-                    HttpStatus.NOT_FOUND.value()
+                    "Nenhum objetivo encontrado", HttpStatus.NOT_FOUND.value()
                 )
             )
         }
@@ -202,8 +193,7 @@ class ObjectiveController {
             } else {
                 ResponseEntity.status(HttpStatus.NOT_FOUND).body(
                     CustomResponse(
-                        "Nenhum objetivo encontrado para o usuário",
-                        HttpStatus.NOT_FOUND.value()
+                        "Nenhum objetivo encontrado para o usuário", HttpStatus.NOT_FOUND.value()
                     )
                 )
             }
