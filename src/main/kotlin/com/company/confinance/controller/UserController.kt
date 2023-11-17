@@ -380,6 +380,7 @@ class UserController {
         } else {
             val hashedNewPassword = passwordEncoder.encode(resetPassword.newPassword)
             user.password = hashedNewPassword
+            repository.save(user)
 
             validationService.setValidationResult(resetPassword.email, false)
 
