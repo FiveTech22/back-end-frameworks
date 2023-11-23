@@ -26,6 +26,15 @@ class ObjectiveController {
         @RequestBody objective: ObjectiveModel
     ): ResponseEntity<Any> {
         return try {
+
+            if(objective.value == 0.0 || objective.savedValue == 0.0){
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(
+                    CustomResponse(
+                        "Campos incompletos. Certifique-se de preencher todos os campos obrigatórios.",
+                        HttpStatus.BAD_REQUEST.value()
+                    )
+                )
+        }
             val savedObjective = repository.save(objective)
 
             ResponseEntity.status(HttpStatus.CREATED).body(
@@ -112,6 +121,7 @@ class ObjectiveController {
 
                 updatedObjective.name?.let { currentObjective.name = it }
                 updatedObjective.value?.let { currentObjective.value = it }
+                updatedObjective.savedValue?.let { currentObjective.savedValue = it }
                 updatedObjective.photo?.let { currentObjective.photo = it }
                 updatedObjective.date?.let { currentObjective.date = it }
 

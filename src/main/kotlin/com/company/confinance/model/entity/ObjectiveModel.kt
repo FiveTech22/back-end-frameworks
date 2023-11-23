@@ -27,17 +27,20 @@ data class ObjectiveModel (
     var value: Double,
 
     @Column(nullable = false)
+    var savedValue: Double,
+
+    @Column(nullable = false)
     var name: String,
 
     @Column(nullable = false)
-    var photo: Int,
+    var photo: Int = 0,
 
     @Column(nullable = false)
     var date: String,
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
-    @JsonIgnoreProperties(value = ["name", "email", "password"])
+    @JsonIgnoreProperties(value = ["name", "email", "password", "photo"])
     val user: UserModel? = null
 
 )
