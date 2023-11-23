@@ -24,6 +24,9 @@ data class UserModel(
     var name: String = "",
 
     @Column(nullable = false)
+    var photo: Int = 0,
+
+    @Column(nullable = false)
     @Email(regexp = "/^[a-zA-Z0-9.!#\$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\\.[a-zA-Z0-9-]+)*\$/.")
     var email: String = "",
 

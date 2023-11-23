@@ -28,7 +28,7 @@ data class MovementModel(
     var date: String,
 
     @Column(nullable = false)
-    var photo: Int?,
+    var photo: Int = 0,
 
     @Column(nullable = false)
     var fixedIncome: Boolean,
@@ -43,7 +43,7 @@ data class MovementModel(
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
-    @JsonIgnoreProperties(value = ["name", "email", "password"])
+    @JsonIgnoreProperties(value = ["name", "email", "password","photo"])
     val user: UserModel
 
 )

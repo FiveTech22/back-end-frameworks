@@ -9,10 +9,10 @@ data class MovementResponse(
     var value: Double,
     var description: String,
     var date: String,
-    var photo : Int?,
+    var photo : Int = 0,
     var fixedIncome : Boolean,
     var recurrenceFrequency: String?,
-    var  recurrenceIntervals : Int ?,
+    var  recurrenceIntervals : Int?,
     var parentMovementId: Long? = null,
     val userId: Long
 )

@@ -202,15 +202,22 @@ class UserController {
                 )
             }
 
+
             if (!partialUser.name.isNullOrBlank()) {
                 user.name = partialUser.name
             }
             if (!partialUser.email.isNullOrBlank()) {
                 user.email = partialUser.email
             }
+
             if (!partialUser.password.isNullOrBlank()) {
                 user.password = passwordEncoder.encode(partialUser.password)
             }
+
+            if (partialUser.photo != 0) {
+                user.photo = partialUser.photo
+            }
+
 
             val updatedUser = repository.save(user)
 
