@@ -27,7 +27,7 @@ class ObjectiveController {
     ): ResponseEntity<Any> {
         return try {
 
-            if(objective.value == 0.0 || objective.savedValue == 0.0){
+            if(objective.value == 0.0){
                 return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(
                     CustomResponse(
                         "Campos incompletos. Certifique-se de preencher todos os campos obrigatórios.",
