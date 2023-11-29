@@ -202,9 +202,8 @@ class MovementController {
         return if (existingMovement.isPresent) {
             val currentMovement = existingMovement.get()
 
-            if (updatedMovement.description != null && updatedMovement.type_movement != null && updatedMovement.photo != null && updatedMovement.value != null && updatedMovement.date != null) {
+            if (updatedMovement.description != null && updatedMovement.photo != null && updatedMovement.value != null && updatedMovement.date != null) {
                 currentMovement.description = updatedMovement.description
-                currentMovement.type_movement = updatedMovement.type_movement
                 currentMovement.photo = updatedMovement.photo
                 currentMovement.value = updatedMovement.value
                 currentMovement.date = updatedMovement.date
@@ -261,7 +260,6 @@ class MovementController {
 
             updatedMovement.description?.let { currentMovement.description = it }
             updatedMovement.photo?.let { currentMovement.photo = it }
-            updatedMovement.type_movement?.let { currentMovement.type_movement = it }
             updatedMovement.value?.let { currentMovement.value = it }
             updatedMovement.date?.let { currentMovement.date = it }
 
