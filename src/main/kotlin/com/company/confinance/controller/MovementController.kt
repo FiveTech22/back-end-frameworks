@@ -275,6 +275,7 @@ class MovementController {
             }
 
             if (updatedMovement.recurrenceFrequency != null) {
+                deleteRecurringMovements(currentMovement)
                 currentMovement.recurrenceFrequency = updatedMovement.recurrenceFrequency
                 currentMovement.recurrenceIntervals = updatedMovement.recurrenceIntervals
                 val updatedMovements = updateRecurringMovements(currentMovement)

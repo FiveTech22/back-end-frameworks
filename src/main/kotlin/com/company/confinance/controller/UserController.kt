@@ -214,7 +214,7 @@ class UserController {
                 user.password = passwordEncoder.encode(partialUser.password)
             }
 
-            if (partialUser.photo != null) {
+            if (partialUser.photo != 0) {
                 user.photo = partialUser.photo
             }
 
